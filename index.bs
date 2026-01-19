@@ -5,7 +5,7 @@ ED: https://w3c.github.io/threat-model-decentralized-credentials/
 TR: https://w3c.github.io/threat-model-decentralized-credentials/
 Shortname: threat-model-decentralized-credentials
 Issue Tracking: GitHub https://github.com/w3c/threat-model-decentralized-credentials/issues?q=is%3Aissue+is%3Aopen+%5Bdecentralized-identities%5D
-Level: 1
+Level: none
 Editor: Simone Onofri, w3cid 38211, W3C, https://w3.org, simone@w3.org
 Editor: Amir Sharif, w3cid 157587, Invited Expert, https://fbk.eu, asharif@fbk.eu
 Abstract:

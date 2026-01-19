@@ -10,7 +10,7 @@ Shortname: threat-model-decentralized-credentials
 Issue Tracking: GitHub https://github.com/w3c/threat-model-decentralized-credential/issues
 Level: none
 Editor: Simone Onofri, w3cid 38211, W3C, https://w3.org, simone@w3.org
-Editor: Amir Sharif, w3cid 157587, Invited Expert, https://fbk.eu, asharif@fbk.eu
+Editor: Amir Sharif, w3cid 157587, Invited Expert, https://www.fbk.eu, asharif@fbk.eu
 Abstract:
   <p>This document is the live "meta" Threat Model related to Decentralized Credentials.  This outlines the many concerns related to these work areas and the initial principles for addressing user considerations for starting a discussion.</p>
 Status text:
@@ -28,6 +28,7 @@ Indent: 2
 Mailing List: public-security@w3.org
 Mailing List Archives: https://lists.w3.org/Archives/Public/public-security/
 </pre>
+
 
 # Introduction
 
@@ -173,7 +174,7 @@ However, from a threat modeling perspective, the Issuer, Verifier, and Holder ar
 To model Decentralized Identities and Credentials, it is possible to use them as a high-level meta-model using Verifiable Credentials documentation (the list of technologies is partial; feel free to extend):
 
 * **Data Models:** abstract models for Credentials and Presentation (e.g., the [Verifiable Credentials Data Model](https://www.w3.org/TR/vc-data-model/), mDL in ISO/IEC [18013-5:2021](https://www.iso.org/standard/69084.html)).
-* **Identifiers**: [DIDs](https://www.w3.org/TR/did-core/) and the [DID methods](https://w3c.github.io/did-spec-registries/#did-methods), or [WebID](https://w3c.github.io/WebID/spec/identity/).
+* **Identifiers**: [DIDs](https://www.w3.org/TR/did-core/) and the [DID methods](https://www.w3.org/TR/did-extensions-methods/), or [WebID](https://w3c.github.io/WebID/spec/identity/).
 * **Encoding Schemas**: JSON, JSON-LD, CBOR, CBOR-LD.
 * **Securing Mechanisms:** Each mechanism may or may not support different privacy features or be quantum-resistant:
   * **Enveloped Formats (Credential Formats)**: The Proof wraps around the serialization of the credential. 
@@ -183,7 +184,7 @@ To model Decentralized Identities and Credentials, it is possible to use them as
     The mechanism to use VCDM with JOSE/COSE is described in [Securing Verifiable Credentials using JOSE and COSE](https://www.w3.org/TR/vc-jose-cose/).
   * **Embedded Formats (Signature Algorithms):** The Proof is included in the serialization alongside the credentials (e.g., BBS, ECDSA, EdDSA). The mechanism is described in [Verifiable Credential Data Integrity 1.0](https://www.w3.org/TR/vc-data-integrity/).
 * **Status Information (Revocation Algorithms)**: _Issuers_ can implement several ways to keep up to date the status of the credential, such as Revocation List, Status List (e.g., [Bitstring Status List v1.0](https://www.w3.org/TR/vc-bitstring-status-list/)), Cryptographic Accumulators, etc.
-* **Communication Protocols**: for the different phases of Issuance and Presentation (e.g.,  [OID4VCI](https://openid.github.io/OpenID4VCI/openid-4-verifiable-credential-issuance-wg-draft.html), [OID4VP](https://openid.net/specs/openid-4-verifiable-presentations-1_0.html%5D), [SIOPv2](https://openid.net/specs/openid-connect-self-issued-v2-1_0.html)).
+* **Communication Protocols**: for the different phases of Issuance and Presentation (e.g.,  [OID4VCI](https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html), [OID4VP](https://openid.net/specs/openid-4-verifiable-presentations-1_0.html), [SIOPv2](https://openid.net/specs/openid-connect-self-issued-v2-1_0.html)).
 
 ### Assets
 
@@ -239,7 +240,7 @@ A further case is the combination of such actors, such as multiple _Verifiers_ i
 
 ### Evil user stories
 
-Using the information we now have, we can create some generic [Evil User Stories](https://www.owasp.org/index.php/Agile_SoHware_Development:_Don%27t_Forget_EVIL_User_Stories): 
+Using the information we now have, we can create some generic [Evil User Stories](https://dsomm.owasp.org/activity-description?uuid=bacf85b6-5bc0-405d-b5ba-a5d971467cc1&dimension=Culture%20and%20Organization&subDimension=Design&level=3&activityName=Creation%20of%20simple%20abuse%20stories): 
 
  - A malicious *Verifier* who wants to collect too much data from the Holder.
  - A malicious *Holder* who wants to get what he is not entitled to from the verifier.
@@ -290,7 +291,7 @@ One effective, though inefficient, approach to threat modeling is to cycle throu
   - *Threat*: The inability of an actor to deny the issuance or presentation of a credential; an example is a [DHS use case](https://www.dhs.gov/science-and-technology/publication/misuse-mobile-drivers-license-mdl-investigative-aid).
    - *Mitigations*
      - Depending on the Levels of Assurance (LOAs), the issuer must use proper authentication during the issuing process.
-     - Proper logging must be maintained by the issuer, the Verifier, and the Holder (and their agents), e.g., following the OWASP. [ASVS 7.1](https://github.com/OWASP/ASVS/blob/master/5.0/en/0x15-V7-Error-Logging.md) e.g., each log must contain enough metadata for an investigation, time with timezone reference, without PII but with session identifiers, but in a hashed format, in a common machine-readable format, and possibly signed. 
+     - Proper logging must be maintained by the issuer, the Verifier, and the Holder (and their agents), e.g., following the OWASP. [ASVS 7.1](https://github.com/OWASP/ASVS/blob/master/4.0/en/0x15-V7-Error-Logging.md) e.g., each log must contain enough metadata for an investigation, time with timezone reference, without PII but with session identifiers, but in a hashed format, in a common machine-readable format, and possibly signed. 
 
 - **Detecting**:
   - *Description*: Detecting threats pertains to situations where an individual's involvement, participation, or membership can be deduced through observation.

@@ -6,7 +6,7 @@
   <meta content="ED" name="w3c-status">
   <meta content="Bikeshed version 3c53a5b02, updated Thu Nov 27 17:03:30 2025 +0000" name="generator">
   <link href="https://www.w3.org/TR/threat-model-decentralized-credentials/" rel="canonical">
-  <meta content="ed33cdeaebe1ea9dc2c96bba34cb5f33dce6bfc9" name="revision">
+  <meta content="8d1298a60e1041a17e5f201735da296420c0c21a" name="revision">
   <meta content="dark light" name="color-scheme">
 <style>/* Boilerplate: style-autolinks */
 .css.css, .property.property, .descriptor.descriptor {
@@ -430,7 +430,7 @@ dfn > a.self-link::before      { content: "#"; }
       <dd><a href="https://github.com/w3c/threat-model-decentralized-credential/issues">GitHub</a>
       <dt class="editor">Editors:
       <dd class="editor h-card p-author vcard" data-editor-id="38211"><a class="fn p-name u-url url" href="https://w3.org">Simone Onofri</a> (<span class="org p-org">W3C</span>) <a class="email u-email" href="mailto:simone@w3.org">simone@w3.org</a>
-      <dd class="editor h-card p-author vcard" data-editor-id="157587"><a class="fn p-name u-url url" href="https://fbk.eu">Amir Sharif</a> (<span class="org p-org">Invited Expert</span>) <a class="email u-email" href="mailto:asharif@fbk.eu">asharif@fbk.eu</a>
+      <dd class="editor h-card p-author vcard" data-editor-id="157587"><a class="fn p-name u-url url" href="https://www.fbk.eu">Amir Sharif</a> (<span class="org p-org">Invited Expert</span>) <a class="email u-email" href="mailto:asharif@fbk.eu">asharif@fbk.eu</a>
      </dl>
     </div>
    </details>
@@ -688,7 +688,7 @@ Therefore, it is important to carry over these properties later into the specifi
     <li data-md>
      <p><strong>Data Models:</strong> abstract models for Credentials and Presentation (e.g., the <a href="https://www.w3.org/TR/vc-data-model/">Verifiable Credentials Data Model</a>, mDL in ISO/IEC <a href="https://www.iso.org/standard/69084.html">18013-5:2021</a>).</p>
     <li data-md>
-     <p><strong>Identifiers</strong>: <a href="https://www.w3.org/TR/did-core/">DIDs</a> and the <a href="https://w3c.github.io/did-spec-registries/#did-methods">DID methods</a>, or <a href="https://w3c.github.io/WebID/spec/identity/">WebID</a>.</p>
+     <p><strong>Identifiers</strong>: <a href="https://www.w3.org/TR/did-core/">DIDs</a> and the <a href="https://www.w3.org/TR/did-extensions-methods/">DID methods</a>, or <a href="https://w3c.github.io/WebID/spec/identity/">WebID</a>.</p>
     <li data-md>
      <p><strong>Encoding Schemas</strong>: JSON, JSON-LD, CBOR, CBOR-LD.</p>
     <li data-md>
@@ -706,7 +706,7 @@ The mechanism to use VCDM with JOSE/COSE is described in <a href="https://www.w3
     <li data-md>
      <p><strong>Status Information (Revocation Algorithms)</strong>: _Issuers_ can implement several ways to keep up to date the status of the credential, such as Revocation List, Status List (e.g., <a href="https://www.w3.org/TR/vc-bitstring-status-list/">Bitstring Status List v1.0</a>), Cryptographic Accumulators, etc.</p>
     <li data-md>
-     <p><strong>Communication Protocols</strong>: for the different phases of Issuance and Presentation (e.g.,  <a href="https://openid.github.io/OpenID4VCI/openid-4-verifiable-credential-issuance-wg-draft.html">OID4VCI</a>, <a href="https://openid.net/specs/openid-4-verifiable-presentations-1_0.html%5D">OID4VP</a>, <a href="https://openid.net/specs/openid-connect-self-issued-v2-1_0.html">SIOPv2</a>).</p>
+     <p><strong>Communication Protocols</strong>: for the different phases of Issuance and Presentation (e.g.,  <a href="https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html">OID4VCI</a>, <a href="https://openid.net/specs/openid-4-verifiable-presentations-1_0.html">OID4VP</a>, <a href="https://openid.net/specs/openid-connect-self-issued-v2-1_0.html">SIOPv2</a>).</p>
    </ul>
    <h4 class="heading settled" data-level="2.1.5" id="assets"><span class="secno">2.1.5. </span><span class="content">Assets</span><a class="self-link" href="#assets"></a></h4>
    <p>Assuming that the main asset is the credential and information derived during its life cycle, we can consider the protection of its three Privacy Properties, as they were defined by <a href="http://www.links.org/files/selective-disclosure.pdf">Ben Laurie</a>, as the basis:</p>
@@ -756,7 +756,7 @@ The mechanism to use VCDM with JOSE/COSE is described in <a href="https://www.w3
    <p>One must also consider a possible external <strong>threat actor</strong>, who could also be an observer or use active techniques, and who wants to track the three main actors or their agents, such as Marketers, Data brokers, Stalkers, Identity thieves, intelligence and law enforcement agencies (laws often constrain them), and OSINT investigators.</p>
    <p>A further case is the combination of such actors, such as multiple _Verifiers_ in cahoots or a potential collaboration between Issuer and <em>Verifier</em> to track the <em>Holder</em>.</p>
    <h4 class="heading settled" data-level="2.2.2" id="evil-user-stories"><span class="secno">2.2.2. </span><span class="content">Evil user stories</span><a class="self-link" href="#evil-user-stories"></a></h4>
-   <p>Using the information we now have, we can create some generic <a href="https://www.owasp.org/index.php/Agile_SoHware_Development:_Don%27t_Forget_EVIL_User_Stories">Evil User Stories</a>:</p>
+   <p>Using the information we now have, we can create some generic <a href="https://dsomm.owasp.org/activity-description?uuid=bacf85b6-5bc0-405d-b5ba-a5d971467cc1&amp;dimension=Culture%20and%20Organization&amp;subDimension=Design&amp;level=3&amp;activityName=Creation%20of%20simple%20abuse%20stories">Evil User Stories</a>:</p>
    <ul>
     <li data-md>
      <p>A malicious <em>Verifier</em> who wants to collect too much data from the Holder.</p>
@@ -854,7 +854,7 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
         <li data-md>
          <p>Depending on the Levels of Assurance (LOAs), the issuer must use proper authentication during the issuing process.</p>
         <li data-md>
-         <p>Proper logging must be maintained by the issuer, the Verifier, and the Holder (and their agents), e.g., following the OWASP. <a href="https://github.com/OWASP/ASVS/blob/master/5.0/en/0x15-V7-Error-Logging.md">ASVS 7.1</a> e.g., each log must contain enough metadata for an investigation, time with timezone reference, without PII but with session identifiers, but in a hashed format, in a common machine-readable format, and possibly signed.</p>
+         <p>Proper logging must be maintained by the issuer, the Verifier, and the Holder (and their agents), e.g., following the OWASP. <a href="https://github.com/OWASP/ASVS/blob/master/4.0/en/0x15-V7-Error-Logging.md">ASVS 7.1</a> e.g., each log must contain enough metadata for an investigation, time with timezone reference, without PII but with session identifiers, but in a hashed format, in a common machine-readable format, and possibly signed.</p>
        </ul>
      </ul>
     <li data-md>

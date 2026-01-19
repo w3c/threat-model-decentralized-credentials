@@ -1,10 +1,13 @@
 <pre class='metadata'>
 Title: Threat Model for Decentralized Credentials
-Status: w3c/ED
+Status: ED
+Org: W3C
+Group: securityig
+Prepare for TR: yes
 ED: https://w3c.github.io/threat-model-decentralized-credentials/
-TR: https://w3c.github.io/threat-model-decentralized-credentials/
+TR: https://www.w3.org/TR/threat-model-decentralized-credentials/
 Shortname: threat-model-decentralized-credentials
-Issue Tracking: GitHub https://github.com/w3c/threat-model-decentralized-credentials/issues?q=is%3Aissue+is%3Aopen+%5Bdecentralized-identities%5D
+Issue Tracking: GitHub https://github.com/w3c/threat-model-decentralized-credential/issues
 Level: none
 Editor: Simone Onofri, w3cid 38211, W3C, https://w3.org, simone@w3.org
 Editor: Amir Sharif, w3cid 157587, Invited Expert, https://fbk.eu, asharif@fbk.eu
@@ -18,10 +21,10 @@ Status text:
   <p>This is a draft document and may be updated, replaced, or obsoleted by other documents at any time. It is inappropriate to cite this document as other than a work in progress.</p>
   <p data-deliverer="49310"> The <a href="https://www.w3.org/policies/patent-policy/"><abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a> does not carry any licensing requirements or commitments on this document.</p>
   <p>This document is governed by the <a id="w3c_process_revision" href="https://www.w3.org/policies/process/20250818/">18 August 2025 <abbr title="World Wide Web Consortium">W3C</abbr> Process Document</a>.
+  
 Markup Shorthands: markdown on, biblio yes
 Boilerplate: omit issues-index, omit conformance, repository-issue-tracking off
-
-Group: securityig
+Indent: 2
 Mailing List: public-security@w3.org
 Mailing List Archives: https://lists.w3.org/Archives/Public/public-security/
 </pre>
@@ -30,9 +33,9 @@ Mailing List Archives: https://lists.w3.org/Archives/Public/public-security/
 
 ## Scope
 
-The topic of Digital Identities is vast and intricate. Defining the initial scope of the model, which can be expanded when necessary, if we consider the ecosystem of Digital Identities, we find ourselves in the specific case of Decentralized Identities, those identities related to people and in particular those considered high-assurance (e.g., those issued by governments) and in the **Layer 3: "Credentials" and precisely the *Credential-Presentation Phase*** - as defined by the [SSI Technology Stack from ToITP](https://trustoverip.org/toip-model/) and [DIF FAQ](https://identity.foundation/faq/) and as written in the [Identity & the Web Report](https://www.w3.org/reports/identity-web-impact/#trust-layer):
+The topic of Digital Identities is vast and intricate. Defining the initial scope of the model, which can be expanded when necessary, if we consider the ecosystem of Digital Identities, we find ourselves in the specific case of Decentralized Identities, those identities related to people and in particular those considered high-assurance (e.g., those issued by governments) and in the **Layer 3: "Credentials" and precisely the Credential-Presentation Phase** - as defined by the [SSI Technology Stack from ToITP](https://trustoverip.org/toip-model/) and [DIF FAQ](https://identity.foundation/faq/) and as written in the [Identity & the Web Report](https://www.w3.org/reports/identity-web-impact/#trust-layer):
 
-<img alt="decentralized identity layers" src="https://www.w3.org/reports/identity-web-impact/figures/decentralized-identity-layers.svg">
+<img alt="decentralized identity layers" src="decentralized-identity-layers.svg">
 
 On the one hand, the need arose within the W3C about the potential adoption of the [Digital Credentials API](https://wicg.github.io/digital-credentials/) - which would allow User-Agents to mediate communication between a website requiring the submission of evidence and the user's Wallet - by the [Federated Identity Working Group](https://github.com/w3c/strategy/issues/450), on the other hand the lack of a more general model analyzing threats on the various levels related to Security, Privacy, and Human Rights was also identified.
 
@@ -47,11 +50,11 @@ It is intended to be a choral analysis. It stems from the need to understand a T
 
 For Identity, we can refer to the definition in ISO/IEC 24760-1:2019 "[IT Security and Privacy - A framework for identity management](https://standards.iso.org/ittf/PubliclyAvailableStandards/c077582_ISO_IEC_24760-1_2019(E).zip)".
 
-**Identity** is _a set of attributes related to an entity_. Where the entity is something _that has recognizably distinct existence_, and that can be _logical or physical_ such as _a person, an organization, a device, a group of such items, a human subscriber to a telecom service, a SIM card, a passport, a network interface card, a software application, a service or a website_ and the attributes are _characteristics or properties_ such as _an entity type, address information, telephone number, a privilege, a MAC address, a domain name_.
+**Identity** is "a set of attributes related to an entity". Where the entity is something "that has recognizably distinct existence", and that can be "logical or physical" such as "a person, an organization, a device, a group of such items, a human subscriber to a telecom service, a SIM card, a passport, a network interface card, a software application, a service or a website" and the attributes are "characteristics or properties" such as "an entity type, address information, telephone number, a privilege, a MAC address, a domain name".
 
 We present **credentials** to claim a certain identity, whether in the physical or digital world. Just as we do not have a one-size-fits-all definition of identity, we also do not have a one-size-fits-all definition of credentials in IT, as they vary by context.
 
-The credential definition from the W3C Verifiable Credentials Data Model (VCDM) states: a _set of one or more claims made by an issuer._ Its framing is in the Decentralized Identity Model, and we can map the ISO’s _attributes_ to VCDM _claims_.
+The credential definition from the W3C Verifiable Credentials Data Model (VCDM) states: a "set of one or more claims made by an issuer". Its framing is in the Decentralized Identity Model, and we can map the ISO’s *attributes* to VCDM *claims*.
 
 For example, a person's characteristics can include physical appearance, voice, beliefs, habits, and so on. It is important to distinguish identity from an identifier (e.g., a username).
 
@@ -67,7 +70,7 @@ This leads to a broader consideration of the Threat Model, as it also includes P
 
 ## Methodology
 
-Since security is a _separation function between the asset and the threat_, the threat can have different impacts, such as security, privacy, or [harm](https://learn.microsoft.com/en-us/azure/architecture/guide/responsible-innovation/harms-modeling/).
+Since security is a _separation function between the asset and the threat_, the threat can have different impacts, such as security, privacy, or harm.
 
 There are many approaches to Threat Modeling. The first approach we will use is based on [Adam Shostack's four-question frame](https://github.com/adamshostack/4QuestionFrame):
 
@@ -108,12 +111,12 @@ To create a good Threat Model, we can first consider the components of the Decen
 
 ### Architecture and Actors
 
-- We have a *Holder* who, inside a _Wallet_, has its credentials.
+- We have a *Holder* who, inside a *Wallet*, has its credentials.
 - We have an *Issuer* who issues the credentials to the *Holder* and manages the revocation.
 - We have a *Verifier* who verifies the Holder's credentials to give access to a resource or a service.
 - We also have a *Verifiable Data Registry* (VDR) that stores identifiers and schemas.
 
-<img alt="Decentralized Identity Model" src="https://www.w3.org/reports/identity-web-impact/figures/decentralized-identity-model.svg">
+<img alt="Decentralized Identity Model" src="decentralized-identity-model.svg">
 
 Interactions between actors occur normatively through software or other technological mediums. We will generically call such components *Agents*. One agent might be embedded in a *Wallet* (the component that contains the *Holder's* credentials), and another might be a Browser (which, by definition, is a user agent).
 
@@ -125,7 +128,7 @@ We can consider three general flows, with four "ceremonies" where the various ac
 - Credential-Presentation and Credential-Verification
 - Credential Revocation
 
-It is important to note that the flow stops here and can be safely continued in several ways. For example, the _Holder_ receives credentials from an _Issuer_ and uses them to identify themselves to a _Verifier_ to buy a physical object or a ticket to an event. So the _Verifier_ could become an _Issuer_ to issue a certificate of authenticity for good or issue the ticket directly into the _Holder's_ Wallet.
+It is important to note that the flow stops here and can be safely continued in several ways. For example, the *Holder* receives credentials from an *Issuer* and uses them to identify themselves to a *Verifier* to buy a physical object or a ticket to an event. So the *Verifier* could become an *Issuer* to issue a certificate of authenticity for good or issue the ticket directly into the *Holder's* Wallet.
 
 * **Credential-Issuing (CI):**
     1. The *Issuer* requests a certain authentication mechanism from the *Holder*.
@@ -152,7 +155,7 @@ At the **Process level**, trust relationships are:
 
 - The *Holder* trusts the *Issuer* during issuance.
 - The *Holder* always trusts its agents and wallet.
-- The _Holder_ trusts the _verifier during the Presentation.
+- The *Holder* trusts the _verifier during the Presentation.
 - The *Verifier* must trust the *Issuer* during Verification.
 - All *actors* trust the record of verifiable data.
 - Both the *holder* and *verifier* must trust the *issuer* to revoke VCs that have been compromised or are no longer true.
@@ -160,7 +163,7 @@ At the **Process level**, trust relationships are:
 At the **Software level**, Trust boundaries are documented in the [Data Model in section 8.2](https://www.w3.org/TR/vc-data-model-2.0/#software-trust-boundaries):
 
 - An issuer's user agent (issuer software), such as an online education platform, is expected to issue only verifiable credentials to individuals that the Issuer asserts have completed their educational program.
-- A verifier's user agent(verification software), such as a hiring website, is expected to only allow access to individuals with a valid verification status for verifiable credentials and verifiable presentations provided to the platform by such individuals.
+- A verifier's user agent (verification software), such as a hiring website, is expected to only allow access to individuals with a valid verification status for verifiable credentials and verifiable presentations provided to the platform by such individuals.
 - A holder's user agent (holder software), such as a digital wallet, is expected to divulge information to a verifier only after the Holder has consented to its release.
 
 However, from a threat modeling perspective, the Issuer, Verifier, and Holder are external entities, so there are trust boundaries between them. This makes sense and is also why we have the concept of (crypto) verification.
@@ -173,10 +176,10 @@ To model Decentralized Identities and Credentials, it is possible to use them as
 * **Identifiers**: [DIDs](https://www.w3.org/TR/did-core/) and the [DID methods](https://w3c.github.io/did-spec-registries/#did-methods), or [WebID](https://w3c.github.io/WebID/spec/identity/).
 * **Encoding Schemas**: JSON, JSON-LD, CBOR, CBOR-LD.
 * **Securing Mechanisms:** Each mechanism may or may not support different privacy features or be quantum-resistant:
-  * **Enveloped Formats (Credential Formats)**: The Proof wraps around the serialization of the credential. \
-    JSONs are enveloped using JSON Object Signing and Encryption ([JOSE](https://datatracker.ietf.org/wg/jose/about/)), and we can find JWT, JWS, and JWK here. JOSE is _cryptographically agile_ (as it can fit different cryptographic primitives) and can also have Selective Disclosure (SD) with  [SD-JWT](https://www.ietf.org/archive/id/draft-fett-oauth-selective-disclosure-jwt-02.html) (which uses HMAC). New security mechanisms are emerging, such as [SD-BLS](https://arxiv.org/abs/2406.19035) (which uses BLS), and ongoing efforts to implement BBS#. \
-    CBORs are enveloped using CBOR Object Signing and Encryption ([COSE](https://www.rfc-editor.org/rfc/rfc9052)). \
-    Other formats include _mdoc_ and _[SPICE](https://datatracker.ietf.org/wg/spice/about/)_. \
+  * **Enveloped Formats (Credential Formats)**: The Proof wraps around the serialization of the credential. 
+    JSONs are enveloped using JSON Object Signing and Encryption ([JOSE](https://datatracker.ietf.org/wg/jose/about/)), and we can find JWT, JWS, and JWK here. JOSE is "cryptographically agile" (as it can fit different cryptographic primitives) and can also have Selective Disclosure (SD) with  [SD-JWT](https://www.ietf.org/archive/id/draft-fett-oauth-selective-disclosure-jwt-02.html) (which uses HMAC). New security mechanisms are emerging, such as [SD-BLS](https://arxiv.org/abs/2406.19035) (which uses BLS), and ongoing efforts to implement BBS#.
+    CBORs are enveloped using CBOR Object Signing and Encryption ([COSE](https://www.rfc-editor.org/rfc/rfc9052)).
+    Other formats include _mdoc_ and _[SPICE](https://datatracker.ietf.org/wg/spice/about/)_. 
     The mechanism to use VCDM with JOSE/COSE is described in [Securing Verifiable Credentials using JOSE and COSE](https://www.w3.org/TR/vc-jose-cose/).
   * **Embedded Formats (Signature Algorithms):** The Proof is included in the serialization alongside the credentials (e.g., BBS, ECDSA, EdDSA). The mechanism is described in [Verifiable Credential Data Integrity 1.0](https://www.w3.org/TR/vc-data-integrity/).
 * **Status Information (Revocation Algorithms)**: _Issuers_ can implement several ways to keep up to date the status of the credential, such as Revocation List, Status List (e.g., [Bitstring Status List v1.0](https://www.w3.org/TR/vc-bitstring-status-list/)), Cryptographic Accumulators, etc.
@@ -192,7 +195,7 @@ Assuming that the main asset is the credential and information derived during it
 
 These properties were defined in a very specific case of Decentralized Identities. Those related to people, and, more specifically, those issued by governments, are based on the concept of Privacy for the protection of the Holder.
 
-While we can, therefore, consider the *Minimal* and _Unlinkable_ properties as elements of the _Holder_, the _Verifiable_ property is of interest to all. Verifiable means that the _Verifier_ can confirm who issued the credential, that it has not been tampered with, has not expired or been revoked, contains the required data, and may be associated with the Holder.
+While we can, therefore, consider the *Minimal* and *Unlinkable* properties as elements of the *Holder*, the *Verifiable* property is of interest to all. Verifiable means that the *Verifier* can confirm who issued the credential, that it has not been tampered with, has not expired or been revoked, contains the required data, and may be associated with the Holder.
 
 Therefore, the Threat Model wants to start with this specific use case: government-issued credentials for people, as it is one of the most complex.
 
@@ -232,7 +235,7 @@ In addition, although there are trust relationships between the various actors a
 
 One must also consider a possible external **threat actor**, who could also be an observer or use active techniques, and who wants to track the three main actors or their agents, such as Marketers, Data brokers, Stalkers, Identity thieves, intelligence and law enforcement agencies (laws often constrain them), and OSINT investigators.
 
-A further case is the combination of such actors, such as multiple _Verifiers_ in cahoots or a potential collaboration between Issuer and _Verifier_ to track the _Holder_. 
+A further case is the combination of such actors, such as multiple _Verifiers_ in cahoots or a potential collaboration between Issuer and *Verifier* to track the *Holder*. 
 
 ### Evil user stories
 
@@ -242,7 +245,7 @@ Using the information we now have, we can create some generic [Evil User Stories
  - A malicious *Holder* who wants to get what he is not entitled to from the verifier.
  - A malicious *Issuer* that wants to track its holders.
  - A malicious *Agent* who wants to track its holder.
- - An external *Adversary* who wants to track the _Issuer_, how a _Verifier_ works, or a specific _Holder_.
+ - An external *Adversary* who wants to track the *Issuer*, how a *Verifier* works, or a specific *Holder*.
 
  ### Finding the Threats
 
@@ -265,22 +268,22 @@ One effective, though inefficient, approach to threat modeling is to cycle throu
 
 - **Linking**:
   - *Description*: Learning more about an individual or a group by associating data items or user actions. Linking may lead to unwanted privacy implications, even if it does not reveal one's identity.
-  - *Threat*: We are generally driven to think of this as a threat to the Holder and linking its attributes, but per se, even an _Issuer_ can have the problem of tracking its users. This applies to a _Verifier_ (or a group of Verifiers) and an external third party observing the various exchanges or the Revocation list.
+  - *Threat*: We are generally driven to think of this as a threat to the Holder and linking its attributes, but per se, even an *Issuer* can have the problem of tracking its users. This applies to a *Verifier* (or a group of Verifiers) and an external third party observing the various exchanges or the Revocation list.
   - *Mitigations*:
     - Use Signature Blinding.
-    - The _Verifier_ should request the following: Range Proof, Predicate Proof, Selective Disclosure, and the credential.
-    - The _Issuer_ should use an anonymous revocation method such as Cryptographic Accumulators.
-    - The _Issuer_ should use random identifiers when generating the credential.
+    - The *Verifier* should request the following: Range Proof, Predicate Proof, Selective Disclosure, and the credential.
+    - The *Issuer* should use an anonymous revocation method such as Cryptographic Accumulators.
+    - The *Issuer* should use random identifiers when generating the credential.
     - When interacting with the Verifier, the Holder should always use rotational and random identifiers specific to that interaction session.
-    - The _Issuer_ should use privacy-preserving identifiers (e.g., DID). Once resolved, they do not establish a connection to a system controlled, directly or indirectly, by the _Issuer_.
+    - The *Issuer* should use privacy-preserving identifiers (e.g., DID). Once resolved, they do not establish a connection to a system controlled, directly or indirectly, by the *Issuer*.
 
 - **Identifying**:
   - *Description*: Identifying threats arises when the identity of individuals can be revealed through leaks, deduction, or inference in cases where this is not desired.
   - *Threat*: The threat is the ability to identify an individual using their credentials.
   - *Mitigations*:
-    The _Verifier_ should request the following: Range Proof, Predicate Proof, Selective Disclosure, and the credential.
-    - The _Issuer_ and the _Holder_ must not write personally identifiable information (PII) or linkable identifiers in the _VDR_.
-     - The _Issuer_ should use an anonymous revocation method.
+    The *Verifier* should request the following: Range Proof, Predicate Proof, Selective Disclosure, and the credential.
+    - The *Issuer* and the *Holder* must not write personally identifiable information (PII) or linkable identifiers in the _VDR_.
+     - The *Issuer* should use an anonymous revocation method.
 
 - **Non-Repudiation**:
   - *Description*: Non-repudiation threats pertain to situations where an individual can no longer deny specific claims.
@@ -300,24 +303,24 @@ One effective, though inefficient, approach to threat modeling is to cycle throu
   - *Description*: Data disclosure threats represent cases in which disclosures of personal data to, within, and from the system are considered problematic.
   - *Threat*: The threat will be disclosed during presentation and verification. 
    - *Mitigations*:
-     - The _Verifier_ should request the following: Range Proof, Predicate Proof, Selective Disclosure, and the credential.
-     - The _Issuer_ and the _Holder_ must not write personally identifiable information (PII) or linkable identifiers in the _VDR_.
-     - The _Issuer_ should use an anonymous revocation method.
+     - The *Verifier* should request the following: Range Proof, Predicate Proof, Selective Disclosure, and the credential.
+     - The *Issuer* and the *Holder* must not write personally identifiable information (PII) or linkable identifiers in the *VDR*.
+     - The *Issuer* should use an anonymous revocation method.
 
 - **Unawareness & Unintervenability**:
 
-  - *Description*: Unawareness and unintervenability threats occur when individuals are insufficiently informed, involved, or empowered concerning the processing of their data.
-  - *Threat*: For the _Holder_, unaware of how their credentials are used or shared.
+  - *Description*: Unawareness and Unintervenability threats occur when individuals are insufficiently informed, involved, or empowered concerning the processing of their data.
+  - *Threat*: For the *Holder*, unaware of how their credentials are used or shared.
   - *Mitigations*:
-    - The _Holder_ must be informed when a _Verifier_ asks for the credential's Full Disclosure or Selected Disclosure.
-    - The _Holder_ must be informed when their credentials is _Phoning Home_ or possible _back-channel connections_
-    - The _Holder_ must consent to each use of their credential and must identify the Verifier, the Proof Requested (at the moment of request), and which credentials and information are shared with the Verifier after the selection. 
+    - The *Holder* must be informed when a *Verifier* asks for the credential's Full Disclosure or Selected Disclosure.
+    - The *Holder* must be informed when their credentials is *Phoning Home* or possible *back-channel connections*.
+    - The *Holder* must consent to each use of their credential and must identify the Verifier, the Proof Requested (at the moment of request), and which credentials and information are shared with the Verifier after the selection. 
 
 - **Non-Compliance**:
   - *Description*: Non-compliance threats arise when the system deviates from legislation, regulation, standards, and best practices, leading to incomplete risk management.
-  - *Threat*: The risk of credentials not complying with legal, regulatory, or policy requirements. It is also possible to translate this element about minimal training for the _Holder_, particularly if they are in a protected or at-risk category, so they can be aware of what they are doing and the risks associated with Social Engineering.
+  - *Threat*: The risk of credentials not complying with legal, regulatory, or policy requirements. It is also possible to translate this element about minimal training for the *Holder*, particularly if they are in a protected or at-risk category, so they can be aware of what they are doing and the risks associated with Social Engineering.
   - *Mitigations*:
-    - Provide Security Awareness Training to the _Holder_ 
+    - Provide Security Awareness Training to the *Holder* 
     - Verifier and Issuers must be subjected to regular audit
     - The standards and their implementation must contain mitigations for Harms such as Surveillance, Discrimination, Dehumanization, Loss of Autonomy, and Exclusion.
 
@@ -325,59 +328,59 @@ One effective, though inefficient, approach to threat modeling is to cycle throu
 
 - **Surveillance**:
   - *Description*: Surveillance observes or monitors an individual's communications or activities. 
-  - *Threat*: Although we can semantically link this threat to surveillance of governments (precisely of the _Holder_ or an adversary), we can actually consider surveillance also related to profiling for targeted advertising (and thus from software agents also used to trust the _Holder_) or even of threat actors such as stalkers or similar.
+  - *Threat*: Although we can semantically link this threat to surveillance of governments (precisely of the *Holder* or an adversary), we can actually consider surveillance also related to profiling for targeted advertising (and thus from software agents also used to trust the *Holder*) or even of threat actors such as stalkers or similar.
    - *Mitigations*
-     - refer to LINDDUN's _Linking_, _Identifying_, _Data Disclosure_
+     - Refer to LINDDUN's *Linking*, *Identifying*, and *Data Disclosure*
 
 - **Stored Data Compromise**:
   - *Description*: End systems that do not take adequate measures to secure stored data from unauthorized or inappropriate access expose individuals to potential financial, reputational, or physical harm.
-  - *Threat*: All actors can be compromised. Therefore, they must be considered, especially when implementing wallets and agents (for the _Holder_), compromising the end-user device and the _Issuer_'s signature keys.
+  - *Threat*: All actors can be compromised. Therefore, they must be considered, especially when implementing wallets and agents (for the *Holder*), compromising the end-user device and the *Issuer*'s signature keys.
    - *Mitigations*:
      - Keys must be stored securely and protected from compromise of the device or location where they are contained (e.g., Secure Enclave, Keystore, HSMs).
       - At the Issuer's organizational level, the Incident Response Plan must include what to do in case of compromise of [private keys](https://www.wionews.com/world/eus-green-pass-hacked-adolf-hitlers-covid-certificate-doing-rounds-online-report-424736) or [underlying device technology](https://ria.ee/en/news/2011-researchers-identified-security-vulnerability-id-card-used-estonia).
 
 - **Intrusion**:
   - *Description*:  Intrusion consists of invasive acts that disturb or interrupt one's life or activities.  Intrusion can thwart individuals' desires to be left alone, sap their time or attention, or interrupt their activities.  This threat focuses on intrusions into one's life rather than direct intrusions into one's communications.
-  - *Threat*: Intrusive and multiple data requests by _Verifier_
+  - *Threat*: Intrusive and multiple data requests by *Verifier*
   - *Mitigations*:
-    - refer to LINDDUN's _Linking_, _Identifying_, _Data Disclosure_
+    - Refer to LINDDUN's *Linking*, *Identifying*, and *Data Disclosure*
     - Implement time-based throttling for requests
 
 - **Misattribution**:
   - *Description*:  Misattribution occurs when data or communications related to one individual are attributed to another. 
   - *Threat*: Incorrect issuance or verification of credentials.
   - *Mitigations*:
-    - refer to LINDDUN's _Non-Reputiation_
+    - Refer to LINDDUN's *Non-Reputiation*
 
 - **Correlation**:
   - *Description*: Correlation is the combination of various information related to an individual, or that obtains that characteristic when combined.
-  - *Threats*: Linking multiple credentials or interactions to profile or track a _Holder_. We are linking individuals to the same _Issuer_.
+  - *Threats*: Linking multiple credentials or interactions to profile or track a *Holder*. We are linking individuals to the same *Issuer*.
   - *Mitigations*:
-        - refer to LINDDUN's _Linking_, _Identifying_, _Data Disclosure_
+        - Refer to LINDDUN's *Linking*, *Identifying*, and *Data Disclosure*
 
 - **Identification**: 
   - *Description*:  Identification is linking information to a particular individual to infer an individual's identity or to allow the inference of an individual's identity.
   - *Threats*: Verifiers asking more information than necessary during credential verification.
    - *Mitigations*:
-     - refer to LINDDUN's _Unawareness & Unintervenability_  and _Identifying_.
+     - Refer to LINDDUN's *Unawareness & Unintervenability*  and *Identifying*.
 
 - **Secondary Use** :
   - *Description*:  Secondary use is the use of collected information about an individual without the individual's consent for a purpose different from that for which the information was collected.
   - *Threat*: Unauthorized use of collected information, e.g., for targeted advertising or creating profiles, and Abuse of Functionality on collected data
   - *Mitigations*: 
-    - refer to LINDDUN's _Non-Compliance_.
+    - Refer to LINDDUN's *Non-Compliance*.
 
 - **Disclosure**:
   - *Description*:  Disclosure is the revelation of information about an individual that affects how others judge the individual.  Disclosure can violate individuals' expectations of data confidentiality.
-  - *Threat*: A _Verifier_ that asks for more data than needed.
+  - *Threat*: A *Verifier* that asks for more data than needed.
   - *Mitigations*:
-    - refer to LINDDUN's _Data Disclosure_
+    - Refer to LINDDUN's *Data Disclosure*.
 
 - **Exclusion**:
   - *Description*:  Exclusion is the failure to let individuals know about the data that others have about them and participate in its handling and use.  Exclusion reduces accountability on the part of entities that maintain information about people and creates a sense of vulnerability about individuals' ability to control how their information is collected and used.
   - *Threats*: Lack of transparency in using the data provided.
-  - *Mitigations*;
-    - refer to LINDUNN's _Unawareness & Unintervenability_.
+  - *Mitigations*:
+    - Refer to LINDUNN's *Unawareness & Unintervenability*.
 
 #### RFC 3552 (Attacks)
 
@@ -389,7 +392,7 @@ One effective, though inefficient, approach to threat modeling is to cycle throu
     - Use Key Management practices to rotate keys.
 
 - **Active Attacks**:
-  - *Description*: When an attack involves writing data to the network. This can bring Replay Attacks (e.g., recording the message and resending it), Message Insertion (e.g., forging a message and injecting it into the network), Message Deletion (e.g., removing a legit message from the network), Message Modification (e.g., copying the message, deleting the original one, modifying the copied message reinjecting it into the flow), Man-In-The-Middle (e.g., combination of all the previous attacks).
+  - *Description*: When an attack involves writing data to the network. This can bring Replay Attacks (e.g., recording the message and resending it), Message Insertion (e.g., forging a message and injecting it into the network), Message Deletion (e.g., removing a legit message from the network), Message Modification (e.g., copying the message, deleting the original one, modifying the copied message re-injecting it into the flow), Man-In-The-Middle (e.g., combination of all the previous attacks).
   - *Mitigations*:
     - Use a nonce to prevent replay attacks
     - Use Message Authentication Codes/Digital Signatures for message integrity and authenticity
@@ -403,7 +406,7 @@ One effective, though inefficient, approach to threat modeling is to cycle throu
   - *Description*: Pretending to be something or someone other than yourself.
   - *Mitigations*:
     - Implement Digital Signatures
-    - During the presentation, indicate proper messages for identifying the _Verifier_ to limit Phishing Attacks.
+    - During the presentation, indicate proper messages for identifying the *Verifier* to limit Phishing Attacks.
     - During issuing, use proper LOAs depending on the issued credentials.
 
 - **Tampering** (Threats to Integrity):
@@ -414,12 +417,12 @@ One effective, though inefficient, approach to threat modeling is to cycle throu
 - **Repudiation** (Threats to Non-Repudiation):
   - *Description*: Claiming that you didn't do something or were not responsible can be honest or false
   - *Mitigations*:
-    - refer to LINDDUN's _Non-Repudiation_
+    - Refer to LINDDUN's *Non-Repudiation*.
 
 - **Information disclosure** (Threat to Confidentiality and Privacy):
   - *Description*: Confidentiality  Someone obtaining information they are not authorized to access
   - *Mitigations*:
-    - refer to LINDDUN _Data Disclosure_
+    - Refer to LINDDUN *Data Disclosure*.
 
 - **Denial of service** (Threats to Availability and Continuity):
   - *Description*: Exhausting resources needed to provide service
@@ -458,7 +461,7 @@ One effective, though inefficient, approach to threat modeling is to cycle throu
 
   - *Description*: is a control through a contract between the asset owner and the interacting party. This contract may serve as a visible warning, a precursor to legal action if posted rules are not followed, specific, public legislative protection, or a third-party assurance provider in case of damages, such as an insurance company.
 
-  - *Analysis*: This is the agreement between the interacting parties, such as contracts. In this case, *Notifications* can describe what happens in a "secure" context (e.g., Payments API); all operations must be specifically authorized with Informed Consent. Holderolder must be notified if the Verifier asks for Full Disclosure, if the Issued Credentials do not support Selective Disclosure, or if it is phoning home.
+  - *Analysis*: This is the agreement between the interacting parties, such as contracts. In this case, *Notifications* can describe what happens in a "secure" context (e.g., Payments API); all operations must be specifically authorized with Informed Consent. Holder must be notified if the Verifier asks for Full Disclosure, if the Issued Credentials do not support Selective Disclosure, or if it is phoning home.
 
     *Note: this can be used as a [nudge](https://en.wikipedia.org/wiki/Nudge_theory) (used in Behavioural Economics) and then can be used to educate the Verifiers, Holders, and Issuers to do the right thing.*
 
@@ -480,7 +483,7 @@ One effective, though inefficient, approach to threat modeling is to cycle throu
 - **Non-Repudiation**: 
 
   - *Description*:  is a control that prevents the interacting party from denying its role in any interactivity.
-  - *Analysis*: The issue of non-repudiation is interesting, and it makes me think about the logging issue, where it should be done, by whom, and how. It requires a strong trust element. Still, in general, it's useful forHolderolder to have the log of what happened and probably the Verifier as well (e.g., in case of checks of having given access to a certain service by those who had the right to do so, having presented a credential, but what to keep considering privacy as well)?
+  - *Analysis*: The issue of non-repudiation is interesting, and it makes me think about the logging issue, where it should be done, by whom, and how. It requires a strong trust element. Still, in general, it's useful for the Holder to have the log of what happened and probably the Verifier as well (e.g., in case of checks of having given access to a certain service by those who had the right to do so, having presented a credential, but what to keep considering privacy as well)?
 
 - **Confidentiality**:
 
@@ -490,7 +493,7 @@ One effective, though inefficient, approach to threat modeling is to cycle throu
 - **Privacy**:
 
   - *Description*:  is a control for assuring that the means of how an asset is accessed, displayed, or exchanged between parties cannot be known outside of those parties.
-  - *Analysis*: mainly unlinkability and minimization, as described before. In the Digital Credentials API context, this also includes preventing third parties from unnecessarily learning anything about the end-user's environment (e.g., which wallets are available, their brand, and their capabilities).
+  - *Analysis*: mainly Unlinkability and minimization, as described before. In the Digital Credentials API context, this also includes preventing third parties from unnecessarily learning anything about the end-user's environment (e.g., which wallets are available, their brand, and their capabilities).
 
 - **Integrity**: 
 
@@ -504,10 +507,10 @@ One effective, though inefficient, approach to threat modeling is to cycle throu
 
 #### Responsible Innovation (Harms)
 
-- **Opportunity loss** (_Discrimination_): ThiDiscriminatione spans multiple areas. Digital divide: if digital identities are required for access to public services and no alternatives are present, and if they depend on certain hardware, software, or stable connectivity, it can lead to Discrimination for people who do not have access to these resources, in addition to Discrimination within the interoperability between the technologies and implementations used by different governments.
-- **Economic loss** (_Discrimination_): theDiscriminationof digital identities and related credentials, which can contain a lot of information regarding wealth status, can be used to discriminate against access to credit. This can also be generalized, as was identified during a W3C breakout session, concerns the Jevons paradox. The more information available in this mode, the more likely it is that collection, particularly in greedy data-driven contexts, is abused.
-- **Dignity loss** (_Dehumanization_): If the vocabulary does not correctly describe people's characteristics, this can reduce or obscure their humanity and characteristics.
-- **Privacy Loss** (_Surveillance_): if this technology is not designed and implemented properly, it may be subject to Surveillance by state and non-state actors such as government and private tSurveillanceoviders. For example, centralized or federated models are more prone to these threats, while decentralized models are less so; however, this depends on how they are implemented. Therefore, it is necessary to provide privacy-preserving technologies and implement them properly.
+- **Opportunity loss** (*Discrimination*): Discrimination spans multiple areas. Digital divide: if digital identities are required for access to public services and no alternatives are present, and if they depend on certain hardware, software, or stable connectivity, it can lead to Discrimination for people who do not have access to these resources, in addition to Discrimination within the interoperability between the technologies and implementations used by different governments.
+- **Economic loss** (*Discrimination*): the Discrimination of digital identities and related credentials, which can contain a lot of information regarding wealth status, can be used to discriminate against access to credit. This can also be generalized, as was identified during a W3C breakout session, concerns the Jevons paradox. The more information available in this mode, the more likely it is that collection, particularly in greedy data-driven contexts, is abused.
+- **Dignity loss** (*Dehumanization*): If the vocabulary does not correctly describe people's characteristics, this can reduce or obscure their humanity and characteristics.
+- **Privacy Loss** (*Surveillance*): if this technology is not designed and implemented properly, it may be subject to Surveillance by state and non-state actors such as government and private Surveillance providers. For example, centralized or federated models are more prone to these threats, while decentralized models are less so; however, this depends on how they are implemented. Therefore, it is necessary to provide privacy-preserving technologies and implement them properly.
 
 ### Other Threats and Harms
 
@@ -516,7 +519,7 @@ One effective, though inefficient, approach to threat modeling is to cycle throu
 Considering the specific case of government credentials issued to people, it is useful to think about some use cases:
 
 - In some countries, at-risk workers who are taken abroad have their passports seized by those who exploit them so that they can be controlled. Digital Credentials can generally mitigate this, as they are intangible; they can be regenerated in the event of theft. A further consideration is how the threat agent will act in this situation and what mitigations (more process than mere technical measures) governments can implement.
-- Normally, we assume that the _Holder_ of the credential is also the _Subject_ to whom the credential refers.  This is not necessarily the case.
+- Normally, we assume that the *Holder* of the credential is also the *Subject* to whom the credential refers.  This is not necessarily the case.
   - One particularly useful and interesting aspect is the delegation of a credential (we use the term delegation loosely, as questions such as Guardianship have a precise legal meaning). This prevents abuse and identity theft, and should be properly modeled as Issuer rules at the upper layers of the architecture.
   - Also, delegation could be a crucial feature if the government generates a credential at the organizational level, which is then used by legal representatives (who are people).
 
@@ -552,10 +555,10 @@ Countermeasures/Features:
   - [**Status Assertions**](https://datatracker.ietf.org/doc/html/draft-demarco-oauth-status-assertions): is a signed object that demonstrates the validity status of a digital credential. These assertions are periodically provided to holders, who can present them to the Verifier with the corresponding digital credentials.
   - **[Cryptographic accumulators](https://eprint.iacr.org/2024/657.pdf)**: can generate proof of validity ***[without exposing other information](https://ieeexplore.ieee.org/document/10237019)***.
 - **Rotational Identifiers**: As indicated by the [Security and Privacy Questionnaire](https://www.w3.org/TR/security-privacy-questionnaire/#temporary-id), identifiers can be used to correlate, so it is important that they are temporary as much as possible during a session and changed after they are used. In this context, the identifiers that can be exploited to correlate can be present at different levels.
-- **No Phoning home or back-channel communication**: Software often "calls home" for several reasons. They normally do this to collect usage or crash statistics (which could indicate a vulnerability). The problem is that this feature, often critical to software improvement and security, has privacy implications for the user, in this case, the _Holder_. At the Credentials level, this call can be made at different times and by different _agents_. For example, suppose the _Issuer_ is contacted by the _Verifier_ to check the revocation of a credential, or that the _Wallet_ contacts its vendor to collect usage statistics. In that case, we can consider two types of countermeasures:
-  - **Do not phone home or back-channel communication**: This could also be an operational necessity (several use cases require the presentation to be made in offline environments or with limited connection) or a choice of the _Holder_, who should always _consent_ to telemetry and external connections to third parties. 
+- **No Phoning home or back-channel communication**: Software often "calls home" for several reasons. They normally do this to collect usage or crash statistics (which could indicate a vulnerability). The problem is that this feature, often critical to software improvement and security, has privacy implications for the user, in this case, the *Holder*. At the Credentials level, this call can be made at different times and by different *agents*. For example, suppose the *Issuer* is contacted by the *Verifier* to check the revocation of a credential, or that the *Wallet* contacts its vendor to collect usage statistics. In that case, we can consider two types of countermeasures:
+  - **Do not phone home or back-channel communication**: This could also be an operational necessity (several use cases require the presentation to be made in offline environments or with limited connection) or a choice of the *Holder*, who should always _consent_ to telemetry and external connections to third parties. 
   - **Minimize and Anonymize the Data**: Limit the data passed or, even better, cryptographic privacy-preserving techniques like [STAR](https://arxiv.org/pdf/2109.10074) that implement [k-anonymity](https://dataprivacylab.org/dataprivacy/projects/kanonymity/paper3.pdf) for telemetry.
-  - **Using Privacy-Preserving DIDs**: When resolving a DID, the method may use a connection to a system for resolution. If this system is under the direct or indirect control of the _Issuer_, it generates potential privacy issues. For example, this typically happens with `did:web` [as mentioned in section 2.5.2](https://w3c-ccg.github.io/did-method-web/#read-resolve) where a GET is generated that retrieves a file, effectively exposing the requesting user agent and allowing the _Issuer_ to make statistics. 
+  - **Using Privacy-Preserving DIDs**: When resolving a DID, the method may use a connection to a system for resolution. If this system is under the direct or indirect control of the *Issuer*, it generates potential privacy issues. For example, this typically happens with `did:web` [as mentioned in section 2.5.2](https://w3c-ccg.github.io/did-method-web/#read-resolve) where a GET is generated that retrieves a file, effectively exposing the requesting user agent and allowing the *Issuer* to make statistics. 
 - **Notification/Alerts**: An important aspect, particularly about interactions where the user is required to interact through an Internet credential, is communication with the user, which occurs at the following times
   - Before the request for the proof: for example, a website requests age verification, permission must first be given to the website to access the functionality, and when the user decides whether or not to give access, the URL and type of credential requested and the level of Minimization (to discourage you know the Verifier and the Holder from using Full Disclosure) must be indicated in a secure context.
-  - Before sending the proof, the user selects the Wallet of his choice, the credential or set of credentials from the Wallet, and the specific claims from the credentials. The Holder must be notified and asked for confirmation and consent, particularly when the type of presentation he proposes includes **phone calling** or **back-channel communication** features (to discourage the _Issuer_ and _Verifier _ from these practices).
+  - Before sending the proof, the user selects the Wallet of his choice, the credential or set of credentials from the Wallet, and the specific claims from the credentials. The Holder must be notified and asked for confirmation and consent, particularly when the type of presentation he proposes includes **phone calling** or **back-channel communication** features (to discourage the *Issuer* and *Verifier* from these practices).

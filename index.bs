@@ -549,7 +549,7 @@ Other threats [to consider](https://lists.w3.org/Archives/Public/public-review-c
 
 This section present the results of a novel Threat Modeling application, that combines Cards derived from [A Framework for Institutional and Technical Harm Prevention Inspired by Microsoft’s Harms Modeling](https://www.scitepress.org/Papers/2025/136014/136014.pdf) with [LEGO SERIOUS PLAY](https://www.w3.org/blog/2025/threat-modeling-with-lego-serious-play-building-your-digital-identity-threat/) that was applied in a series of workshops, with the specific analysis of Decentralized Identity in the context of National Digital Identity Systems.
 
-One of the key finding, is that it is important not only to consider individual threats, but it is usedful to consider the threats in their context and how they can be connected. For example, constraining how a person can present identity, making enrolment effectively compulsory, or tying access to a single official wallet path, can create the conditions for additional threats downstream.
+A key finding is that we should not just look at individual threats. We must consider their context and how they connect. For example, constraining how a person can present identity, making enrolment effectively compulsory, or tying access to a single official wallet path can create conditions for additional downstream threats.
 
 This section captures those relations as connected threats. Even if not every deployment will reproduce the same chain, and not all the threats are connected, it is particularly interesting how in governmental-issued digital credential systems, some threats are better understood as part of a propagation path than as isolated events, in a kill-chain flavour. There were identified different patterns:
 

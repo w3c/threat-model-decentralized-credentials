@@ -561,7 +561,7 @@ This section captures those relations as connected threats. Even if not every de
 
 These workshop outputs suggest that threat modeling for decentralized credentials should account for propagation across layers: from credential design, to wallet and issuer behaviour, to governance choices, to participation conditions.
 
-A system may look secure and privacy-preserving at one interface and still produce a adverse social impact if it normalizes forced enrolment, persistent correlation, discriminatory classification, or exclusion from the channels through which social, civic, or economic life is conducted.
+A system may look secure and privacy-preserving at one interface and still produce an adverse social impact if it normalizes forced enrolment, persistent correlation, discriminatory classification, or exclusion from the channels through which social, civic, or economic life is conducted.
 
 For that reason, connected threats are useful here as an additional analytical layer. They do not replace security or privacy analysis. They make visible how local design choices accumulate.  
 

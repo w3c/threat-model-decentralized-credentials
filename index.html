@@ -4,9 +4,9 @@
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
   <title>Threat Model for Decentralized Credentials</title>
   <meta content="ED" name="w3c-status">
-  <meta content="Bikeshed version 3c53a5b02, updated Thu Nov 27 17:03:30 2025 +0000" name="generator">
+  <meta content="Bikeshed version 0ef803fdf, updated Tue Jan 6 11:59:39 2026 -0800" name="generator">
   <link href="https://www.w3.org/TR/threat-model-decentralized-credentials/" rel="canonical">
-  <meta content="8d1298a60e1041a17e5f201735da296420c0c21a" name="revision">
+  <meta content="8d34f9193515fcde2dd9d3a0cf8347be3bdc28cb" name="revision">
   <meta content="dark light" name="color-scheme">
 <style>/* Boilerplate: style-autolinks */
 .css.css, .property.property, .descriptor.descriptor {
@@ -416,7 +416,7 @@ dfn > a.self-link::before      { content: "#"; }
 </p>
    <h1 class="no-ref p-name" id="title">Threat Model for Decentralized Credentials</h1>
    <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>,
-    <time class="dt-updated" datetime="2026-01-19">19 January 2026</time></p>
+    <time class="dt-updated" datetime="2026-04-02">2 April 2026</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -430,7 +430,7 @@ dfn > a.self-link::before      { content: "#"; }
       <dd><a href="https://github.com/w3c/threat-model-decentralized-credential/issues">GitHub</a>
       <dt class="editor">Editors:
       <dd class="editor h-card p-author vcard" data-editor-id="38211"><a class="fn p-name u-url url" href="https://w3.org">Simone Onofri</a> (<span class="org p-org">W3C</span>) <a class="email u-email" href="mailto:simone@w3.org">simone@w3.org</a>
-      <dd class="editor h-card p-author vcard" data-editor-id="157587"><a class="fn p-name u-url url" href="https://www.fbk.eu">Amir Sharif</a> (<span class="org p-org">Invited Expert</span>) <a class="email u-email" href="mailto:asharif@fbk.eu">asharif@fbk.eu</a>
+      <dd class="editor h-card p-author vcard" data-editor-id="157587"><a class="fn p-name u-url url" href="https://www.fbk.eu">Amir Sharif</a> (<span class="org p-org">FBK</span>) <a class="email u-email" href="mailto:asharif@fbk.eu">asharif@fbk.eu</a>
      </dl>
     </div>
    </details>
@@ -513,6 +513,7 @@ dfn > a.self-link::before      { content: "#"; }
           <li><a href="#government-issued-credentials"><span class="secno">2.2.4.1</span> <span class="content">Government-issued credentials</span></a>
           <li><a href="#credentials-used-for-authentication"><span class="secno">2.2.4.2</span> <span class="content">Credentials used for authentication</span></a>
           <li><a href="#societal-threats"><span class="secno">2.2.4.3</span> <span class="content">Societal Threats</span></a>
+          <li><a href="#sociotechnical-threats"><span class="secno">2.2.4.4</span> <span class="content">Sociotechnical Threats</span></a>
          </ol>
        </ol>
       <li><a href="#what-are-we-going-to-do-about-it"><span class="secno">2.3</span> <span class="content">What are we going to do about it?</span></a>
@@ -578,7 +579,9 @@ Therefore, it is important to carry over these properties later into the specifi
     <li data-md>
      <p><a href="https://www.isecom.org/OSSTMM.3.pdf">OSSTMM v3</a></p>
     <li data-md>
-     <p><a href="https://learn.microsoft.com/en-us/azure/architecture/guide/responsible-innovation/harms-modeling/type-of-harm">Microsoft’s Types of Harm</a></p>
+     <p><a href="https://learn.microsoft.com/en-us/azure/architecture/guide/responsible-innovation/harms-modeling/type-of-harm">Microsoft’s Types of Harm</a> (<a href="https://www.scitepress.org/Papers/2025/136014/136014.pdf">tailored for Identity</a>)</p>
+    <li data-md>
+     <p><a href="https://datatracker.ietf.org/doc/html/rfc9620">RFC 9620</a></p>
    </ul>
    <p>It is useful to frame the analysis with OSSTMM. OSSTMM controls allow analyses of what can go wrong (e.g., a control not present or a control problem).</p>
    <p>Even if it is control-oriented and seems security-oriented, privacy is an operational control that can connect different pieces.</p>
@@ -1342,6 +1345,25 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
     <li data-md>
      <p>Exchanges user agency for greater compliance and convenience.</p>
    </ul>
+   <h5 class="heading settled" data-level="2.2.4.4" id="sociotechnical-threats"><span class="secno">2.2.4.4. </span><span class="content">Sociotechnical Threats</span><a class="self-link" href="#sociotechnical-threats"></a></h5>
+   <p>This section present the results of a novel Threat Modeling application, that combines Cards derived from <a href="https://www.scitepress.org/Papers/2025/136014/136014.pdf">A Framework for Institutional and Technical Harm Prevention Inspired by Microsoft’s Harms Modeling</a> with <a href="https://www.w3.org/blog/2025/threat-modeling-with-lego-serious-play-building-your-digital-identity-threat/">LEGO SERIOUS PLAY</a> that was applied in a series of workshops, with the specific analysis of Decentralized Identity in the context of National Digital Identity Systems.</p>
+   <p>A key finding is that we should not just look at individual threats. We must consider their context and how they connect. For example, constraining how a person can present identity, making enrolment effectively compulsory, or tying access to a single official wallet path can create conditions for additional downstream threats.</p>
+   <p>This section captures those relations as connected threats. While not every deployment follows the same pattern, these threats should not be viewed as isolated events. In government-issued digital credential systems, it is more effective to view them as part of a propagation path, similar to a "kill-chain" model. Different patterns were identified:</p>
+   <ul>
+    <li data-md>
+     <p><strong>Restriction of identity multiplicity, profiling, and censorship</strong>. Participants repeatedly returned to the idea that forcing a person into one stable identity, or one acceptable proof path, makes profiling easier. Once behaviour can be linked back to the same holder over time, the profile becomes actionable. Also, censorship is no longer a separate problem. Censorship is enabled by the need for a single profile. It is not needed to say “we censor”, as just having persistent visibility is easy; the intervention can follow from that. This is why the connection between multiplicity and profiling was treated as strong. Limiting a holder to one identity cannot be treated as a usability or policy choice. It can function as a profiling infrastructure. For example, if it is the issuer that generates or signs a special anonymous credentials to express a single claim/attribute (e.g., in the case of Age Verification), even where the issuer does not observe each use directly, repeated requests for additional capacity, combined with the metadata, can still support inference. In this case, an issuer may have enough information for correlating a user behaviour, in particular in the case of collusion with a verifier.</p>
+    <li data-md>
+     <p><strong>Forced association, overreach, and surveillance</strong>. Where enrolment is not realistically optional, the identity system stops being a neutral mechanism for facilitating presentation and becomes a gate through which access must pass. This was represented in different connected landscapes of threats. Forced association was treated as an entry condition because it exposes the person to the rest of the system, whether or not that person would otherwise choose to participate. Once that condition holds, surveillance is no longer only an implementation defect or abuse case. It becomes structurally easier.</p>
+    <li data-md>
+     <p><strong>Exclusion from the official wallet or application path</strong>. Several workshop models did not view exclusion as just non-participation. It has two effects: excluded people may lose access to official services, be drawn to unofficial or harmful apps, disclose more data than necessary, and be more vulnerable to fraud or exploitation. Meanwhile, those who can access the official path gain relative privilege. This is not just a technical interoperability issue; it is a stratification problem within the identity ecosystem.</p>
+    <li data-md>
+     <p><strong>Connection between classification to discrimination, denial of identity, and loss of participation</strong>. An identity system may begin by managing claims needed for a narrow transaction and then expand into a classifier of persons. Once that happens, the system can support discriminatory vetting, exclusion from services, denial of access to the system itself, and, in the more severe cases discussed in the workshops, practical denial of political or civic participation. Here again, the issue is not one isolated failure. The problem is that a classification function, once operationalised, can be transferred.</p>
+    <li data-md>
+     <p><strong>Identity theft</strong>. This threat appeared differently. In one workshop landscape, it was intentionally left less connected because participants did not identify a strong direct dependency between identity theft and the other threats in that specific model. This is important and should be preserved. The purpose of connected threats is not to force links where the model does not support them. At the same time, other workshop scenarios did show a meaningful chain from identity theft to profiling, suspicion, discriminatory targeting, and effective exclusion from the system. In this case, identity theft, as a fraudulent event, was the starting point for persecution directed at the wrong person.</p>
+   </ul>
+   <p>These workshop outputs suggest that threat modeling for decentralized credentials should account for propagation across layers: from credential design, to wallet and issuer behaviour, to governance choices, to participation conditions.</p>
+   <p>A system may look secure and privacy-preserving at one interface and still produce an adverse social impact if it normalizes forced enrolment, persistent correlation, discriminatory classification, or exclusion from the channels through which social, civic, or economic life is conducted.</p>
+   <p>For that reason, connected threats are useful here as an additional analytical layer. They do not replace security or privacy analysis. They make visible how local design choices accumulate.</p>
    <h3 class="heading settled" data-level="2.3" id="what-are-we-going-to-do-about-it"><span class="secno">2.3. </span><span class="content">What are we going to do about it?</span><a class="self-link" href="#what-are-we-going-to-do-about-it"></a></h3>
    <p>Countermeasures/Features:</p>
    <ul>

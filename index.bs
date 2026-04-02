@@ -10,7 +10,7 @@ Shortname: threat-model-decentralized-credentials
 Issue Tracking: GitHub https://github.com/w3c/threat-model-decentralized-credential/issues
 Level: none
 Editor: Simone Onofri, w3cid 38211, W3C, https://w3.org, simone@w3.org
-Editor: Amir Sharif, w3cid 157587, Invited Expert, https://www.fbk.eu, asharif@fbk.eu
+Editor: Amir Sharif, w3cid 157587, FBK, https://www.fbk.eu, asharif@fbk.eu
 Abstract:
   <p>This document is the live "meta" Threat Model related to Decentralized Credentials.  This outlines the many concerns related to these work areas and the initial principles for addressing user considerations for starting a discussion.</p>
 Status text:
@@ -90,7 +90,8 @@ For the central phases, it is possible to use (as in Risk Management) prompt lis
  - [RFC 3552](https://datatracker.ietf.org/doc/html/rfc3552)
  - [STRIDE](https://learn.microsoft.com/en-us/previous-versions/commerce-server/ee823878(v=cs.20)?redirectedfrom=MSDN)
  - [OSSTMM v3](https://www.isecom.org/OSSTMM.3.pdf)
- - [Microsoft's Types of Harm](https://learn.microsoft.com/en-us/azure/architecture/guide/responsible-innovation/harms-modeling/type-of-harm)
+ - [Microsoft's Types of Harm](https://learn.microsoft.com/en-us/azure/architecture/guide/responsible-innovation/harms-modeling/type-of-harm) ([tailored for Identity](https://www.scitepress.org/Papers/2025/136014/136014.pdf))
+ - [RFC 9620](https://datatracker.ietf.org/doc/html/rfc9620)
 
 It is useful to frame the analysis with OSSTMM. OSSTMM controls allow analyses of what can go wrong (e.g., a control not present or a control problem).
 
@@ -543,6 +544,27 @@ Other threats [to consider](https://lists.w3.org/Archives/Public/public-review-c
 - Increased centralization through subtle tradeoffs.
 - Content will be moved from the deep web to the “attributed deep web”.
 - Exchanges user agency for greater compliance and convenience.
+
+#### Sociotechnical Threats
+
+This section present the results of a novel Threat Modeling application, that combines Cards derived from [A Framework for Institutional and Technical Harm Prevention Inspired by Microsoft’s Harms Modeling](https://www.scitepress.org/Papers/2025/136014/136014.pdf) with [LEGO SERIOUS PLAY](https://www.w3.org/blog/2025/threat-modeling-with-lego-serious-play-building-your-digital-identity-threat/) that was applied in a series of workshops, with the specific analysis of Decentralized Identity in the context of National Digital Identity Systems.
+
+A key finding is that we should not just look at individual threats. We must consider their context and how they connect. For example, constraining how a person can present identity, making enrolment effectively compulsory, or tying access to a single official wallet path can create conditions for additional downstream threats.
+
+This section captures those relations as connected threats. While not every deployment follows the same pattern, these threats should not be viewed as isolated events. In government-issued digital credential systems, it is more effective to view them as part of a propagation path, similar to a "kill-chain" model. Different patterns were identified:
+
+* **Restriction of identity multiplicity, profiling, and censorship**. Participants repeatedly returned to the idea that forcing a person into one stable identity, or one acceptable proof path, makes profiling easier. Once behaviour can be linked back to the same holder over time, the profile becomes actionable. Also, censorship is no longer a separate problem. Censorship is enabled by the need for a single profile. It is not needed to say “we censor”, as just having persistent visibility is easy; the intervention can follow from that. This is why the connection between multiplicity and profiling was treated as strong. Limiting a holder to one identity cannot be treated as a usability or policy choice. It can function as a profiling infrastructure. For example, if it is the issuer that generates or signs a special anonymous credentials to express a single claim/attribute (e.g., in the case of Age Verification), even where the issuer does not observe each use directly, repeated requests for additional capacity, combined with the metadata, can still support inference. In this case, an issuer may have enough information for correlating a user behaviour, in particular in the case of collusion with a verifier.  
+* **Forced association, overreach, and surveillance**. Where enrolment is not realistically optional, the identity system stops being a neutral mechanism for facilitating presentation and becomes a gate through which access must pass. This was represented in different connected landscapes of threats. Forced association was treated as an entry condition because it exposes the person to the rest of the system, whether or not that person would otherwise choose to participate. Once that condition holds, surveillance is no longer only an implementation defect or abuse case. It becomes structurally easier.  
+* **Exclusion from the official wallet or application path**. Several workshop models did not view exclusion as just non-participation. It has two effects: excluded people may lose access to official services, be drawn to unofficial or harmful apps, disclose more data than necessary, and be more vulnerable to fraud or exploitation. Meanwhile, those who can access the official path gain relative privilege. This is not just a technical interoperability issue; it is a stratification problem within the identity ecosystem.  
+* **Connection between classification to discrimination, denial of identity, and loss of participation**. An identity system may begin by managing claims needed for a narrow transaction and then expand into a classifier of persons. Once that happens, the system can support discriminatory vetting, exclusion from services, denial of access to the system itself, and, in the more severe cases discussed in the workshops, practical denial of political or civic participation. Here again, the issue is not one isolated failure. The problem is that a classification function, once operationalised, can be transferred.  
+* **Identity theft**. This threat appeared differently. In one workshop landscape, it was intentionally left less connected because participants did not identify a strong direct dependency between identity theft and the other threats in that specific model. This is important and should be preserved. The purpose of connected threats is not to force links where the model does not support them. At the same time, other workshop scenarios did show a meaningful chain from identity theft to profiling, suspicion, discriminatory targeting, and effective exclusion from the system. In this case, identity theft, as a fraudulent event, was the starting point for persecution directed at the wrong person.
+
+These workshop outputs suggest that threat modeling for decentralized credentials should account for propagation across layers: from credential design, to wallet and issuer behaviour, to governance choices, to participation conditions.
+
+A system may look secure and privacy-preserving at one interface and still produce an adverse social impact if it normalizes forced enrolment, persistent correlation, discriminatory classification, or exclusion from the channels through which social, civic, or economic life is conducted.
+
+For that reason, connected threats are useful here as an additional analytical layer. They do not replace security or privacy analysis. They make visible how local design choices accumulate.  
+
 
 ## What are we going to do about it?
 

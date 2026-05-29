@@ -7,7 +7,7 @@ Prepare for TR: yes
 ED: https://w3c.github.io/threat-model-decentralized-credentials/
 TR: https://www.w3.org/TR/threat-model-decentralized-credentials/
 Shortname: threat-model-decentralized-credentials
-Issue Tracking: GitHub https://github.com/w3c/threat-model-decentralized-credential/issues
+Issue Tracking: GitHub https://github.com/w3c/threat-model-decentralized-credentials/issues
 Level: none
 Editor: Simone Onofri, w3cid 38211, W3C, https://w3.org, simone@w3.org
 Editor: Amir Sharif, w3cid 157587, FBK, https://www.fbk.eu, asharif@fbk.eu
@@ -559,11 +559,27 @@ This section captures those relations as connected threats. While not every depl
 * **Connection between classification to discrimination, denial of identity, and loss of participation**. An identity system may begin by managing claims needed for a narrow transaction and then expand into a classifier of persons. Once that happens, the system can support discriminatory vetting, exclusion from services, denial of access to the system itself, and, in the more severe cases discussed in the workshops, practical denial of political or civic participation. Here again, the issue is not one isolated failure. The problem is that a classification function, once operationalised, can be transferred.  
 * **Identity theft**. This threat appeared differently. In one workshop landscape, it was intentionally left less connected because participants did not identify a strong direct dependency between identity theft and the other threats in that specific model. This is important and should be preserved. The purpose of connected threats is not to force links where the model does not support them. At the same time, other workshop scenarios did show a meaningful chain from identity theft to profiling, suspicion, discriminatory targeting, and effective exclusion from the system. In this case, identity theft, as a fraudulent event, was the starting point for persecution directed at the wrong person.
 
-These workshop outputs suggest that threat modeling for decentralized credentials should account for propagation across layers: from credential design, to wallet and issuer behaviour, to governance choices, to participation conditions.
-
 A system may look secure and privacy-preserving at one interface and still produce an adverse social impact if it normalizes forced enrolment, persistent correlation, discriminatory classification, or exclusion from the channels through which social, civic, or economic life is conducted.
 
 For that reason, connected threats are useful here as an additional analytical layer. They do not replace security or privacy analysis. They make visible how local design choices accumulate.  
+
+These workshop outputs suggest that threat modeling for decentralized credentials should account for propagation across layers: from credential design, to wallet and issuer behaviour, to governance choices, to participation conditions.
+
+Single threats are:
+* **Loss of representation**: A person is excluded from the identity system and can no longer access services or participate in society because their existence is not recognized by the digital infrastructure.  
+* **Discrimination**: A user is denied access to a service because automated policies classify them negatively based on characteristics contained in the digital credential.  
+* **Profiling and “identity stacking”**: Continuous profiling and aggregation of identity data can create a system where users cannot escape.  
+* **Political chilling effect**: People avoid political participation or advocacy because they fear that their digital identity could expose them to retaliation or surveillance.  
+* **Forced association**: Individuals are forced to join or identify through a specific organization or identity framework in order to access essential services or prove who they are.
+* **Denied right to an identity**: Existing barriers in authentication and authorization systems are exploited to deny individuals access to a valid digital identity.  
+* **Surveillance and censorship**: Constant monitoring and surveillance restrict freedom of expression by making people feel permanently observed and controlled.  
+* **Function creep**: Data originally collected for one purpose is gradually reused for additional purposes beyond what the user initially consented to.  
+* **Fear of persecution**: As these actions can be tracked by government, fear of being tracked, punished, or persecuted causes individuals to self-censor and limit their freedom of speech and movement.  
+* **Identity theft**:  A malicious actor uses stolen identities to impersonate other people and gain unauthorized access to systems or services.  
+* **Phishing**: An attacker tricks an employee through a fraudulent email into revealing credentials or executing malicious actions, resulting in sensitive data leakage, with an important impact if these are high-level credentials.  
+* **Denial of healthcare**: Failures or restrictions in digital identity systems prevent individuals from receiving timely medical care, potentially causing serious harm to their health or life.  
+* **Digital censorship**: Identity systems can be used to selectively block or allow access, enabling censorship and exclusion based on who the user is, as an abuse case after the technology is deployed due to the “good case for child protection”.  
+* **Statelessness**: A person’s digital identity is considered invalid or fraudulent, effectively excluding them from social participation and access to essential resources.  
 
 
 ## What are we going to do about it?

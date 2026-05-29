@@ -4,9 +4,9 @@
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
   <title>Threat Model for Decentralized Credentials</title>
   <meta content="ED" name="w3c-status">
-  <meta content="Bikeshed version 0ef803fdf, updated Tue Jan 6 11:59:39 2026 -0800" name="generator">
+  <meta content="Bikeshed version 0a3d88311, updated Mon May 4 18:07:03 2026 +0000" name="generator">
   <link href="https://www.w3.org/TR/threat-model-decentralized-credentials/" rel="canonical">
-  <meta content="8d34f9193515fcde2dd9d3a0cf8347be3bdc28cb" name="revision">
+  <meta content="116bef957d39f9c0b0891b3466eacdd11bd8eb74" name="revision">
   <meta content="dark light" name="color-scheme">
 <style>/* Boilerplate: style-autolinks */
 .css.css, .property.property, .descriptor.descriptor {
@@ -301,7 +301,7 @@ pre .property::before, pre .property::after {
 </style>
 <style>/* Boilerplate: style-counters */
 body {
-    counter-reset: example figure issue;
+    counter-reset: example figure issue table;
 }
 .issue {
     counter-increment: issue;
@@ -326,6 +326,13 @@ figcaption {
 }
 figcaption:not(.no-marker)::before {
     content: "Figure " counter(figure) " ";
+}
+
+figure.table figcaption {
+    counter-increment: table;
+}
+figure.table figcaption:not(.no-marker)::before {
+    content: "Table " counter(table) " ";
 }
 </style>
 <style>/* Boilerplate: style-issues */
@@ -416,7 +423,7 @@ dfn > a.self-link::before      { content: "#"; }
 </p>
    <h1 class="no-ref p-name" id="title">Threat Model for Decentralized Credentials</h1>
    <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>,
-    <time class="dt-updated" datetime="2026-04-02">2 April 2026</time></p>
+    <time class="dt-updated" datetime="2026-05-29">29 May 2026</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -427,7 +434,7 @@ dfn > a.self-link::before      { content: "#"; }
       <dd><a href="https://www.w3.org/TR/threat-model-decentralized-credentials/">https://www.w3.org/TR/threat-model-decentralized-credentials/</a>
       <dt>Feedback:
       <dd><span><a href="mailto:public-security@w3.org?subject=%5Bthreat-model-decentralized-credentials%5D%20YOUR%20TOPIC%20HERE">public-security@w3.org</a> with subject line “<kbd>[threat-model-decentralized-credentials] <i data-lt>… message topic …</i></kbd>” (<a href="https://lists.w3.org/Archives/Public/public-security/" rel="discussion">archives</a>)</span>
-      <dd><a href="https://github.com/w3c/threat-model-decentralized-credential/issues">GitHub</a>
+      <dd><a href="https://github.com/w3c/threat-model-decentralized-credentials/issues">GitHub</a>
       <dt class="editor">Editors:
       <dd class="editor h-card p-author vcard" data-editor-id="38211"><a class="fn p-name u-url url" href="https://w3.org">Simone Onofri</a> (<span class="org p-org">W3C</span>) <a class="email u-email" href="mailto:simone@w3.org">simone@w3.org</a>
       <dd class="editor h-card p-author vcard" data-editor-id="157587"><a class="fn p-name u-url url" href="https://www.fbk.eu">Amir Sharif</a> (<span class="org p-org">FBK</span>) <a class="email u-email" href="mailto:asharif@fbk.eu">asharif@fbk.eu</a>
@@ -1361,9 +1368,40 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
     <li data-md>
      <p><strong>Identity theft</strong>. This threat appeared differently. In one workshop landscape, it was intentionally left less connected because participants did not identify a strong direct dependency between identity theft and the other threats in that specific model. This is important and should be preserved. The purpose of connected threats is not to force links where the model does not support them. At the same time, other workshop scenarios did show a meaningful chain from identity theft to profiling, suspicion, discriminatory targeting, and effective exclusion from the system. In this case, identity theft, as a fraudulent event, was the starting point for persecution directed at the wrong person.</p>
    </ul>
-   <p>These workshop outputs suggest that threat modeling for decentralized credentials should account for propagation across layers: from credential design, to wallet and issuer behaviour, to governance choices, to participation conditions.</p>
    <p>A system may look secure and privacy-preserving at one interface and still produce an adverse social impact if it normalizes forced enrolment, persistent correlation, discriminatory classification, or exclusion from the channels through which social, civic, or economic life is conducted.</p>
    <p>For that reason, connected threats are useful here as an additional analytical layer. They do not replace security or privacy analysis. They make visible how local design choices accumulate.</p>
+   <p>These workshop outputs suggest that threat modeling for decentralized credentials should account for propagation across layers: from credential design, to wallet and issuer behaviour, to governance choices, to participation conditions.</p>
+   <p>Single threats are:</p>
+   <ul>
+    <li data-md>
+     <p><strong>Loss of representation</strong>: A person is excluded from the identity system and can no longer access services or participate in society because their existence is not recognized by the digital infrastructure.</p>
+    <li data-md>
+     <p><strong>Discrimination</strong>: A user is denied access to a service because automated policies classify them negatively based on characteristics contained in the digital credential.</p>
+    <li data-md>
+     <p><strong>Profiling and “identity stacking”</strong>: Continuous profiling and aggregation of identity data can create a system where users cannot escape.</p>
+    <li data-md>
+     <p><strong>Political chilling effect</strong>: People avoid political participation or advocacy because they fear that their digital identity could expose them to retaliation or surveillance.</p>
+    <li data-md>
+     <p><strong>Forced association</strong>: Individuals are forced to join or identify through a specific organization or identity framework in order to access essential services or prove who they are.</p>
+    <li data-md>
+     <p><strong>Denied right to an identity</strong>: Existing barriers in authentication and authorization systems are exploited to deny individuals access to a valid digital identity.</p>
+    <li data-md>
+     <p><strong>Surveillance and censorship</strong>: Constant monitoring and surveillance restrict freedom of expression by making people feel permanently observed and controlled.</p>
+    <li data-md>
+     <p><strong>Function creep</strong>: Data originally collected for one purpose is gradually reused for additional purposes beyond what the user initially consented to.</p>
+    <li data-md>
+     <p><strong>Fear of persecution</strong>: As these actions can be tracked by government, fear of being tracked, punished, or persecuted causes individuals to self-censor and limit their freedom of speech and movement.</p>
+    <li data-md>
+     <p><strong>Identity theft</strong>:  A malicious actor uses stolen identities to impersonate other people and gain unauthorized access to systems or services.</p>
+    <li data-md>
+     <p><strong>Phishing</strong>: An attacker tricks an employee through a fraudulent email into revealing credentials or executing malicious actions, resulting in sensitive data leakage, with an important impact if these are high-level credentials.</p>
+    <li data-md>
+     <p><strong>Denial of healthcare</strong>: Failures or restrictions in digital identity systems prevent individuals from receiving timely medical care, potentially causing serious harm to their health or life.</p>
+    <li data-md>
+     <p><strong>Digital censorship</strong>: Identity systems can be used to selectively block or allow access, enabling censorship and exclusion based on who the user is, as an abuse case after the technology is deployed due to the “good case for child protection”.</p>
+    <li data-md>
+     <p><strong>Statelessness</strong>: A person’s digital identity is considered invalid or fraudulent, effectively excluding them from social participation and access to essential resources.</p>
+   </ul>
    <h3 class="heading settled" data-level="2.3" id="what-are-we-going-to-do-about-it"><span class="secno">2.3. </span><span class="content">What are we going to do about it?</span><a class="self-link" href="#what-are-we-going-to-do-about-it"></a></h3>
    <p>Countermeasures/Features:</p>
    <ul>

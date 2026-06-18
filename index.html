@@ -4,9 +4,9 @@
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
   <title>Threat Model for Decentralized Credentials</title>
   <meta content="ED" name="w3c-status">
-  <meta content="Bikeshed version 0a3d88311, updated Mon May 4 18:07:03 2026 +0000" name="generator">
+  <meta content="Bikeshed version d113b2e81, updated Tue Jun 9 14:57:55 2026 -0700" name="generator">
   <link href="https://www.w3.org/TR/threat-model-decentralized-credentials/" rel="canonical">
-  <meta content="4a99931a1b60489611720c34a1bd107730b50f57" name="revision">
+  <meta content="c6498f6181e8ff0f245cd1e980308827bcc367c2" name="revision">
   <meta content="dark light" name="color-scheme">
 <style>/* Boilerplate: style-autolinks */
 .css.css, .property.property, .descriptor.descriptor {
@@ -423,7 +423,7 @@ dfn > a.self-link::before      { content: "#"; }
 </p>
    <h1 class="no-ref p-name" id="title">Threat Model for Decentralized Credentials</h1>
    <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>,
-    <time class="dt-updated" datetime="2026-05-29">29 May 2026</time></p>
+    <time class="dt-updated" datetime="2026-06-18">18 June 2026</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -448,7 +448,7 @@ dfn > a.self-link::before      { content: "#"; }
   </div>
   <div class="p-summary" data-fill-with="abstract">
    <h2 class="heading no-num no-ref no-toc settled" id="abstract"><span class="content">Abstract</span></h2>
-   <p>This document is the live "meta" Threat Model related to Decentralized Credentials.  This outlines the many concerns related to these work areas and the initial principles for addressing user considerations for starting a discussion.</p>
+   <p>This document is a living threat model for decentralized credentials. It records security, privacy, and harms-related concerns across the ecosystem and identifies initial principles for discussion and future analysis.</p>
   </div>
   <h2 class="heading no-num no-ref no-toc settled" id="sotd"><span class="content">Status of this document</span></h2>
   <div data-fill-with="status">
@@ -520,7 +520,7 @@ dfn > a.self-link::before      { content: "#"; }
           <li><a href="#government-issued-credentials"><span class="secno">2.2.4.1</span> <span class="content">Government-issued credentials</span></a>
           <li><a href="#credentials-used-for-authentication"><span class="secno">2.2.4.2</span> <span class="content">Credentials used for authentication</span></a>
           <li><a href="#societal-threats"><span class="secno">2.2.4.3</span> <span class="content">Societal Threats</span></a>
-          <li><a href="#sociotechnical-threats"><span class="secno">2.2.4.4</span> <span class="content">Sociotechnical Threats</span></a>
+          <li><a href="#socio-technical-threats"><span class="secno">2.2.4.4</span> <span class="content">Socio-technical Threats</span></a>
          </ol>
        </ol>
       <li><a href="#what-are-we-going-to-do-about-it"><span class="secno">2.3</span> <span class="content">What are we going to do about it?</span></a>
@@ -530,44 +530,43 @@ dfn > a.self-link::before      { content: "#"; }
   <main>
    <h2 class="heading settled" data-level="1" id="introduction"><span class="secno">1. </span><span class="content">Introduction</span><a class="self-link" href="#introduction"></a></h2>
    <h3 class="heading settled" data-level="1.1" id="scope"><span class="secno">1.1. </span><span class="content">Scope</span><a class="self-link" href="#scope"></a></h3>
-   <p>The topic of Digital Identities is vast and intricate. Defining the initial scope of the model, which can be expanded when necessary, if we consider the ecosystem of Digital Identities, we find ourselves in the specific case of Decentralized Identities, those identities related to people and in particular those considered high-assurance (e.g., those issued by governments) and in the <strong>Layer 3: "Credentials" and precisely the Credential-Presentation Phase</strong> - as defined by the <a href="https://trustoverip.org/toip-model/">SSI Technology Stack from ToITP</a> and <a href="https://identity.foundation/faq/">DIF FAQ</a> and as written in the <a href="https://www.w3.org/reports/identity-web-impact/#trust-layer">Identity &amp; the Web Report</a>:</p>
-   <p><img alt="decentralized identity layers" src="decentralized-identity-layers.svg"></p>
-   <p>On the one hand, the need arose within the W3C about the potential adoption of the <a href="https://wicg.github.io/digital-credentials/">Digital Credentials API</a> - which would allow User-Agents to mediate communication between a website requiring the submission of evidence and the user’s Wallet - by the <a href="https://github.com/w3c/strategy/issues/450">Federated Identity Working Group</a>, on the other hand the lack of a more general model analyzing threats on the various levels related to Security, Privacy, and Human Rights was also identified.</p>
-   <p>As the Threat Model is a living document, it can be expanded to include other parts of the architecture and to a different level of detail, e.g., going deep into the cryptographic aspects of a specific profile or expanding it into the broader governance context to identify or mitigate threats.</p>
-   <p>It is also important to note that because it is a generic model, it is useful for understanding the properties and requirements needed for Security, Privacy, and Harm.
-Therefore, it is important to carry over these properties later into the specific architecture or implementation, which is defined precisely by architectural and technological choices (e.g., a profile).</p>
-   <p>It is intended to be a choral analysis. It stems from the need to understand a Threat Model to guide the development of Decentralized Identities in a secure/privacy-preserving way and avoid harm. It will start from the Digital Credentials API from a high-level perspective.</p>
+   <p>Digital identity is a broad topic. This threat model starts with a narrower scope: decentralized credentials related to people, especially high-assurance credentials such as government-issued credentials. It focuses on <strong>Layer 3: "Credentials"</strong>, and more specifically on the credential-presentation phase, as described by the <a href="https://trustoverip.org/toip-model/">SSI Technology Stack from ToITP</a>, the <a href="https://identity.foundation/faq/">DIF FAQ</a>, and the <a href="https://www.w3.org/reports/identity-web-impact/#trust-layer">Identity &amp; the Web Report</a>:</p>
+   <p><img alt="decentralized identity layers" height="945" src="decentralized-identity-layers.svg" width="1189"></p>
+   <p>The immediate need arose in W3C discussion of the possible adoption of the <a href="https://wicg.github.io/digital-credentials/">Digital Credentials API</a> by the <a href="https://github.com/w3c/strategy/issues/450">Federated Identity Working Group</a>. That API would allow user agents to mediate communication between a website that requests evidence and the user’s wallet. The discussion also identified the need for a broader model that analyzes security, privacy, and human-rights concerns across the relevant layers.</p>
+   <p>This threat model is a living document. It can be expanded to include other parts of the architecture or different levels of detail, such as the cryptographic properties of a specific profile or the broader governance context in which credentials are issued and used.</p>
+   <p>Because this is a generic model, it is useful for identifying the security, privacy, and harms-related properties that later need to be carried into a concrete architecture, profile, or implementation.</p>
+   <p>The document is intended to support a shared analysis. It starts from the Digital Credentials API at a high level and uses that starting point to discuss how decentralized credentials can be developed in a security- and privacy-preserving way while avoiding harm.</p>
    <h4 class="heading settled" data-level="1.1.1" id="terminology"><span class="secno">1.1.1. </span><span class="content">Terminology</span><a class="self-link" href="#terminology"></a></h4>
-   <p>For Identity, we can refer to the definition in ISO/IEC 24760-1:2019 "<a href="https://standards.iso.org/ittf/PubliclyAvailableStandards/c077582_ISO_IEC_24760-1_2019(E).zip">IT Security and Privacy - A framework for identity management</a>".</p>
+   <p>For identity, we can refer to the definition in ISO/IEC 24760-1:2019 "<a href="https://standards.iso.org/ittf/PubliclyAvailableStandards/c077582_ISO_IEC_24760-1_2019(E).zip">IT Security and Privacy - A framework for identity management</a>".</p>
    <p><strong>Identity</strong> is "a set of attributes related to an entity". Where the entity is something "that has recognizably distinct existence", and that can be "logical or physical" such as "a person, an organization, a device, a group of such items, a human subscriber to a telecom service, a SIM card, a passport, a network interface card, a software application, a service or a website" and the attributes are "characteristics or properties" such as "an entity type, address information, telephone number, a privilege, a MAC address, a domain name".</p>
    <p>We present <strong>credentials</strong> to claim a certain identity, whether in the physical or digital world. Just as we do not have a one-size-fits-all definition of identity, we also do not have a one-size-fits-all definition of credentials in IT, as they vary by context.</p>
-   <p>The credential definition from the W3C Verifiable Credentials Data Model (VCDM) states: a "set of one or more claims made by an issuer". Its framing is in the Decentralized Identity Model, and we can map the ISO’s <em>attributes</em> to VCDM <em>claims</em>.</p>
+   <p>The credential definition from the W3C Verifiable Credentials Data Model (VCDM) states: a "set of one or more claims made by an issuer". Its framing is in the decentralized identity model, and we can map the ISO’s <em>attributes</em> to VCDM <em>claims</em>.</p>
    <p>For example, a person’s characteristics can include physical appearance, voice, beliefs, habits, and so on. It is important to distinguish identity from an identifier (e.g., a username).</p>
    <p>It is usual to think of Digital Credentials as related to humans, particularly those issued by a government, also known as "Real-world Identities", even if we also have Non-Human Identities.</p>
-   <p>This leads to a broader consideration of the Threat Model, as it also includes Privacy as a right and Harm components.</p>
+   <p>This leads to a broader consideration of the threat model, as it also includes privacy as a right and harm components.</p>
    <h3 class="heading settled" data-level="1.2" id="related-work"><span class="secno">1.2. </span><span class="content">Related Work</span><a class="self-link" href="#related-work"></a></h3>
    <ul>
     <li data-md>
-     <p><a href="https://github.com/w3c/strategy/issues/458">joint work on rights-respecting digital credentials </a></p>
+     <p><a href="https://github.com/w3c/strategy/issues/458">Joint work on rights-respecting digital credentials</a></p>
     <li data-md>
      <p><a href="https://github.com/w3cping/credential-considerations/blob/main/credentials-considerations.md">User considerations for credential presentation on the Web</a></p>
     <li data-md>
      <p><a href="https://github.com/w3c/breakouts-day-2024/issues/12">Building Consensus on the Role of Real World Identities on the Web</a></p>
    </ul>
    <h3 class="heading settled" data-level="1.3" id="methodology"><span class="secno">1.3. </span><span class="content">Methodology</span><a class="self-link" href="#methodology"></a></h3>
-   <p>Since security is a _separation function between the asset and the threat_, the threat can have different impacts, such as security, privacy, or harm.</p>
-   <p>There are many approaches to Threat Modeling. The first approach we will use is based on <a href="https://github.com/adamshostack/4QuestionFrame">Adam Shostack’s four-question frame</a>:</p>
+   <p>Security can be understood as a separation function between an asset and a threat. In this document, a threat may have security, privacy, or harms-related effects.</p>
+   <p>There are many approaches to threat modeling. This document uses <a href="https://github.com/adamshostack/4QuestionFrame">Adam Shostack’s four-question frame</a> as the organizing structure:</p>
    <ul>
     <li data-md>
-     <p>What are we working on? (understanding the architecture, actors involved, etc...)</p>
+     <p>What are we working on? This includes the architecture, actors, assets, flows, and trust boundaries.</p>
     <li data-md>
-     <p>What can go wrong? (threats, threat actors, attacks, etc...)</p>
+     <p>What can go wrong? This includes threats, threat actors, attacks, privacy failures, and harms.</p>
     <li data-md>
-     <p>What are we going to do about it? (countermeasures, residual risk, etc...)</p>
+     <p>What are we going to do about it? This includes responses, assumptions, transfers, acceptances, and remaining threats.</p>
     <li data-md>
-     <p>Did we do a good job? (Reiterating until we are happy with the result)</p>
+     <p>Did we do a good job? This includes checking whether the model is useful enough to guide the next stage of work.</p>
    </ul>
-   <p>For the central phases, it is possible to use (as in Risk Management) prompt lists or checklists of either threats, attacks, or controls, for example:</p>
+   <p>The central phases use prompt lists and analysis frameworks as aids for finding issues, not as exhaustive taxonomies. Useful sources include:</p>
    <ul>
     <li data-md>
      <p><a href="https://wiki.openrightsgroup.org/wiki/A_Taxonomy_of_Privacy">Solove’s Taxonomy</a></p>
@@ -598,7 +597,7 @@ Therefore, it is important to carry over these properties later into the specifi
    <p>Although different digital credentials may use different channels or vectors (e.g., Wireless), they can still be analyzed similarly.</p>
    <h2 class="heading settled" data-level="2" id="analysis"><span class="secno">2. </span><span class="content">Analysis</span><a class="self-link" href="#analysis"></a></h2>
    <h3 class="heading settled" data-level="2.1" id="what-are-we-working-on"><span class="secno">2.1. </span><span class="content">What are we working on?</span><a class="self-link" href="#what-are-we-working-on"></a></h3>
-   <p>To create a good Threat Model, we can first consider the components of the Decentralized Identity architecture (which in this context is synonymous with Self-Sovereign Identity) as defined in <a href="https://www.w3.org/TR/vc-data-model-2.0/">W3C’s Verifiable Credentials Data Model</a> and how they interact.</p>
+   <p>To create a useful threat model, we can first consider the components of the decentralized identity architecture, which in this context is used as a synonym for self-sovereign identity, as defined in the <a href="https://www.w3.org/TR/vc-data-model-2.0/">W3C Verifiable Credentials Data Model</a> and how they interact.</p>
    <h4 class="heading settled" data-level="2.1.1" id="architecture-and-actors"><span class="secno">2.1.1. </span><span class="content">Architecture and Actors</span><a class="self-link" href="#architecture-and-actors"></a></h4>
    <ul>
     <li data-md>
@@ -610,8 +609,8 @@ Therefore, it is important to carry over these properties later into the specifi
     <li data-md>
      <p>We also have a <em>Verifiable Data Registry</em> (VDR) that stores identifiers and schemas.</p>
    </ul>
-   <p><img alt="Decentralized Identity Model" src="decentralized-identity-model.svg"></p>
-   <p>Interactions between actors occur normatively through software or other technological mediums. We will generically call such components <em>Agents</em>. One agent might be embedded in a <em>Wallet</em> (the component that contains the <em>Holder’s</em> credentials), and another might be a Browser (which, by definition, is a user agent).</p>
+   <p><img alt="Decentralized Identity Model" height="360" src="decentralized-identity-model.svg" width="923"></p>
+   <p>Interactions between actors typically occur through software or other technological components. This document refers to those components as <em>Agents</em>. One agent might be embedded in a <em>Wallet</em>, the component that contains the <em>Holder’s</em> credentials. Another might be a browser, which is a user agent.</p>
    <h4 class="heading settled" data-level="2.1.2" id="flows"><span class="secno">2.1.2. </span><span class="content">Flows</span><a class="self-link" href="#flows"></a></h4>
    <p>We can consider three general flows, with four "ceremonies" where the various actors interact.</p>
    <ul>
@@ -674,13 +673,13 @@ Therefore, it is important to carry over these properties later into the specifi
     <li data-md>
      <p>The <em>Holder</em> always trusts its agents and wallet.</p>
     <li data-md>
-     <p>The <em>Holder</em> trusts the _verifier during the Presentation.</p>
+     <p>The <em>Holder</em> trusts the <em>Verifier</em> during the Presentation.</p>
     <li data-md>
      <p>The <em>Verifier</em> must trust the <em>Issuer</em> during Verification.</p>
     <li data-md>
      <p>All <em>actors</em> trust the record of verifiable data.</p>
     <li data-md>
-     <p>Both the <em>holder</em> and <em>verifier</em> must trust the <em>issuer</em> to revoke VCs that have been compromised or are no longer true.</p>
+     <p>Both the <em>Holder</em> and <em>Verifier</em> must trust the <em>Issuer</em> to revoke VCs that have been compromised or are no longer true.</p>
    </ul>
    <p>At the <strong>Software level</strong>, Trust boundaries are documented in the <a href="https://www.w3.org/TR/vc-data-model-2.0/#software-trust-boundaries">Data Model in section 8.2</a>:</p>
    <ul>
@@ -708,13 +707,13 @@ Therefore, it is important to carry over these properties later into the specifi
        <p><strong>Enveloped Formats (Credential Formats)</strong>: The Proof wraps around the serialization of the credential.
 JSONs are enveloped using JSON Object Signing and Encryption (<a href="https://datatracker.ietf.org/wg/jose/about/">JOSE</a>), and we can find JWT, JWS, and JWK here. JOSE is "cryptographically agile" (as it can fit different cryptographic primitives) and can also have Selective Disclosure (SD) with  <a href="https://www.ietf.org/archive/id/draft-fett-oauth-selective-disclosure-jwt-02.html">SD-JWT</a> (which uses HMAC). New security mechanisms are emerging, such as <a href="https://arxiv.org/abs/2406.19035">SD-BLS</a> (which uses BLS), and ongoing efforts to implement BBS#.
 CBORs are enveloped using CBOR Object Signing and Encryption (<a href="https://www.rfc-editor.org/rfc/rfc9052">COSE</a>).
-Other formats include _mdoc_ and _<a href="https://datatracker.ietf.org/wg/spice/about/">SPICE</a>_. 
+Other formats include <em>mdoc</em> and <a href="https://datatracker.ietf.org/wg/spice/about/"><em>SPICE</em></a>.
 The mechanism to use VCDM with JOSE/COSE is described in <a href="https://www.w3.org/TR/vc-jose-cose/">Securing Verifiable Credentials using JOSE and COSE</a>.</p>
       <li data-md>
        <p><strong>Embedded Formats (Signature Algorithms):</strong> The Proof is included in the serialization alongside the credentials (e.g., BBS, ECDSA, EdDSA). The mechanism is described in <a href="https://www.w3.org/TR/vc-data-integrity/">Verifiable Credential Data Integrity 1.0</a>.</p>
      </ul>
     <li data-md>
-     <p><strong>Status Information (Revocation Algorithms)</strong>: _Issuers_ can implement several ways to keep up to date the status of the credential, such as Revocation List, Status List (e.g., <a href="https://www.w3.org/TR/vc-bitstring-status-list/">Bitstring Status List v1.0</a>), Cryptographic Accumulators, etc.</p>
+     <p><strong>Status Information (Revocation Algorithms)</strong>: <em>Issuers</em> can implement several ways to keep up to date the status of the credential, such as Revocation List, Status List (e.g., <a href="https://www.w3.org/TR/vc-bitstring-status-list/">Bitstring Status List v1.0</a>), Cryptographic Accumulators, etc.</p>
     <li data-md>
      <p><strong>Communication Protocols</strong>: for the different phases of Issuance and Presentation (e.g.,  <a href="https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html">OID4VCI</a>, <a href="https://openid.net/specs/openid-4-verifiable-presentations-1_0.html">OID4VP</a>, <a href="https://openid.net/specs/openid-connect-self-issued-v2-1_0.html">SIOPv2</a>).</p>
    </ul>
@@ -764,7 +763,7 @@ The mechanism to use VCDM with JOSE/COSE is described in <a href="https://www.w3
    <p>Holder, Issuer, Verifier, and their agents/software components (e.g., Browser, Wallet, Websites). Which of these can be a Threat Actor? To simplify the question, each actor may be a Threat Actor to the others. So, all against all. Indeed, one is often also a Threat Actor to oneself (e.g., <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7272062/">Alert fatigue</a>).</p>
    <p>In addition, although there are trust relationships between the various actors and their software (which hold across the various steps), such software can also be malicious. Specifically, it can track Holders, the type of credential they have, and how and where they use it through telemetry and statistical collection, and it can push users toward certain attitudes.</p>
    <p>One must also consider a possible external <strong>threat actor</strong>, who could also be an observer or use active techniques, and who wants to track the three main actors or their agents, such as Marketers, Data brokers, Stalkers, Identity thieves, intelligence and law enforcement agencies (laws often constrain them), and OSINT investigators.</p>
-   <p>A further case is the combination of such actors, such as multiple _Verifiers_ in cahoots or a potential collaboration between Issuer and <em>Verifier</em> to track the <em>Holder</em>.</p>
+   <p>A further case is the combination of such actors, such as multiple <em>Verifiers</em> in cahoots or a potential collaboration between Issuer and <em>Verifier</em> to track the <em>Holder</em>.</p>
    <h4 class="heading settled" data-level="2.2.2" id="evil-user-stories"><span class="secno">2.2.2. </span><span class="content">Evil user stories</span><a class="self-link" href="#evil-user-stories"></a></h4>
    <p>Using the information we now have, we can create some generic <a href="https://dsomm.owasp.org/activity-description?uuid=bacf85b6-5bc0-405d-b5ba-a5d971467cc1&amp;dimension=Culture%20and%20Organization&amp;subDimension=Design&amp;level=3&amp;activityName=Creation%20of%20simple%20abuse%20stories">Evil User Stories</a>:</p>
    <ul>
@@ -846,7 +845,7 @@ The mechanism to use VCDM with JOSE/COSE is described in <a href="https://www.w3
 The <em>Verifier</em> should request the following: Range Proof, Predicate Proof, Selective Disclosure, and the credential.</p>
        <ul>
         <li data-md>
-         <p>The <em>Issuer</em> and the <em>Holder</em> must not write personally identifiable information (PII) or linkable identifiers in the _VDR_.</p>
+         <p>The <em>Issuer</em> and the <em>Holder</em> must not write personally identifiable information (PII) or linkable identifiers in the <em>VDR</em>.</p>
         <li data-md>
          <p>The <em>Issuer</em> should use an anonymous revocation method.</p>
        </ul>
@@ -1001,7 +1000,7 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
        <p><em>Mitigations</em>:</p>
        <ul>
         <li data-md>
-         <p>Refer to LINDDUN’s <em>Non-Reputiation</em></p>
+         <p>Refer to LINDDUN’s <em>Non-Repudiation</em></p>
        </ul>
      </ul>
     <li data-md>
@@ -1071,7 +1070,7 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
        <p><em>Mitigations</em>:</p>
        <ul>
         <li data-md>
-         <p>Refer to LINDUNN’s <em>Unawareness &amp; Unintervenability</em>.</p>
+         <p>Refer to LINDDUN’s <em>Unawareness &amp; Unintervenability</em>.</p>
        </ul>
      </ul>
    </ul>
@@ -1298,7 +1297,7 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
       <li data-md>
        <p><em>Description</em>: is a control to notify that an interaction is occurring or has occurred.</p>
       <li data-md>
-       <p><em>Analysis</em>: It is important to notify users and then allow when an interaction happens, particularly when it has low values related to the Unlinkabiity Scale or Minimization Scale; this can happen for several reasons. For example, the Issuer uses a technology that "calls home," or the Verifier asks for data that could be minimized instead.</p>
+       <p><em>Analysis</em>: It is important to notify users and then allow when an interaction happens, particularly when it has low values related to the Unlinkability Scale or Minimization Scale; this can happen for several reasons. For example, the Issuer uses a technology that "calls home," or the Verifier asks for data that could be minimized instead.</p>
      </ul>
    </ul>
    <h5 class="heading settled" data-level="2.2.3.7" id="responsible-innovation-harms"><span class="secno">2.2.3.7. </span><span class="content">Responsible Innovation (Harms)</span><a class="self-link" href="#responsible-innovation-harms"></a></h5>
@@ -1352,8 +1351,8 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
     <li data-md>
      <p>Exchanges user agency for greater compliance and convenience.</p>
    </ul>
-   <h5 class="heading settled" data-level="2.2.4.4" id="sociotechnical-threats"><span class="secno">2.2.4.4. </span><span class="content">Sociotechnical Threats</span><a class="self-link" href="#sociotechnical-threats"></a></h5>
-   <p>This section present the results of a novel Threat Modeling application, that combines Cards derived from <a href="https://www.scitepress.org/Papers/2025/136014/136014.pdf">A Framework for Institutional and Technical Harm Prevention Inspired by Microsoft’s Harms Modeling</a> with <a href="https://www.w3.org/blog/2025/threat-modeling-with-lego-serious-play-building-your-digital-identity-threat/">LEGO SERIOUS PLAY</a> that was applied in a series of workshops, with the specific analysis of Decentralized Identity in the context of National Digital Identity Systems.</p>
+   <h5 class="heading settled" data-level="2.2.4.4" id="socio-technical-threats"><span class="secno">2.2.4.4. </span><span class="content">Socio-technical Threats</span><a class="self-link" href="#socio-technical-threats"></a></h5>
+   <p>This section presents the results of a novel threat modeling application that combines cards derived from <a href="https://www.scitepress.org/Papers/2025/136014/136014.pdf">A Framework for Institutional and Technical Harm Prevention Inspired by Microsoft’s Harms Modeling</a> with <a href="https://www.w3.org/blog/2025/threat-modeling-with-lego-serious-play-building-your-digital-identity-threat/">LEGO SERIOUS PLAY</a>. It was applied in a series of workshops analyzing decentralized identity in the context of national digital identity systems.</p>
    <p>A key finding is that we should not just look at individual threats. We must consider their context and how they connect. For example, constraining how a person can present identity, making enrolment effectively compulsory, or tying access to a single official wallet path can create conditions for additional downstream threats.</p>
    <p>This section captures those relations as connected threats. While not every deployment follows the same pattern, these threats should not be viewed as isolated events. In government-issued digital credential systems, it is more effective to view them as part of a propagation path, similar to a "kill-chain" model. Different patterns were identified:</p>
    <ul>
@@ -1403,23 +1402,25 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
      <p><strong>Statelessness</strong>: A person’s digital identity is considered invalid or fraudulent, effectively excluding them from social participation and access to essential resources.</p>
    </ul>
    <h3 class="heading settled" data-level="2.3" id="what-are-we-going-to-do-about-it"><span class="secno">2.3. </span><span class="content">What are we going to do about it?</span><a class="self-link" href="#what-are-we-going-to-do-about-it"></a></h3>
-   <p>Countermeasures/Features:</p>
+   <p>Countermeasures and features:</p>
    <ul>
     <li data-md>
-     <p>**<a href="http://www.hit.bme.hu/~buttyan/courses/BMEVIHIM219/2009/Chaum.BlindSigForPayment.1982.PDF">Signature Blinding</a>**:  is a type of digital signature for which the content of the message is concealed before it is signed. With Public-Private Key Cryptography, the signature can be correlated with the signer’s public key (and this is an important feature when we want to be sure of the sender, as in GPG). Zero-knowledge cryptographic methods do not reveal the actual signature. Instead, with ZKP, we can send a cryptographic proof of signature without providing the Verifier with any other information about who signed. Thus, protecting the Holder’s public key.</p>
+     <p><strong><a href="http://www.hit.bme.hu/~buttyan/courses/BMEVIHIM219/2009/Chaum.BlindSigForPayment.1982.PDF">Signature Blinding</a></strong>: is a type of digital signature in which the content of the message is concealed before it is signed. With public-key cryptography, the signature can be correlated with the signer’s public key, which is useful when the recipient needs to verify the sender. Zero-knowledge proof (ZKP) methods can instead provide cryptographic proof of signature without giving the Verifier additional information about who signed, protecting the Holder’s public key.</p>
     <li data-md>
-     <p>**<a href="http://www.links.org/files/selective-disclosure.pdf">Selective disclosure</a><strong>:  is the ability to show only a part (claim) of the credential and not all of it, or show only possession of that credential, as needed in the context of the transaction. For example, we can show only the date of birth rather than the entire driver’s license number. This allows us to minimize further the data sent to the Verifier</strong><a href="https://arxiv.org/pdf/2401.08196">Predicate Proofs and Range Proof</a>**: the ability to respond to a boolean assertion (true/false) to a specific request, which is an additional step for privacy and Minimization. For example, if we say we are of age, I don’t have to show just the date of birth; I can compute the answer.</p>
+     <p><strong><a href="http://www.links.org/files/selective-disclosure.pdf">Selective disclosure</a></strong>: is the ability to show only a part (claim) of the credential and not all of it, or show only possession of that credential, as needed in the context of the transaction. For example, we can show only the date of birth rather than the entire driver’s license number. This allows us to further minimize the data sent to the Verifier.</p>
+    <li data-md>
+     <p><strong><a href="https://arxiv.org/pdf/2401.08196">Predicate Proofs and Range Proof</a></strong>: is the ability to respond to a Boolean assertion (true/false) to a specific request, which is an additional step for privacy and minimization. For example, if we need to prove that we are of age, we do not have to show the date of birth; we can compute the answer.</p>
     <li data-md>
      <p><strong>Anonymous Revocation</strong>: A credential has its life cycle: it is issued, it is used, and then it can be revoked for various reasons. Therefore, a verifier must be able to verify whether the credential has been revoked, without allowing the ability to correlate information about other revoked credentials. There are different Techniques:</p>
      <ul>
       <li data-md>
        <p><strong>Revocation List</strong>: This is the current generally used approach, although it creates privacy issues, as the lists must be public and typically contain user information.</p>
       <li data-md>
-       <p><a href="https://www.w3.org/community/reports/credentials/CG-FINAL-vc-status-list-2021-20230102/"><strong>Status List</strong></a>: revocation document only contains flipped bits at positions that can only be tied to a given credential if you’d been privy to the disclosure of their association.</p>
+       <p><strong><a href="https://www.w3.org/community/reports/credentials/CG-FINAL-vc-status-list-2021-20230102/">Status List</a></strong>: revocation document only contains flipped bits at positions that can only be tied to a given credential if you’d been privy to the disclosure of their association.</p>
       <li data-md>
-       <p><a href="https://datatracker.ietf.org/doc/html/draft-demarco-oauth-status-assertions"><strong>Status Assertions</strong></a>: is a signed object that demonstrates the validity status of a digital credential. These assertions are periodically provided to holders, who can present them to the Verifier with the corresponding digital credentials.</p>
+       <p><strong><a href="https://datatracker.ietf.org/doc/html/draft-demarco-oauth-status-assertions">Status Assertions</a></strong>: is a signed object that demonstrates the validity status of a digital credential. These assertions are periodically provided to holders, who can present them to the Verifier with the corresponding digital credentials.</p>
       <li data-md>
-       <p>**<a href="https://eprint.iacr.org/2024/657.pdf">Cryptographic accumulators</a>*<em>: can generate proof of validity *</em>*<a href="https://ieeexplore.ieee.org/document/10237019">without exposing other information</a>***.</p>
+       <p><strong><a href="https://eprint.iacr.org/2024/657.pdf">Cryptographic accumulators</a></strong>: can generate <a href="https://ieeexplore.ieee.org/document/10237019">proof of validity without exposing other information</a>.</p>
      </ul>
     <li data-md>
      <p><strong>Rotational Identifiers</strong>: As indicated by the <a href="https://www.w3.org/TR/security-privacy-questionnaire/#temporary-id">Security and Privacy Questionnaire</a>, identifiers can be used to correlate, so it is important that they are temporary as much as possible during a session and changed after they are used. In this context, the identifiers that can be exploited to correlate can be present at different levels.</p>
@@ -1427,7 +1428,7 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
      <p><strong>No Phoning home or back-channel communication</strong>: Software often "calls home" for several reasons. They normally do this to collect usage or crash statistics (which could indicate a vulnerability). The problem is that this feature, often critical to software improvement and security, has privacy implications for the user, in this case, the <em>Holder</em>. At the Credentials level, this call can be made at different times and by different <em>agents</em>. For example, suppose the <em>Issuer</em> is contacted by the <em>Verifier</em> to check the revocation of a credential, or that the <em>Wallet</em> contacts its vendor to collect usage statistics. In that case, we can consider two types of countermeasures:</p>
      <ul>
       <li data-md>
-       <p><strong>Do not phone home or back-channel communication</strong>: This could also be an operational necessity (several use cases require the presentation to be made in offline environments or with limited connection) or a choice of the <em>Holder</em>, who should always _consent_ to telemetry and external connections to third parties.</p>
+       <p><strong>Do not phone home or back-channel communication</strong>: This could also be an operational necessity (several use cases require the presentation to be made in offline environments or with limited connection) or a choice of the <em>Holder</em>, who should always <em>consent</em> to telemetry and external connections to third parties.</p>
       <li data-md>
        <p><strong>Minimize and Anonymize the Data</strong>: Limit the data passed or, even better, cryptographic privacy-preserving techniques like <a href="https://arxiv.org/pdf/2109.10074">STAR</a> that implement <a href="https://dataprivacylab.org/dataprivacy/projects/kanonymity/paper3.pdf">k-anonymity</a> for telemetry.</p>
       <li data-md>

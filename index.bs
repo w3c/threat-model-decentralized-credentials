@@ -12,7 +12,7 @@ Level: none
 Editor: Simone Onofri, w3cid 38211, W3C, https://w3.org, simone@w3.org
 Editor: Amir Sharif, w3cid 157587, FBK, https://www.fbk.eu, asharif@fbk.eu
 Abstract:
-  <p>This document is the live "meta" Threat Model related to Decentralized Credentials.  This outlines the many concerns related to these work areas and the initial principles for addressing user considerations for starting a discussion.</p>
+  <p>This document is a living threat model for decentralized credentials. It records security, privacy, and harms-related concerns across the ecosystem and identifies initial principles for discussion and future analysis.</p>
 Status text:
   <p><em>This section describes the status of this document at the time of its publication. A list of current W3C publications and the latest revision of this technical report can be found in the <a href="https://www.w3.org/TR/">W3C standards and drafts index</a>.</em></p>
   <p>This Group Note Draft is endorsed by the Security Interest Group, but is not endorsed by W3C itself nor its Members.</p>
@@ -34,53 +34,52 @@ Mailing List Archives: https://lists.w3.org/Archives/Public/public-security/
 
 ## Scope
 
-The topic of Digital Identities is vast and intricate. Defining the initial scope of the model, which can be expanded when necessary, if we consider the ecosystem of Digital Identities, we find ourselves in the specific case of Decentralized Identities, those identities related to people and in particular those considered high-assurance (e.g., those issued by governments) and in the **Layer 3: "Credentials" and precisely the Credential-Presentation Phase** - as defined by the [SSI Technology Stack from ToITP](https://trustoverip.org/toip-model/) and [DIF FAQ](https://identity.foundation/faq/) and as written in the [Identity & the Web Report](https://www.w3.org/reports/identity-web-impact/#trust-layer):
+Digital identity is a broad topic. This threat model starts with a narrower scope: decentralized credentials related to people, especially high-assurance credentials such as government-issued credentials. It focuses on **Layer 3: "Credentials"**, and more specifically on the credential-presentation phase, as described by the [SSI Technology Stack from ToITP](https://trustoverip.org/toip-model/), the [DIF FAQ](https://identity.foundation/faq/), and the [Identity & the Web Report](https://www.w3.org/reports/identity-web-impact/#trust-layer):
 
-<img alt="decentralized identity layers" src="decentralized-identity-layers.svg">
+<img alt="decentralized identity layers" src="decentralized-identity-layers.svg" width="1189" height="945">
 
-On the one hand, the need arose within the W3C about the potential adoption of the [Digital Credentials API](https://wicg.github.io/digital-credentials/) - which would allow User-Agents to mediate communication between a website requiring the submission of evidence and the user's Wallet - by the [Federated Identity Working Group](https://github.com/w3c/strategy/issues/450), on the other hand the lack of a more general model analyzing threats on the various levels related to Security, Privacy, and Human Rights was also identified.
+The immediate need arose in W3C discussion of the possible adoption of the [Digital Credentials API](https://wicg.github.io/digital-credentials/) by the [Federated Identity Working Group](https://github.com/w3c/strategy/issues/450). That API would allow user agents to mediate communication between a website that requests evidence and the user's wallet. The discussion also identified the need for a broader model that analyzes security, privacy, and human-rights concerns across the relevant layers.
 
-As the Threat Model is a living document, it can be expanded to include other parts of the architecture and to a different level of detail, e.g., going deep into the cryptographic aspects of a specific profile or expanding it into the broader governance context to identify or mitigate threats.
+This threat model is a living document. It can be expanded to include other parts of the architecture or different levels of detail, such as the cryptographic properties of a specific profile or the broader governance context in which credentials are issued and used.
 
-It is also important to note that because it is a generic model, it is useful for understanding the properties and requirements needed for Security, Privacy, and Harm.
-Therefore, it is important to carry over these properties later into the specific architecture or implementation, which is defined precisely by architectural and technological choices (e.g., a profile).
+Because this is a generic model, it is useful for identifying the security, privacy, and harms-related properties that later need to be carried into a concrete architecture, profile, or implementation.
 
-It is intended to be a choral analysis. It stems from the need to understand a Threat Model to guide the development of Decentralized Identities in a secure/privacy-preserving way and avoid harm. It will start from the Digital Credentials API from a high-level perspective. 
+The document is intended to support a shared analysis. It starts from the Digital Credentials API at a high level and uses that starting point to discuss how decentralized credentials can be developed in a security- and privacy-preserving way while avoiding harm.
 
 ### Terminology
 
-For Identity, we can refer to the definition in ISO/IEC 24760-1:2019 "[IT Security and Privacy - A framework for identity management](https://standards.iso.org/ittf/PubliclyAvailableStandards/c077582_ISO_IEC_24760-1_2019(E).zip)".
+For identity, we can refer to the definition in ISO/IEC 24760-1:2019 "[IT Security and Privacy - A framework for identity management](https://standards.iso.org/ittf/PubliclyAvailableStandards/c077582_ISO_IEC_24760-1_2019(E).zip)".
 
 **Identity** is "a set of attributes related to an entity". Where the entity is something "that has recognizably distinct existence", and that can be "logical or physical" such as "a person, an organization, a device, a group of such items, a human subscriber to a telecom service, a SIM card, a passport, a network interface card, a software application, a service or a website" and the attributes are "characteristics or properties" such as "an entity type, address information, telephone number, a privilege, a MAC address, a domain name".
 
 We present **credentials** to claim a certain identity, whether in the physical or digital world. Just as we do not have a one-size-fits-all definition of identity, we also do not have a one-size-fits-all definition of credentials in IT, as they vary by context.
 
-The credential definition from the W3C Verifiable Credentials Data Model (VCDM) states: a "set of one or more claims made by an issuer". Its framing is in the Decentralized Identity Model, and we can map the ISO’s *attributes* to VCDM *claims*.
+The credential definition from the W3C Verifiable Credentials Data Model (VCDM) states: a "set of one or more claims made by an issuer". Its framing is in the decentralized identity model, and we can map the ISO’s *attributes* to VCDM *claims*.
 
 For example, a person's characteristics can include physical appearance, voice, beliefs, habits, and so on. It is important to distinguish identity from an identifier (e.g., a username).
 
 It is usual to think of Digital Credentials as related to humans, particularly those issued by a government, also known as "Real-world Identities", even if we also have Non-Human Identities.
 
-This leads to a broader consideration of the Threat Model, as it also includes Privacy as a right and Harm components.
+This leads to a broader consideration of the threat model, as it also includes privacy as a right and harm components.
 
 ## Related Work
 
-- [joint work on rights-respecting digital credentials ](https://github.com/w3c/strategy/issues/458)
+- [Joint work on rights-respecting digital credentials](https://github.com/w3c/strategy/issues/458)
 - [User considerations for credential presentation on the Web](https://github.com/w3cping/credential-considerations/blob/main/credentials-considerations.md)
 - [Building Consensus on the Role of Real World Identities on the Web](https://github.com/w3c/breakouts-day-2024/issues/12)
 
 ## Methodology
 
-Since security is a _separation function between the asset and the threat_, the threat can have different impacts, such as security, privacy, or harm.
+Security can be understood as a separation function between an asset and a threat. In this document, a threat may have security, privacy, or harms-related effects.
 
-There are many approaches to Threat Modeling. The first approach we will use is based on [Adam Shostack's four-question frame](https://github.com/adamshostack/4QuestionFrame):
+There are many approaches to threat modeling. This document uses [Adam Shostack's four-question frame](https://github.com/adamshostack/4QuestionFrame) as the organizing structure:
 
- - What are we working on? (understanding the architecture, actors involved, etc...)
- - What can go wrong? (threats, threat actors, attacks, etc...)
- - What are we going to do about it? (countermeasures, residual risk, etc...)
- - Did we do a good job? (Reiterating until we are happy with the result)
+ - What are we working on? This includes the architecture, actors, assets, flows, and trust boundaries.
+ - What can go wrong? This includes threats, threat actors, attacks, privacy failures, and harms.
+ - What are we going to do about it? This includes responses, assumptions, transfers, acceptances, and remaining threats.
+ - Did we do a good job? This includes checking whether the model is useful enough to guide the next stage of work.
 
-For the central phases, it is possible to use (as in Risk Management) prompt lists or checklists of either threats, attacks, or controls, for example:
+The central phases use prompt lists and analysis frameworks as aids for finding issues, not as exhaustive taxonomies. Useful sources include:
 
  - [Solove's Taxonomy](https://wiki.openrightsgroup.org/wiki/A_Taxonomy_of_Privacy) 
  - [Privacy Patterns](https://privacypatterns.org/patterns/)
@@ -109,7 +108,7 @@ Although different digital credentials may use different channels or vectors (e.
 
 ## What are we working on?
 
-To create a good Threat Model, we can first consider the components of the Decentralized Identity architecture (which in this context is synonymous with Self-Sovereign Identity) as defined in [W3C's Verifiable Credentials Data Model](https://www.w3.org/TR/vc-data-model-2.0/) and how they interact.
+To create a useful threat model, we can first consider the components of the decentralized identity architecture, which in this context is used as a synonym for self-sovereign identity, as defined in the [W3C Verifiable Credentials Data Model](https://www.w3.org/TR/vc-data-model-2.0/) and how they interact.
 
 ### Architecture and Actors
 
@@ -118,9 +117,9 @@ To create a good Threat Model, we can first consider the components of the Decen
 - We have a *Verifier* who verifies the Holder's credentials to give access to a resource or a service.
 - We also have a *Verifiable Data Registry* (VDR) that stores identifiers and schemas.
 
-<img alt="Decentralized Identity Model" src="decentralized-identity-model.svg">
+<img alt="Decentralized Identity Model" src="decentralized-identity-model.svg" width="923" height="360">
 
-Interactions between actors occur normatively through software or other technological mediums. We will generically call such components *Agents*. One agent might be embedded in a *Wallet* (the component that contains the *Holder's* credentials), and another might be a Browser (which, by definition, is a user agent).
+Interactions between actors typically occur through software or other technological components. This document refers to those components as *Agents*. One agent might be embedded in a *Wallet*, the component that contains the *Holder's* credentials. Another might be a browser, which is a user agent.
 
 ### Flows
 
@@ -157,10 +156,10 @@ At the **Process level**, trust relationships are:
 
 - The *Holder* trusts the *Issuer* during issuance.
 - The *Holder* always trusts its agents and wallet.
-- The *Holder* trusts the _verifier during the Presentation.
+- The *Holder* trusts the *Verifier* during the Presentation.
 - The *Verifier* must trust the *Issuer* during Verification.
 - All *actors* trust the record of verifiable data.
-- Both the *holder* and *verifier* must trust the *issuer* to revoke VCs that have been compromised or are no longer true.
+- Both the *Holder* and *Verifier* must trust the *Issuer* to revoke VCs that have been compromised or are no longer true.
 
 At the **Software level**, Trust boundaries are documented in the [Data Model in section 8.2](https://www.w3.org/TR/vc-data-model-2.0/#software-trust-boundaries):
 
@@ -249,11 +248,11 @@ Using the information we now have, we can create some generic [Evil User Stories
  - A malicious *Agent* who wants to track its holder.
  - An external *Adversary* who wants to track the *Issuer*, how a *Verifier* works, or a specific *Holder*.
 
- ### Finding the Threats
+### Finding the Threats
 
 One effective, though inefficient, approach to threat modeling is to cycle through the lists of threats and attacks, controls, and objectives in a brainstorming session to assess how they may affect architecture components, actors, assets, and the overall flow. Using multiple frameworks may result in some elements being repeated.
 
- #### Ben's Privacy Properties (Objectives)
+#### Ben's Privacy Properties (Objectives)
 
  - **Verifiable**:
    - *Description*: There’s often no point in making a statement unless the relying party has some way of checking whether it is true. Note that this isn’t always required—I don’t have to prove my address is mine to Amazon because it's up to me where my goods are delivered. But I may have to prove I’m over 18 to get alcohol delivered.
@@ -352,7 +351,7 @@ One effective, though inefficient, approach to threat modeling is to cycle throu
   - *Description*:  Misattribution occurs when data or communications related to one individual are attributed to another. 
   - *Threat*: Incorrect issuance or verification of credentials.
   - *Mitigations*:
-    - Refer to LINDDUN's *Non-Reputiation*
+    - Refer to LINDDUN's *Non-Repudiation*
 
 - **Correlation**:
   - *Description*: Correlation is the combination of various information related to an individual, or that obtains that characteristic when combined.
@@ -382,7 +381,7 @@ One effective, though inefficient, approach to threat modeling is to cycle throu
   - *Description*:  Exclusion is the failure to let individuals know about the data that others have about them and participate in its handling and use.  Exclusion reduces accountability on the part of entities that maintain information about people and creates a sense of vulnerability about individuals' ability to control how their information is collected and used.
   - *Threats*: Lack of transparency in using the data provided.
   - *Mitigations*:
-    - Refer to LINDUNN's *Unawareness & Unintervenability*.
+    - Refer to LINDDUN's *Unawareness & Unintervenability*.
 
 #### RFC 3552 (Attacks)
 
@@ -505,7 +504,7 @@ One effective, though inefficient, approach to threat modeling is to cycle throu
 - **Alarm**:
 
   - *Description*: is a control to notify that an interaction is occurring or has occurred.
-  - *Analysis*: It is important to notify users and then allow when an interaction happens, particularly when it has low values related to the Unlinkabiity Scale or Minimization Scale; this can happen for several reasons. For example, the Issuer uses a technology that "calls home," or the Verifier asks for data that could be minimized instead.
+  - *Analysis*: It is important to notify users and then allow when an interaction happens, particularly when it has low values related to the Unlinkability Scale or Minimization Scale; this can happen for several reasons. For example, the Issuer uses a technology that "calls home," or the Verifier asks for data that could be minimized instead.
 
 #### Responsible Innovation (Harms)
 
@@ -545,9 +544,9 @@ Other threats [to consider](https://lists.w3.org/Archives/Public/public-review-c
 - Content will be moved from the deep web to the “attributed deep web”.
 - Exchanges user agency for greater compliance and convenience.
 
-#### Sociotechnical Threats
+#### Socio-technical Threats
 
-This section present the results of a novel Threat Modeling application, that combines Cards derived from [A Framework for Institutional and Technical Harm Prevention Inspired by Microsoft’s Harms Modeling](https://www.scitepress.org/Papers/2025/136014/136014.pdf) with [LEGO SERIOUS PLAY](https://www.w3.org/blog/2025/threat-modeling-with-lego-serious-play-building-your-digital-identity-threat/) that was applied in a series of workshops, with the specific analysis of Decentralized Identity in the context of National Digital Identity Systems.
+This section presents the results of a novel threat modeling application that combines cards derived from [A Framework for Institutional and Technical Harm Prevention Inspired by Microsoft’s Harms Modeling](https://www.scitepress.org/Papers/2025/136014/136014.pdf) with [LEGO SERIOUS PLAY](https://www.w3.org/blog/2025/threat-modeling-with-lego-serious-play-building-your-digital-identity-threat/). It was applied in a series of workshops analyzing decentralized identity in the context of national digital identity systems.
 
 A key finding is that we should not just look at individual threats. We must consider their context and how they connect. For example, constraining how a person can present identity, making enrolment effectively compulsory, or tying access to a single official wallet path can create conditions for additional downstream threats.
 
@@ -584,10 +583,11 @@ Single threats are:
 
 ## What are we going to do about it?
 
-Countermeasures/Features:
+Countermeasures and features:
 
 - **[Signature Blinding](http://www.hit.bme.hu/~buttyan/courses/BMEVIHIM219/2009/Chaum.BlindSigForPayment.1982.PDF)**:  is a type of digital signature for which the content of the message is concealed before it is signed. With Public-Private Key Cryptography, the signature can be correlated with the signer's public key (and this is an important feature when we want to be sure of the sender, as in GPG). Zero-knowledge cryptographic methods do not reveal the actual signature. Instead, with ZKP, we can send a cryptographic proof of signature without providing the Verifier with any other information about who signed. Thus, protecting the Holder's public key.
-- **[Selective disclosure](http://www.links.org/files/selective-disclosure.pdf)**:  is the ability to show only a part (claim) of the credential and not all of it, or show only possession of that credential, as needed in the context of the transaction. For example, we can show only the date of birth rather than the entire driver's license number. This allows us to minimize further the data sent to the Verifier**[Predicate Proofs and Range Proof](https://arxiv.org/pdf/2401.08196)**: the ability to respond to a boolean assertion (true/false) to a specific request, which is an additional step for privacy and Minimization. For example, if we say we are of age, I don't have to show just the date of birth; I can compute the answer.
+- **[Selective disclosure](http://www.links.org/files/selective-disclosure.pdf)**: is the ability to show only a part (claim) of the credential and not all of it, or show only possession of that credential, as needed in the context of the transaction. For example, we can show only the date of birth rather than the entire driver's license number. This allows us to further minimize the data sent to the Verifier.
+- **[Predicate Proofs and Range Proof](https://arxiv.org/pdf/2401.08196)**: is the ability to respond to a Boolean assertion (true/false) to a specific request, which is an additional step for privacy and minimization. For example, if we need to prove that we are of age, we do not have to show the date of birth; we can compute the answer.
 - **Anonymous Revocation**: A credential has its life cycle: it is issued, it is used, and then it can be revoked for various reasons. Therefore, a verifier must be able to verify whether the credential has been revoked, without allowing the ability to correlate information about other revoked credentials. There are different Techniques:
   - **Revocation List**: This is the current generally used approach, although it creates privacy issues, as the lists must be public and typically contain user information.
   - [**Status List**](https://www.w3.org/community/reports/credentials/CG-FINAL-vc-status-list-2021-20230102/): revocation document only contains flipped bits at positions that can only be tied to a given credential if you'd been privy to the disclosure of their association.

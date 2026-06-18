@@ -6,7 +6,7 @@
   <meta content="ED" name="w3c-status">
   <meta content="Bikeshed version d113b2e81, updated Tue Jun 9 14:57:55 2026 -0700" name="generator">
   <link href="https://www.w3.org/TR/threat-model-decentralized-credentials/" rel="canonical">
-  <meta content="c6498f6181e8ff0f245cd1e980308827bcc367c2" name="revision">
+  <meta content="ddf4e2ac9f5c35eec908db3906f0bd14a13c707f" name="revision">
   <meta content="dark light" name="color-scheme">
 <style>/* Boilerplate: style-autolinks */
 .css.css, .property.property, .descriptor.descriptor {
@@ -675,11 +675,11 @@ dfn > a.self-link::before      { content: "#"; }
     <li data-md>
      <p>The <em>Holder</em> trusts the <em>Verifier</em> during the Presentation.</p>
     <li data-md>
-     <p>The <em>Verifier</em> must trust the <em>Issuer</em> during Verification.</p>
+     <p>The <em>Verifier</em> relies on trust in the <em>Issuer</em> during Verification.</p>
     <li data-md>
      <p>All <em>actors</em> trust the record of verifiable data.</p>
     <li data-md>
-     <p>Both the <em>Holder</em> and <em>Verifier</em> must trust the <em>Issuer</em> to revoke VCs that have been compromised or are no longer true.</p>
+     <p>Both the <em>Holder</em> and <em>Verifier</em> rely on the <em>Issuer</em> to revoke VCs that have been compromised or are no longer true.</p>
    </ul>
    <p>At the <strong>Software level</strong>, Trust boundaries are documented in the <a href="https://www.w3.org/TR/vc-data-model-2.0/#software-trust-boundaries">Data Model in section 8.2</a>:</p>
    <ul>
@@ -730,7 +730,7 @@ The mechanism to use VCDM with JOSE/COSE is described in <a href="https://www.w3
    <p>These properties were defined in a very specific case of Decentralized Identities. Those related to people, and, more specifically, those issued by governments, are based on the concept of Privacy for the protection of the Holder.</p>
    <p>While we can, therefore, consider the <em>Minimal</em> and <em>Unlinkable</em> properties as elements of the <em>Holder</em>, the <em>Verifiable</em> property is of interest to all. Verifiable means that the <em>Verifier</em> can confirm who issued the credential, that it has not been tampered with, has not expired or been revoked, contains the required data, and may be associated with the Holder.</p>
    <p>Therefore, the Threat Model wants to start with this specific use case: government-issued credentials for people, as it is one of the most complex.</p>
-   <p>Minimization and Unlinkability are generally interrelated (e.g.,  the less data I provide, the less they can be related). They must coexist with <em>Verifiability</em> (e.g., if I need to know that the credential has been revoked, I usually need to contact the Issuer, which maintains a list of revoked credentials, but this approach allows linking the credential).</p>
+   <p>Minimization and Unlinkability are generally interrelated (e.g.,  the less data I provide, the less they can be related). They need to coexist with <em>Verifiability</em> (e.g., if I need to know that the credential has been revoked, I usually need to contact the Issuer, which maintains a list of revoked credentials, but this approach allows linking the credential).</p>
    <h5 class="heading settled" data-level="2.1.5.1" id="minimization-scale"><span class="secno">2.1.5.1. </span><span class="content">Minimization Scale</span><a class="self-link" href="#minimization-scale"></a></h5>
    <p>To try to qualify <em>Minimization</em>, we can use a scale defined by the various cryptographic techniques developed for Digital Credentials:</p>
    <ul>
@@ -762,7 +762,7 @@ The mechanism to use VCDM with JOSE/COSE is described in <a href="https://www.w3
    <p>We have mentioned before that one of the key points is protecting the <em>Holder</em>. Still, by simplifying and referring to the well-known practice of "trust no one", we can easily get the list of actors involved:</p>
    <p>Holder, Issuer, Verifier, and their agents/software components (e.g., Browser, Wallet, Websites). Which of these can be a Threat Actor? To simplify the question, each actor may be a Threat Actor to the others. So, all against all. Indeed, one is often also a Threat Actor to oneself (e.g., <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7272062/">Alert fatigue</a>).</p>
    <p>In addition, although there are trust relationships between the various actors and their software (which hold across the various steps), such software can also be malicious. Specifically, it can track Holders, the type of credential they have, and how and where they use it through telemetry and statistical collection, and it can push users toward certain attitudes.</p>
-   <p>One must also consider a possible external <strong>threat actor</strong>, who could also be an observer or use active techniques, and who wants to track the three main actors or their agents, such as Marketers, Data brokers, Stalkers, Identity thieves, intelligence and law enforcement agencies (laws often constrain them), and OSINT investigators.</p>
+   <p>The analysis also needs to consider a possible external <strong>threat actor</strong>, who could also be an observer or use active techniques, and who wants to track the three main actors or their agents, such as Marketers, Data brokers, Stalkers, Identity thieves, intelligence and law enforcement agencies (laws often constrain them), and OSINT investigators.</p>
    <p>A further case is the combination of such actors, such as multiple <em>Verifiers</em> in cahoots or a potential collaboration between Issuer and <em>Verifier</em> to track the <em>Holder</em>.</p>
    <h4 class="heading settled" data-level="2.2.2" id="evil-user-stories"><span class="secno">2.2.2. </span><span class="content">Evil user stories</span><a class="self-link" href="#evil-user-stories"></a></h4>
    <p>Using the information we now have, we can create some generic <a href="https://dsomm.owasp.org/activity-description?uuid=bacf85b6-5bc0-405d-b5ba-a5d971467cc1&amp;dimension=Culture%20and%20Organization&amp;subDimension=Design&amp;level=3&amp;activityName=Creation%20of%20simple%20abuse%20stories">Evil User Stories</a>:</p>
@@ -796,7 +796,7 @@ The mechanism to use VCDM with JOSE/COSE is described in <a href="https://www.w3
       <li data-md>
        <p><em>Description</em>: This is the privacy-preserving bit - I want to tell the relying party the very least he needs to know. I shouldn’t have to reveal my date of birth or prove I’m over 18 somehow.</p>
       <li data-md>
-       <p><em>Analysis</em>: We must release only what is strictly necessary. Since this is an interaction, we consider Subjugation an interactive OSSTMM control. For example, if we need to verify age with our credentials, it is one thing to show the whole document or the date of birth (Selective Disclosure) or to answer a specific query with true-false (Predicate Proofs). This property also helps Unlinkability (the less data I have, the less correlation I can do).</p>
+       <p><em>Analysis</em>: The interaction should release only what is strictly necessary. Since this is an interaction, we consider Subjugation an interactive OSSTMM control. For example, if we need to verify age with our credentials, it is one thing to show the whole document or the date of birth (Selective Disclosure) or to answer a specific query with true-false (Predicate Proofs). This property also helps Unlinkability (the less data I have, the less correlation I can do).</p>
      </ul>
     <li data-md>
      <p><strong>Unlinkable</strong>:</p>
@@ -804,7 +804,7 @@ The mechanism to use VCDM with JOSE/COSE is described in <a href="https://www.w3
       <li data-md>
        <p><em>Description</em>: If the relying party or parties, or other actors in the system, can, either on their own or in collusion, link together my various assertions, then I’ve blown the minimality requirement out of the water.</p>
       <li data-md>
-       <p><em>Analysis</em>: It must be minimal. It should not be possible to map the signer (Signature Blinding), contact them to know if the credential has been revoked (e.g., Revocation via Cryptographic Accumulation), or use revocation lists that expose the list of credentials. Generally, if an identifier can be used to link identities, it should be rotated (Rotational Identifiers), as with PAN numbers used with Apple Pay.</p>
+       <p><em>Analysis</em>: The interaction should remain minimal. Ideally, it should not be possible to map the signer (Signature Blinding), contact them to know if the credential has been revoked (e.g., Revocation via Cryptographic Accumulation), or use revocation lists that expose the list of credentials. Generally, if an identifier can be used to link identities, it should be rotated (Rotational Identifiers), as with PAN numbers used with Apple Pay.</p>
      </ul>
    </ul>
    <h5 class="heading settled" data-level="2.2.3.2" id="linddun-threats"><span class="secno">2.2.3.2. </span><span class="content">LINDDUN (Threats)</span><a class="self-link" href="#linddun-threats"></a></h5>
@@ -817,7 +817,7 @@ The mechanism to use VCDM with JOSE/COSE is described in <a href="https://www.w3
       <li data-md>
        <p><em>Threat</em>: We are generally driven to think of this as a threat to the Holder and linking its attributes, but per se, even an <em>Issuer</em> can have the problem of tracking its users. This applies to a <em>Verifier</em> (or a group of Verifiers) and an external third party observing the various exchanges or the Revocation list.</p>
       <li data-md>
-       <p><em>Mitigations</em>:</p>
+       <p><em>Responses</em>:</p>
        <ul>
         <li data-md>
          <p>Use Signature Blinding.</p>
@@ -841,11 +841,11 @@ The mechanism to use VCDM with JOSE/COSE is described in <a href="https://www.w3
       <li data-md>
        <p><em>Threat</em>: The threat is the ability to identify an individual using their credentials.</p>
       <li data-md>
-       <p><em>Mitigations</em>:
+       <p><em>Responses</em>:
 The <em>Verifier</em> should request the following: Range Proof, Predicate Proof, Selective Disclosure, and the credential.</p>
        <ul>
         <li data-md>
-         <p>The <em>Issuer</em> and the <em>Holder</em> must not write personally identifiable information (PII) or linkable identifiers in the <em>VDR</em>.</p>
+         <p>The <em>Issuer</em> and the <em>Holder</em> should avoid writing personally identifiable information (PII) or linkable identifiers in the <em>VDR</em>.</p>
         <li data-md>
          <p>The <em>Issuer</em> should use an anonymous revocation method.</p>
        </ul>
@@ -858,12 +858,12 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
       <li data-md>
        <p><em>Threat</em>: The inability of an actor to deny the issuance or presentation of a credential; an example is a <a href="https://www.dhs.gov/science-and-technology/publication/misuse-mobile-drivers-license-mdl-investigative-aid">DHS use case</a>.</p>
       <li data-md>
-       <p><em>Mitigations</em></p>
+       <p><em>Responses</em>:</p>
        <ul>
         <li data-md>
-         <p>Depending on the Levels of Assurance (LOAs), the issuer must use proper authentication during the issuing process.</p>
+         <p>Depending on the Levels of Assurance (LOAs), the issuer is expected to use appropriate authentication during the issuing process.</p>
         <li data-md>
-         <p>Proper logging must be maintained by the issuer, the Verifier, and the Holder (and their agents), e.g., following the OWASP. <a href="https://github.com/OWASP/ASVS/blob/master/4.0/en/0x15-V7-Error-Logging.md">ASVS 7.1</a> e.g., each log must contain enough metadata for an investigation, time with timezone reference, without PII but with session identifiers, but in a hashed format, in a common machine-readable format, and possibly signed.</p>
+         <p>Appropriate logging is expected for the issuer, the Verifier, and the Holder (and their agents), e.g., following the OWASP. <a href="https://github.com/OWASP/ASVS/blob/master/4.0/en/0x15-V7-Error-Logging.md">ASVS 7.1</a> e.g., each log should contain enough metadata for an investigation, time with timezone reference, without PII but with session identifiers, but in a hashed format, in a common machine-readable format, and possibly signed.</p>
        </ul>
      </ul>
     <li data-md>
@@ -874,10 +874,10 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
       <li data-md>
        <p><em>Threat</em>: In this case, the threat can happen in several stages: when a credential is required to be presented, the credential is verified.</p>
       <li data-md>
-       <p><em>Mitigations</em>:</p>
+       <p><em>Responses</em>:</p>
        <ul>
         <li data-md>
-         <p>When proof or a credential is requested, the Holder agent must return the same message and behavior (including timing, to avoid side-channel attacks) whether or not a wallet is present, whether the wallet has a credential or not, whether it has a valid credential, or whether the user does not accept. It is the same whether or not the user gives the browser access to the wallet.</p>
+         <p>When proof or a credential is requested, the Holder agent is expected to return the same message and behavior (including timing, to avoid side-channel attacks) whether or not a wallet is present, whether the wallet has a credential or not, whether it has a valid credential, or whether the user does not accept. It is the same whether or not the user gives the browser access to the wallet.</p>
          <ul>
           <li data-md>
            <p>When a credential’s validity is verified, there should be no direct connections or systems controlled by the Issuer (e.g., when a DID is resolved) to avoid back-channel connections.</p>
@@ -892,12 +892,12 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
       <li data-md>
        <p><em>Threat</em>: The threat will be disclosed during presentation and verification.</p>
       <li data-md>
-       <p><em>Mitigations</em>:</p>
+       <p><em>Responses</em>:</p>
        <ul>
         <li data-md>
          <p>The <em>Verifier</em> should request the following: Range Proof, Predicate Proof, Selective Disclosure, and the credential.</p>
         <li data-md>
-         <p>The <em>Issuer</em> and the <em>Holder</em> must not write personally identifiable information (PII) or linkable identifiers in the <em>VDR</em>.</p>
+         <p>The <em>Issuer</em> and the <em>Holder</em> should avoid writing personally identifiable information (PII) or linkable identifiers in the <em>VDR</em>.</p>
         <li data-md>
          <p>The <em>Issuer</em> should use an anonymous revocation method.</p>
        </ul>
@@ -910,14 +910,14 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
       <li data-md>
        <p><em>Threat</em>: For the <em>Holder</em>, unaware of how their credentials are used or shared.</p>
       <li data-md>
-       <p><em>Mitigations</em>:</p>
+       <p><em>Responses</em>:</p>
        <ul>
         <li data-md>
-         <p>The <em>Holder</em> must be informed when a <em>Verifier</em> asks for the credential’s Full Disclosure or Selected Disclosure.</p>
+         <p>The <em>Holder</em> should be informed when a <em>Verifier</em> asks for the credential’s Full Disclosure or Selected Disclosure.</p>
         <li data-md>
-         <p>The <em>Holder</em> must be informed when their credentials is <em>Phoning Home</em> or possible <em>back-channel connections</em>.</p>
+         <p>The <em>Holder</em> should be informed when their credentials is <em>Phoning Home</em> or possible <em>back-channel connections</em>.</p>
         <li data-md>
-         <p>The <em>Holder</em> must consent to each use of their credential and must identify the Verifier, the Proof Requested (at the moment of request), and which credentials and information are shared with the Verifier after the selection.</p>
+         <p>The <em>Holder</em> should consent to each use of their credential and be able to identify the Verifier, the Proof Requested (at the moment of request), and which credentials and information are shared with the Verifier after the selection.</p>
        </ul>
      </ul>
     <li data-md>
@@ -928,14 +928,14 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
       <li data-md>
        <p><em>Threat</em>: The risk of credentials not complying with legal, regulatory, or policy requirements. It is also possible to translate this element about minimal training for the <em>Holder</em>, particularly if they are in a protected or at-risk category, so they can be aware of what they are doing and the risks associated with Social Engineering.</p>
       <li data-md>
-       <p><em>Mitigations</em>:</p>
+       <p><em>Responses</em>:</p>
        <ul>
         <li data-md>
          <p>Provide Security Awareness Training to the <em>Holder</em></p>
         <li data-md>
-         <p>Verifier and Issuers must be subjected to regular audit</p>
+         <p>Verifiers and Issuers should be subject to regular audit.</p>
         <li data-md>
-         <p>The standards and their implementation must contain mitigations for Harms such as Surveillance, Discrimination, Dehumanization, Loss of Autonomy, and Exclusion.</p>
+         <p>The standards and their implementation should include responses to harms such as Surveillance, Discrimination, Dehumanization, Loss of Autonomy, and Exclusion.</p>
        </ul>
      </ul>
    </ul>
@@ -949,7 +949,7 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
       <li data-md>
        <p><em>Threat</em>: Although we can semantically link this threat to surveillance of governments (precisely of the <em>Holder</em> or an adversary), we can actually consider surveillance also related to profiling for targeted advertising (and thus from software agents also used to trust the <em>Holder</em>) or even of threat actors such as stalkers or similar.</p>
       <li data-md>
-       <p><em>Mitigations</em></p>
+       <p><em>Responses</em>:</p>
        <ul>
         <li data-md>
          <p>Refer to LINDDUN’s <em>Linking</em>, <em>Identifying</em>, and <em>Data Disclosure</em></p>
@@ -961,15 +961,15 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
       <li data-md>
        <p><em>Description</em>: End systems that do not take adequate measures to secure stored data from unauthorized or inappropriate access expose individuals to potential financial, reputational, or physical harm.</p>
       <li data-md>
-       <p><em>Threat</em>: All actors can be compromised. Therefore, they must be considered, especially when implementing wallets and agents (for the <em>Holder</em>), compromising the end-user device and the <em>Issuer</em>'s signature keys.</p>
+       <p><em>Threat</em>: All actors can be compromised. Therefore, they need to be considered, especially when implementing wallets and agents (for the <em>Holder</em>), compromising the end-user device and the <em>Issuer</em>'s signature keys.</p>
       <li data-md>
-       <p><em>Mitigations</em>:</p>
+       <p><em>Responses</em>:</p>
        <ul>
         <li data-md>
-         <p>Keys must be stored securely and protected from compromise of the device or location where they are contained (e.g., Secure Enclave, Keystore, HSMs).</p>
+         <p>Keys are expected to be stored securely and protected from compromise of the device or location where they are contained (e.g., Secure Enclave, Keystore, HSMs).</p>
          <ul>
           <li data-md>
-           <p>At the Issuer’s organizational level, the Incident Response Plan must include what to do in case of compromise of <a href="https://www.wionews.com/world/eus-green-pass-hacked-adolf-hitlers-covid-certificate-doing-rounds-online-report-424736">private keys</a> or <a href="https://ria.ee/en/news/2011-researchers-identified-security-vulnerability-id-card-used-estonia">underlying device technology</a>.</p>
+           <p>At the Issuer’s organizational level, the Incident Response Plan should include what to do in case of compromise of <a href="https://www.wionews.com/world/eus-green-pass-hacked-adolf-hitlers-covid-certificate-doing-rounds-online-report-424736">private keys</a> or <a href="https://ria.ee/en/news/2011-researchers-identified-security-vulnerability-id-card-used-estonia">underlying device technology</a>.</p>
          </ul>
        </ul>
      </ul>
@@ -981,7 +981,7 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
       <li data-md>
        <p><em>Threat</em>: Intrusive and multiple data requests by <em>Verifier</em></p>
       <li data-md>
-       <p><em>Mitigations</em>:</p>
+       <p><em>Responses</em>:</p>
        <ul>
         <li data-md>
          <p>Refer to LINDDUN’s <em>Linking</em>, <em>Identifying</em>, and <em>Data Disclosure</em></p>
@@ -997,7 +997,7 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
       <li data-md>
        <p><em>Threat</em>: Incorrect issuance or verification of credentials.</p>
       <li data-md>
-       <p><em>Mitigations</em>:</p>
+       <p><em>Responses</em>:</p>
        <ul>
         <li data-md>
          <p>Refer to LINDDUN’s <em>Non-Repudiation</em></p>
@@ -1011,7 +1011,7 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
       <li data-md>
        <p><em>Threats</em>: Linking multiple credentials or interactions to profile or track a <em>Holder</em>. We are linking individuals to the same <em>Issuer</em>.</p>
       <li data-md>
-       <p><em>Mitigations</em>:</p>
+       <p><em>Responses</em>:</p>
        <ul>
         <li data-md>
          <p>Refer to LINDDUN’s <em>Linking</em>, <em>Identifying</em>, and <em>Data Disclosure</em></p>
@@ -1025,7 +1025,7 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
       <li data-md>
        <p><em>Threats</em>: Verifiers asking more information than necessary during credential verification.</p>
       <li data-md>
-       <p><em>Mitigations</em>:</p>
+       <p><em>Responses</em>:</p>
        <ul>
         <li data-md>
          <p>Refer to LINDDUN’s <em>Unawareness &amp; Unintervenability</em>  and <em>Identifying</em>.</p>
@@ -1039,7 +1039,7 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
       <li data-md>
        <p><em>Threat</em>: Unauthorized use of collected information, e.g., for targeted advertising or creating profiles, and Abuse of Functionality on collected data</p>
       <li data-md>
-       <p><em>Mitigations</em>:</p>
+       <p><em>Responses</em>:</p>
        <ul>
         <li data-md>
          <p>Refer to LINDDUN’s <em>Non-Compliance</em>.</p>
@@ -1053,7 +1053,7 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
       <li data-md>
        <p><em>Threat</em>: A <em>Verifier</em> that asks for more data than needed.</p>
       <li data-md>
-       <p><em>Mitigations</em>:</p>
+       <p><em>Responses</em>:</p>
        <ul>
         <li data-md>
          <p>Refer to LINDDUN’s <em>Data Disclosure</em>.</p>
@@ -1067,7 +1067,7 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
       <li data-md>
        <p><em>Threats</em>: Lack of transparency in using the data provided.</p>
       <li data-md>
-       <p><em>Mitigations</em>:</p>
+       <p><em>Responses</em>:</p>
        <ul>
         <li data-md>
          <p>Refer to LINDDUN’s <em>Unawareness &amp; Unintervenability</em>.</p>
@@ -1082,7 +1082,7 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
       <li data-md>
        <p><em>Description</em>:  In a passive attack, the attacker reads packets off the network but does not write them, which can bring Confidentiality Violations, Password Sniffing, and Offline Cryptographic Attacks.</p>
       <li data-md>
-       <p>Mitigations:</p>
+       <p>Responses:</p>
        <ul>
         <li data-md>
          <p>Encrypt Traffic.</p>
@@ -1098,7 +1098,7 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
       <li data-md>
        <p><em>Description</em>: When an attack involves writing data to the network. This can bring Replay Attacks (e.g., recording the message and resending it), Message Insertion (e.g., forging a message and injecting it into the network), Message Deletion (e.g., removing a legit message from the network), Message Modification (e.g., copying the message, deleting the original one, modifying the copied message re-injecting it into the flow), Man-In-The-Middle (e.g., combination of all the previous attacks).</p>
       <li data-md>
-       <p><em>Mitigations</em>:</p>
+       <p><em>Responses</em>:</p>
        <ul>
         <li data-md>
          <p>Use a nonce to prevent replay attacks</p>
@@ -1121,7 +1121,7 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
       <li data-md>
        <p><em>Description</em>: Pretending to be something or someone other than yourself.</p>
       <li data-md>
-       <p><em>Mitigations</em>:</p>
+       <p><em>Responses</em>:</p>
        <ul>
         <li data-md>
          <p>Implement Digital Signatures</p>
@@ -1137,7 +1137,7 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
       <li data-md>
        <p><em>Description</em>: Modifying something on disk, network, memory, or elsewhere.</p>
       <li data-md>
-       <p><em>Mitigations</em>:</p>
+       <p><em>Responses</em>:</p>
        <ul>
         <li data-md>
          <p>Implement Digital Signatures in transit and at rest.</p>
@@ -1149,7 +1149,7 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
       <li data-md>
        <p><em>Description</em>: Claiming that you didn’t do something or were not responsible can be honest or false</p>
       <li data-md>
-       <p><em>Mitigations</em>:</p>
+       <p><em>Responses</em>:</p>
        <ul>
         <li data-md>
          <p>Refer to LINDDUN’s <em>Non-Repudiation</em>.</p>
@@ -1161,7 +1161,7 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
       <li data-md>
        <p><em>Description</em>: Confidentiality  Someone obtaining information they are not authorized to access</p>
       <li data-md>
-       <p><em>Mitigations</em>:</p>
+       <p><em>Responses</em>:</p>
        <ul>
         <li data-md>
          <p>Refer to LINDDUN <em>Data Disclosure</em>.</p>
@@ -1173,7 +1173,7 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
       <li data-md>
        <p><em>Description</em>: Exhausting resources needed to provide service</p>
       <li data-md>
-       <p><em>Mitigations</em>:</p>
+       <p><em>Responses</em>:</p>
        <ul>
         <li data-md>
          <p>Use a decentralized VDR for verification</p>
@@ -1184,7 +1184,7 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
         <li data-md>
          <p><em>Description</em>: Allowing someone to do something they are not authorized to do</p>
         <li data-md>
-         <p><em>Mitigations</em>:</p>
+         <p><em>Responses</em>:</p>
          <ul>
           <li data-md>
            <p>During issuing, use proper LOAs depending on the issued credentials.</p>
@@ -1200,7 +1200,7 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
       <li data-md>
        <p><em>Description</em>: Police science places “opportunity” as one of the three elements that encourage theft, along with “benefit” and “diminished risk.” Visibility is a means of calculating opportunity. Each target’s asset is known to exist within the scope. Unknown assets are only at risk of being discovered, not of being targeted.</p>
       <li data-md>
-       <p><em>Analysis</em>: In the specific case of (request for) submission, the visibility of a specific wallet credential or assertion wallet will be limited as much as possible when the website requests it. The whole thing must be handled at the user-agent level—or even better. It has to be hidden from it and go directly to the Wallet.</p>
+       <p><em>Analysis</em>: In the specific case of (request for) submission, the visibility of a specific wallet credential or assertion wallet will be limited as much as possible when the website requests it. This is best handled at the user-agent level, or, where possible, hidden from it and routed directly to the Wallet.</p>
      </ul>
     <li data-md>
      <p><strong>Access</strong></p>
@@ -1208,7 +1208,7 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
       <li data-md>
        <p><em>Description</em>: Access in OSSTMM is precisely when you allow interaction.</p>
       <li data-md>
-       <p><em>Analysis</em>: In this case, the only way to do this is with the available API subset, which must be a specific request.</p>
+       <p><em>Analysis</em>: In this case, the only way to do this is with the available API subset, which is expected to be a specific request.</p>
      </ul>
     <li data-md>
      <p><strong>Trust</strong>:</p>
@@ -1232,7 +1232,7 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
       <li data-md>
        <p><em>Description</em>: is a control through a contract between the asset owner and the interacting party. This contract may serve as a visible warning, a precursor to legal action if posted rules are not followed, specific, public legislative protection, or a third-party assurance provider in case of damages, such as an insurance company.</p>
       <li data-md>
-       <p><em>Analysis</em>: This is the agreement between the interacting parties, such as contracts. In this case, <em>Notifications</em> can describe what happens in a "secure" context (e.g., Payments API); all operations must be specifically authorized with Informed Consent. Holder must be notified if the Verifier asks for Full Disclosure, if the Issued Credentials do not support Selective Disclosure, or if it is phoning home.</p>
+       <p><em>Analysis</em>: This is the agreement between the interacting parties, such as contracts. In this case, <em>Notifications</em> can describe what happens in a "secure" context (e.g., Payments API); all operations should be specifically authorized with Informed Consent. Holder should be notified if the Verifier asks for Full Disclosure, if the Issued Credentials do not support Selective Disclosure, or if it is phoning home.</p>
        <p>*Note: this can be used as a <a href="https://en.wikipedia.org/wiki/Nudge_theory">nudge</a> (used in Behavioural Economics) and then can be used to educate the Verifiers, Holders, and Issuers to do the right thing.*</p>
      </ul>
     <li data-md>
@@ -1249,7 +1249,7 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
       <li data-md>
        <p><em>Description</em>: It is a control that assures that interactions occur only according to defined processes. The asset owner defines how the interaction occurs, thereby removing the interacting party’s freedom of choice and liability for any losses.</p>
       <li data-md>
-       <p><em>Analysis</em>: This is a particularly interesting aspect based on the context. As mentioned earlier, one would need to make sure that one is always asked for the minimum information, if and when available (e.g., prioritize Predicates Proof, then Selective Disclosure, and, if none, the whole credential), somewhat like what happens in SSL/TLS with ciphers.</p>
+       <p><em>Analysis</em>: This is a particularly interesting aspect based on the context. As mentioned earlier, the analysis should check that the interaction asks for the minimum information, if and when available (e.g., prioritize Predicates Proof, then Selective Disclosure, and, if none, the whole credential), somewhat like what happens in SSL/TLS with ciphers.</p>
      </ul>
     <li data-md>
      <p><strong>Continuity</strong>:</p>
@@ -1289,7 +1289,7 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
       <li data-md>
        <p><em>Description</em>: It is a control to ensure that interacting parties know when assets and processes have changed.</p>
       <li data-md>
-       <p><em>Analysis</em>: The credential and its presentation to be verified must be cryptographically signed.</p>
+       <p><em>Analysis</em>: The credential and its presentation to be verified are expected to be cryptographically signed.</p>
      </ul>
     <li data-md>
      <p><strong>Alarm</strong>:</p>
@@ -1316,7 +1316,7 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
    <p>Considering the specific case of government credentials issued to people, it is useful to think about some use cases:</p>
    <ul>
     <li data-md>
-     <p>In some countries, at-risk workers who are taken abroad have their passports seized by those who exploit them so that they can be controlled. Digital Credentials can generally mitigate this, as they are intangible; they can be regenerated in the event of theft. A further consideration is how the threat agent will act in this situation and what mitigations (more process than mere technical measures) governments can implement.</p>
+     <p>In some countries, at-risk workers who are taken abroad have their passports seized by those who exploit them so that they can be controlled. Digital Credentials can generally reduce this threat, as they are intangible; they can be regenerated in the event of theft. A further consideration is how the threat agent will act in this situation and what responses (more process than mere technical measures) governments can implement.</p>
     <li data-md>
      <p>Normally, we assume that the <em>Holder</em> of the credential is also the <em>Subject</em> to whom the credential refers.  This is not necessarily the case.</p>
      <ul>
@@ -1353,13 +1353,13 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
    </ul>
    <h5 class="heading settled" data-level="2.2.4.4" id="socio-technical-threats"><span class="secno">2.2.4.4. </span><span class="content">Socio-technical Threats</span><a class="self-link" href="#socio-technical-threats"></a></h5>
    <p>This section presents the results of a novel threat modeling application that combines cards derived from <a href="https://www.scitepress.org/Papers/2025/136014/136014.pdf">A Framework for Institutional and Technical Harm Prevention Inspired by Microsoft’s Harms Modeling</a> with <a href="https://www.w3.org/blog/2025/threat-modeling-with-lego-serious-play-building-your-digital-identity-threat/">LEGO SERIOUS PLAY</a>. It was applied in a series of workshops analyzing decentralized identity in the context of national digital identity systems.</p>
-   <p>A key finding is that we should not just look at individual threats. We must consider their context and how they connect. For example, constraining how a person can present identity, making enrolment effectively compulsory, or tying access to a single official wallet path can create conditions for additional downstream threats.</p>
+   <p>A key finding is that the analysis should not just look at individual threats. It needs to consider their context and how they connect. For example, constraining how a person can present identity, making enrolment effectively compulsory, or tying access to a single official wallet path can create conditions for additional downstream threats.</p>
    <p>This section captures those relations as connected threats. While not every deployment follows the same pattern, these threats should not be viewed as isolated events. In government-issued digital credential systems, it is more effective to view them as part of a propagation path, similar to a "kill-chain" model. Different patterns were identified:</p>
    <ul>
     <li data-md>
      <p><strong>Restriction of identity multiplicity, profiling, and censorship</strong>. Participants repeatedly returned to the idea that forcing a person into one stable identity, or one acceptable proof path, makes profiling easier. Once behaviour can be linked back to the same holder over time, the profile becomes actionable. Also, censorship is no longer a separate problem. Censorship is enabled by the need for a single profile. It is not needed to say “we censor”, as just having persistent visibility is easy; the intervention can follow from that. This is why the connection between multiplicity and profiling was treated as strong. Limiting a holder to one identity cannot be treated as a usability or policy choice. It can function as a profiling infrastructure. For example, if it is the issuer that generates or signs a special anonymous credentials to express a single claim/attribute (e.g., in the case of Age Verification), even where the issuer does not observe each use directly, repeated requests for additional capacity, combined with the metadata, can still support inference. In this case, an issuer may have enough information for correlating a user behaviour, in particular in the case of collusion with a verifier.</p>
     <li data-md>
-     <p><strong>Forced association, overreach, and surveillance</strong>. Where enrolment is not realistically optional, the identity system stops being a neutral mechanism for facilitating presentation and becomes a gate through which access must pass. This was represented in different connected landscapes of threats. Forced association was treated as an entry condition because it exposes the person to the rest of the system, whether or not that person would otherwise choose to participate. Once that condition holds, surveillance is no longer only an implementation defect or abuse case. It becomes structurally easier.</p>
+     <p><strong>Forced association, overreach, and surveillance</strong>. Where enrolment is not realistically optional, the identity system stops being a neutral mechanism for facilitating presentation and becomes a gate through which access is forced to pass. This was represented in different connected landscapes of threats. Forced association was treated as an entry condition because it exposes the person to the rest of the system, whether or not that person would otherwise choose to participate. Once that condition holds, surveillance is no longer only an implementation defect or abuse case. It becomes structurally easier.</p>
     <li data-md>
      <p><strong>Exclusion from the official wallet or application path</strong>. Several workshop models did not view exclusion as just non-participation. It has two effects: excluded people may lose access to official services, be drawn to unofficial or harmful apps, disclose more data than necessary, and be more vulnerable to fraud or exploitation. Meanwhile, those who can access the official path gain relative privilege. This is not just a technical interoperability issue; it is a stratification problem within the identity ecosystem.</p>
     <li data-md>
@@ -1402,7 +1402,7 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
      <p><strong>Statelessness</strong>: A person’s digital identity is considered invalid or fraudulent, effectively excluding them from social participation and access to essential resources.</p>
    </ul>
    <h3 class="heading settled" data-level="2.3" id="what-are-we-going-to-do-about-it"><span class="secno">2.3. </span><span class="content">What are we going to do about it?</span><a class="self-link" href="#what-are-we-going-to-do-about-it"></a></h3>
-   <p>Countermeasures and features:</p>
+   <p>Potential responses and features:</p>
    <ul>
     <li data-md>
      <p><strong><a href="http://www.hit.bme.hu/~buttyan/courses/BMEVIHIM219/2009/Chaum.BlindSigForPayment.1982.PDF">Signature Blinding</a></strong>: is a type of digital signature in which the content of the message is concealed before it is signed. With public-key cryptography, the signature can be correlated with the signer’s public key, which is useful when the recipient needs to verify the sender. Zero-knowledge proof (ZKP) methods can instead provide cryptographic proof of signature without giving the Verifier additional information about who signed, protecting the Holder’s public key.</p>
@@ -1411,10 +1411,10 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
     <li data-md>
      <p><strong><a href="https://arxiv.org/pdf/2401.08196">Predicate Proofs and Range Proof</a></strong>: is the ability to respond to a Boolean assertion (true/false) to a specific request, which is an additional step for privacy and minimization. For example, if we need to prove that we are of age, we do not have to show the date of birth; we can compute the answer.</p>
     <li data-md>
-     <p><strong>Anonymous Revocation</strong>: A credential has its life cycle: it is issued, it is used, and then it can be revoked for various reasons. Therefore, a verifier must be able to verify whether the credential has been revoked, without allowing the ability to correlate information about other revoked credentials. There are different Techniques:</p>
+     <p><strong>Anonymous Revocation</strong>: A credential has its life cycle: it is issued, it is used, and then it can be revoked for various reasons. Therefore, a verifier needs to be able to verify whether the credential has been revoked, without allowing the ability to correlate information about other revoked credentials. There are different techniques:</p>
      <ul>
       <li data-md>
-       <p><strong>Revocation List</strong>: This is the current generally used approach, although it creates privacy issues, as the lists must be public and typically contain user information.</p>
+       <p><strong>Revocation List</strong>: This is the current generally used approach, although it creates privacy issues, as the lists are public and typically contain user information.</p>
       <li data-md>
        <p><strong><a href="https://www.w3.org/community/reports/credentials/CG-FINAL-vc-status-list-2021-20230102/">Status List</a></strong>: revocation document only contains flipped bits at positions that can only be tied to a given credential if you’d been privy to the disclosure of their association.</p>
       <li data-md>
@@ -1425,7 +1425,7 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
     <li data-md>
      <p><strong>Rotational Identifiers</strong>: As indicated by the <a href="https://www.w3.org/TR/security-privacy-questionnaire/#temporary-id">Security and Privacy Questionnaire</a>, identifiers can be used to correlate, so it is important that they are temporary as much as possible during a session and changed after they are used. In this context, the identifiers that can be exploited to correlate can be present at different levels.</p>
     <li data-md>
-     <p><strong>No Phoning home or back-channel communication</strong>: Software often "calls home" for several reasons. They normally do this to collect usage or crash statistics (which could indicate a vulnerability). The problem is that this feature, often critical to software improvement and security, has privacy implications for the user, in this case, the <em>Holder</em>. At the Credentials level, this call can be made at different times and by different <em>agents</em>. For example, suppose the <em>Issuer</em> is contacted by the <em>Verifier</em> to check the revocation of a credential, or that the <em>Wallet</em> contacts its vendor to collect usage statistics. In that case, we can consider two types of countermeasures:</p>
+     <p><strong>No Phoning home or back-channel communication</strong>: Software often "calls home" for several reasons. They normally do this to collect usage or crash statistics (which could indicate a vulnerability). The problem is that this feature, often critical to software improvement and security, has privacy implications for the user, in this case, the <em>Holder</em>. At the Credentials level, this call can be made at different times and by different <em>agents</em>. For example, suppose the <em>Issuer</em> is contacted by the <em>Verifier</em> to check the revocation of a credential, or that the <em>Wallet</em> contacts its vendor to collect usage statistics. In that case, we can consider two types of responses:</p>
      <ul>
       <li data-md>
        <p><strong>Do not phone home or back-channel communication</strong>: This could also be an operational necessity (several use cases require the presentation to be made in offline environments or with limited connection) or a choice of the <em>Holder</em>, who should always <em>consent</em> to telemetry and external connections to third parties.</p>
@@ -1438,9 +1438,9 @@ The <em>Verifier</em> should request the following: Range Proof, Predicate Proof
      <p><strong>Notification/Alerts</strong>: An important aspect, particularly about interactions where the user is required to interact through an Internet credential, is communication with the user, which occurs at the following times</p>
      <ul>
       <li data-md>
-       <p>Before the request for the proof: for example, a website requests age verification, permission must first be given to the website to access the functionality, and when the user decides whether or not to give access, the URL and type of credential requested and the level of Minimization (to discourage you know the Verifier and the Holder from using Full Disclosure) must be indicated in a secure context.</p>
+       <p>Before the request for the proof: for example, a website requests age verification, permission should first be given to the website to access the functionality, and when the user decides whether or not to give access, the URL and type of credential requested and the level of Minimization (to discourage you know the Verifier and the Holder from using Full Disclosure) should be indicated in a secure context.</p>
       <li data-md>
-       <p>Before sending the proof, the user selects the Wallet of his choice, the credential or set of credentials from the Wallet, and the specific claims from the credentials. The Holder must be notified and asked for confirmation and consent, particularly when the type of presentation he proposes includes <strong>phone calling</strong> or <strong>back-channel communication</strong> features (to discourage the <em>Issuer</em> and <em>Verifier</em> from these practices).</p>
+       <p>Before sending the proof, the user selects the Wallet of his choice, the credential or set of credentials from the Wallet, and the specific claims from the credentials. The Holder should be notified and asked for confirmation and consent, particularly when the type of presentation he proposes includes <strong>phone calling</strong> or <strong>back-channel communication</strong> features (to discourage the <em>Issuer</em> and <em>Verifier</em> from these practices).</p>
      </ul>
    </ul>
   </main>

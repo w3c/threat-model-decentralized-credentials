@@ -9,8 +9,8 @@ TR: https://www.w3.org/TR/threat-model-decentralized-credentials/
 Shortname: threat-model-decentralized-credentials
 Issue Tracking: GitHub https://github.com/w3c/threat-model-decentralized-credentials/issues
 Level: none
-Editor: Simone Onofri, w3cid 38211, W3C, https://w3.org, simone@w3.org
-Editor: Amir Sharif, w3cid 157587, FBK, https://www.fbk.eu, asharif@fbk.eu
+Editor: Simone Onofri, w3cid 38211, W3C https://w3.org, simone@w3.org
+Editor: Amir Sharif, w3cid 157587, FBK https://www.fbk.eu, asharif@fbk.eu
 Abstract:
   <p>This document is a living threat model for decentralized credentials. It starts from credential flows and uses them to identify security, privacy, and socio-technical threats across the credential ecosystem.</p>
 Status text:
@@ -86,6 +86,15 @@ Mailing List Archives: https://lists.w3.org/Archives/Public/public-security/
     "id": "OAUTH-STATUS-ASSERTIONS",
     "status": "Internet-Draft",
     "title": "OAuth Status Assertions"
+  },
+  "PROTECTING-DIGITAL-IDENTITY-WALLET": {
+    "authors": ["Amir Sharif", "Zahra Ebadi Ansaroudi", "Giada Sciarretta", "Daniela Pöhn", "Majid Mollaeefar", "Wolfgang Hommel", "Silvio Ranise"],
+    "date": "16 April 2025",
+    "href": "https://link.springer.com/chapter/10.1007/978-3-031-89350-6_6",
+    "id": "PROTECTING-DIGITAL-IDENTITY-WALLET",
+    "publisher": "Springer, Cham",
+    "status": "Conference paper",
+    "title": "Protecting Digital Identity Wallet: A Threat Model in the Age of eIDAS 2.0"
   },
   "SELECTIVE-DISCLOSURE-VC-CRYPTO": {
     "authors": ["Andrea Flamini", "Giada Sciarretta", "Mario Scuro", "Amir Sharif", "Alessandro Tomasi", "Silvio Ranise"],
@@ -166,7 +175,7 @@ Those credentials are part of the identity ecosystem described in the W3C Team r
 
 Government-issued digital credentials sit inside a socio-technical system: technical components, people, organizations, processes, incentives, and rules all interact. A credential flow can satisfy a local security or privacy property and still affect people or society when the system is used, misused, abused, deployed, or governed in harmful ways. For that reason, the scope includes security threats, privacy threats, and socio-technical threats. That scope matches the need identified in the [joint work on rights-respecting digital credentials](https://github.com/w3c/strategy/issues/458): to assess societal and human-rights impacts, develop threat models and harms models, and identify mitigations for high-assurance credential systems.
 
-The immediate trigger was W3C discussion about adding the [Digital Credentials API](https://www.w3.org/TR/digital-credentials/) to the [Federated Identity Working Group](https://github.com/w3c/strategy/issues/450). That specification defines an API enabling user agents to mediate communication between a website that requests evidence and holder software, such as a wallet. The credential-flow model used here also applies to decentralized credentials across architectures, profiles, deployment patterns, and governance contexts.
+The immediate trigger was W3C discussion about adding the [Digital Credentials API](https://www.w3.org/TR/digital-credentials/) to the [Federated Identity Working Group](https://github.com/w3c/strategy/issues/450). That specification defines an API enabling user agents to mediate communication between a website that requests evidence and holder software, such as a wallet. The credential-flow model used here also applies to decentralized credentials across architectures, profiles, deployment patterns, and governance contexts. It is broader than wallet-specific work such as <cite>Protecting Digital Identity Wallet: A Threat Model in the Age of eIDAS 2.0</cite> [[PROTECTING-DIGITAL-IDENTITY-WALLET]], which focuses on the European Digital Identity Wallet context.
 
 The result is intended as input for later architecture, profile, implementation, and deployment work.
 
@@ -226,6 +235,7 @@ Terminology comes from <cite>Identity & the Web</cite> [[IDENTITY-WEB-IMPACT]] a
 - [Preventing Abuse of Digital Credentials](https://www.w3.org/2001/tag/doc/prevent-credential-abuse/)
 - [User considerations for credential presentation on the Web](https://github.com/w3cping/credential-considerations/blob/main/credentials-considerations.md)
 - [Building Consensus on the Role of Real World Identities on the Web](https://github.com/w3c/breakouts-day-2024/issues/12)
+- [Protecting Digital Identity Wallet: A Threat Model in the Age of eIDAS 2.0](https://link.springer.com/chapter/10.1007/978-3-031-89350-6_6)
 
 ## Methodology
 

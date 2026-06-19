@@ -560,17 +560,17 @@ When multiple prompts expose the same underlying condition, the table consolidat
   </tbody>
 </table>
 
-## Socio-technical Threat Pathways and Harm Prompts
+## Socio-technical threat pathways from harms
 
-The threat table above is the main inventory of identified threats. Some socio-technical material was elicited from possible harms rather than from a single DFD element, STRIDE category, or privacy property. This section keeps that material visible without treating every harm prompt as a separate threat.
+The threat table above is the main inventory of identified threats. The material in this section was elicited by starting from harm prompts and reasoning backward to what can go wrong. It keeps that material visible without treating each harm prompt as a separate threat, risk, or response.
 
-It records how harm prompts were used to reason backward to threat pathways, where those pathways have already been normalized into threat IDs, and where material still needs deployment-specific analysis before it becomes a separate threat, response, or remaining threat.
+It records how harm prompts were used to identify affected people, entry conditions, credential capabilities, deployment or governance assumptions, and connected threat pathways. Some pathways have already been normalized into threat IDs. Other material still needs deployment-specific analysis before it becomes a separate threat, response, assumption, transfer, acceptance, or remaining threat.
 
 These results come from threat modeling workshops on decentralized identity in national digital identity systems. The framework used for this section is NDIS Harms, derived from <cite>Enhancing National Digital Identity Systems</cite> [[NDIS-HARMS]]. The activity combined NDIS Harms cards with [LEGO SERIOUS PLAY](https://www.w3.org/blog/2025/threat-modeling-with-lego-serious-play-building-your-digital-identity-threat/).
 
-A threat describes what can go wrong and the pathway through which it can happen. A harm is the adverse impact that may result, including impact on people and society. This section uses harm categories as prompts to reason backward from those impacts and identify socio-technical threat pathways. That framing helps identify threats from the system to people and society when a credential capability is used, misused, abused, deployed, or governed in harmful ways.
+A threat describes what can go wrong and the pathway through which it can happen. A harm is an adverse impact that may result, including impact on people and society. This section uses harm categories as prompts: it starts from possible impacts, then asks which credential capability, use, misuse, abuse, deployment condition, governance condition, or assumption could create a pathway to that impact. That keeps the output as threat-modeling material rather than a harm taxonomy.
 
-The connected pathways do not replace the individual threats in the previous table. They show how local design choices, software deputies, institutional choices, and participation conditions can connect individual threats and produce broader harms. Where the pathway analysis exposed a discrete "what can go wrong" condition, that condition is also normalized into the threat table, mainly in the <a href="#t-038">T-038</a> through <a href="#t-049">T-049</a> range. The related threat and response identifiers are initial links; they can be refined as the model becomes more deployment-specific.
+The connected pathways do not replace the individual threats in the previous table. They show how local design choices, software deputies, institutional choices, and participation conditions can connect individual threats and produce broader harms for Holders, Subjects, non-users, and other affected groups. Where the pathway analysis exposed a discrete "what can go wrong" condition, that condition is also normalized into the threat table, mainly in the <a href="#t-038">T-038</a> through <a href="#t-049">T-049</a> range. The related threat and response identifiers are initial links; they can be refined as the model becomes more deployment-specific.
 
 <table class="data">
   <caption>Connected socio-technical threat pathways.</caption>

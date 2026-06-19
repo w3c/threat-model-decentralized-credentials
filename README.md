@@ -1,4 +1,8 @@
-# Threat Model for Digital Credentials
+# Threat Model for Decentralized Credentials
 
-available [here](https://w3c.github.io/threat-model-decentralized-credentials/)
+This document is a living threat model for decentralized credentials. It starts
+from credential flows and uses them to identify security, privacy, and
+socio-technical threats across the credential ecosystem.
 
+Latest published version:
+https://www.w3.org/TR/threat-model-decentralized-credentials/

@@ -12,7 +12,7 @@ Level: none
 Editor: Simone Onofri, w3cid 38211, W3C, https://w3.org, simone@w3.org
 Editor: Amir Sharif, w3cid 157587, FBK, https://www.fbk.eu, asharif@fbk.eu
 Abstract:
-  <p>This document is a living threat model for decentralized credentials. It records security, privacy, and harms-related concerns across the ecosystem and identifies initial principles for discussion and future analysis.</p>
+  <p>This document is a living threat model for decentralized credentials. It starts from credential flows and uses them to identify security, privacy, and socio-technical threats across the credential ecosystem.</p>
 Status text:
   <p><em>This section describes the status of this document at the time of its publication. A list of current W3C publications and the latest revision of this technical report can be found in the <a href="https://www.w3.org/TR/">W3C standards and drafts index</a>.</em></p>
   <p>This Group Note Draft is endorsed by the Security Interest Group, but is not endorsed by W3C itself nor its Members.</p>
@@ -28,576 +28,714 @@ Indent: 2
 Mailing List: public-security@w3.org
 Mailing List Archives: https://lists.w3.org/Archives/Public/public-security/
 </pre>
+<pre class='biblio'>
+{
+  "BEN-LAURIE-SELECTIVE-DISCLOSURE": {
+    "authors": ["Ben Laurie"],
+    "date": "11 May 2007",
+    "href": "https://www.links.org/files/selective-disclosure.pdf",
+    "id": "BEN-LAURIE-SELECTIVE-DISCLOSURE",
+    "title": "Selective Disclosure"
+  },
+  "CHAUM-BLIND-SIGNATURES": {
+    "authors": ["David Chaum"],
+    "date": "1982",
+    "href": "http://www.hit.bme.hu/~buttyan/courses/BMEVIHIM219/2009/Chaum.BlindSigForPayment.1982.PDF",
+    "id": "CHAUM-BLIND-SIGNATURES",
+    "title": "Blind Signatures for Untraceable Payments"
+  },
+  "DID-WEB": {
+    "href": "https://w3c-ccg.github.io/did-method-web/",
+    "id": "DID-WEB",
+    "title": "did:web Method Specification"
+  },
+  "FORMAL-OBJECTION-FEDID-DC": {
+    "authors": ["Philippe Le Hegaret"],
+    "date": "12 September 2024",
+    "href": "https://lists.w3.org/Archives/Public/public-review-comments/2024Sep/0017.html",
+    "id": "FORMAL-OBJECTION-FEDID-DC",
+    "title": "Formal Objection to Adding Digital Credentials API to the Federated Identity Working Group Charter"
+  },
+  "IDENTITY-WEB-IMPACT": {
+    "authors": ["Simone Onofri"],
+    "date": "25 February 2025",
+    "href": "https://www.w3.org/reports/identity-web-impact/#trust-layer",
+    "id": "IDENTITY-WEB-IMPACT",
+    "publisher": "W3C",
+    "status": "Team Report",
+    "title": "Identity & the Web"
+  },
+  "KANONYMITY": {
+    "authors": ["Pierangela Samarati", "Latanya Sweeney"],
+    "href": "https://dataprivacylab.org/dataprivacy/projects/kanonymity/paper3.pdf",
+    "id": "KANONYMITY",
+    "title": "Protecting Privacy when Disclosing Information: k-Anonymity and Its Enforcement through Generalization and Suppression"
+  },
+  "NDIS-HARMS": {
+    "authors": ["Giovanni Corti", "Gianluca Sassetti", "Amir Sharif", "Roberto Carbone", "Silvio Ranise"],
+    "date": "2025",
+    "href": "https://doi.org/10.5220/0013601400003979",
+    "id": "NDIS-HARMS",
+    "publisher": "SciTePress",
+    "title": "Enhancing National Digital Identity Systems: A Framework for Institutional and Technical Harm Prevention Inspired by Microsoft's Harms Modeling"
+  },
+  "OAUTH-STATUS-ASSERTIONS": {
+    "authors": ["Giuseppe De Marco", "Orie Steele", "Francesco Marino", "Michael Adomeit"],
+    "date": "20 December 2024",
+    "href": "https://datatracker.ietf.org/doc/html/draft-demarco-oauth-status-assertions",
+    "id": "OAUTH-STATUS-ASSERTIONS",
+    "status": "Internet-Draft",
+    "title": "OAuth Status Assertions"
+  },
+  "SELECTIVE-DISCLOSURE-VC-CRYPTO": {
+    "authors": ["Andrea Flamini", "Giada Sciarretta", "Mario Scuro", "Amir Sharif", "Alessandro Tomasi", "Silvio Ranise"],
+    "date": "16 January 2024",
+    "href": "https://arxiv.org/abs/2401.08196",
+    "id": "SELECTIVE-DISCLOSURE-VC-CRYPTO",
+    "title": "On Cryptographic Mechanisms for the Selective Disclosure of Verifiable Credentials"
+  },
+  "SHOSTACK-FOUR-QUESTION-FRAME": {
+    "authors": ["Adam Shostack"],
+    "href": "https://github.com/adamshostack/4QuestionFrame",
+    "id": "SHOSTACK-FOUR-QUESTION-FRAME",
+    "title": "Shostack's Four Question Frame for Threat Modeling"
+  },
+  "SPQ": {
+    "authors": ["Theresa O'Connor", "Peter Snyder", "Simone Onofri"],
+    "date": "18 April 2025",
+    "href": "https://www.w3.org/TR/2025/NOTE-security-privacy-questionnaire-20250418/",
+    "id": "SPQ",
+    "publisher": "W3C",
+    "status": "W3C Group Note",
+    "title": "Self-Review Questionnaire: Security and Privacy"
+  },
+  "STAR": {
+    "authors": ["Alex Davidson", "Peter Snyder", "E. B. Quirk", "Joseph Genereux", "Benjamin Livshits", "Hamed Haddadi"],
+    "date": "21 September 2021",
+    "href": "https://arxiv.org/abs/2109.10074",
+    "id": "STAR",
+    "title": "STAR: Secret Sharing for Private Threshold Aggregation Reporting"
+  },
+  "STATUS-LIST-2021": {
+    "authors": ["Dave Longley", "Manu Sporny"],
+    "date": "2 January 2023",
+    "href": "https://www.w3.org/community/reports/credentials/CG-FINAL-vc-status-list-2021-20230102/",
+    "id": "STATUS-LIST-2021",
+    "publisher": "W3C Credentials Community Group",
+    "status": "Final Community Group Report",
+    "title": "Status List 2021"
+  },
+  "THREAT-MODELING-MANIFESTO": {
+    "authors": ["Threat Modeling Manifesto Working Group"],
+    "href": "https://www.threatmodelingmanifesto.org/",
+    "id": "THREAT-MODELING-MANIFESTO",
+    "title": "Threat Modeling Manifesto"
+  },
+  "TEAM-REPORT-FEDID-FO": {
+    "date": "2024",
+    "href": "https://www.w3.org/2024/10/team-report-fedid-wg-fo.html",
+    "id": "TEAM-REPORT-FEDID-FO",
+    "publisher": "W3C",
+    "title": "Team Report on Federated Identity Working Group Charter Formal Objection - Adding Digital Credentials API"
+  },
+  "ZK-ACCUMULATORS": {
+    "authors": ["Anaïs Barthoulot", "Olivier Blazy", "Sébastien Canard"],
+    "date": "2024",
+    "href": "https://eprint.iacr.org/2024/657",
+    "id": "ZK-ACCUMULATORS",
+    "title": "Cryptographic Accumulators: New Definitions, Enhanced Security, and Delegatable Proofs"
+  },
+  "VC-DATA-MODEL-2.0": {
+    "authors": ["Manu Sporny", "Dave Longley", "David Chadwick", "Ivan Herman"],
+    "date": "15 May 2025",
+    "href": "https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/",
+    "id": "VC-DATA-MODEL-2.0",
+    "publisher": "W3C",
+    "status": "W3C Recommendation",
+    "title": "Verifiable Credentials Data Model v2.0"
+  }
+}
+</pre>
 
 
 # Introduction
 
-## Scope
+This threat model covers decentralized credentials for people, especially high-assurance credentials issued by governments. It starts from credential flows, with particular attention to credential presentation.
 
-Digital identity is a broad topic. This threat model starts with a narrower scope: decentralized credentials related to people, especially high-assurance credentials such as government-issued credentials. It focuses on **Layer 3: "Credentials"**, and more specifically on the credential-presentation phase, as described by the [SSI Technology Stack from ToITP](https://trustoverip.org/toip-model/), the [DIF FAQ](https://identity.foundation/faq/), and the [Identity & the Web Report](https://www.w3.org/reports/identity-web-impact/#trust-layer):
+Those credentials are part of the identity ecosystem described in the W3C Team report <cite>Identity & the Web</cite> [[IDENTITY-WEB-IMPACT]]. That report identifies five layers: Layer 5, Trust Frameworks and Ecosystems; Layer 4, Applications, Wallets, Products; Layer 3, Credential Layer; Layer 2, Agent Frameworks and Infrastructure; and Layer 1, Identifiers and Namespaces. This model focuses on Layer 3, the Credential Layer. The other layers remain in scope when they affect threats, responses, assumptions, or remaining threats.
 
-<img alt="decentralized identity layers" src="decentralized-identity-layers.svg">
+Government-issued digital credentials sit inside a socio-technical system: technical components, people, organizations, processes, incentives, and rules all interact. A credential flow can satisfy a local security or privacy property and still affect people or society when the system is used, misused, abused, deployed, or governed in harmful ways. For that reason, the scope includes security threats, privacy threats, and socio-technical threats. That scope matches the need identified in the [joint work on rights-respecting digital credentials](https://github.com/w3c/strategy/issues/458): to assess societal and human-rights impacts, develop threat models and harms models, and identify mitigations for high-assurance credential systems.
 
-The immediate need arose in W3C discussion of the possible adoption of the [Digital Credentials API](https://wicg.github.io/digital-credentials/) by the [Federated Identity Working Group](https://github.com/w3c/strategy/issues/450). That API would allow user agents to mediate communication between a website that requests evidence and the user's wallet. The discussion also identified the need for a broader model that analyzes security, privacy, and human-rights concerns across the relevant layers.
+The immediate trigger was W3C discussion about adding the [Digital Credentials API](https://www.w3.org/TR/digital-credentials/) to the [Federated Identity Working Group](https://github.com/w3c/strategy/issues/450). That specification defines an API enabling user agents to mediate communication between a website that requests evidence and holder software, such as a wallet. The credential-flow model used here also applies to decentralized credentials across architectures, profiles, deployment patterns, and governance contexts.
 
-This threat model is a living document. It can be expanded to include other parts of the architecture or different levels of detail, such as the cryptographic properties of a specific profile or the broader governance context in which credentials are issued and used.
+The result is intended as input for later architecture, profile, implementation, and deployment work.
 
-This generic model identifies security, privacy, and harms-related properties that can later be carried into a concrete architecture, profile, or implementation.
+## Terminology
 
-The document is intended to support a shared analysis. It starts from the Digital Credentials API at a high level and uses that starting point to discuss how decentralized credentials can be developed in a security- and privacy-preserving way while avoiding harm.
+Terminology comes from <cite>Identity & the Web</cite> [[IDENTITY-WEB-IMPACT]] and <cite>Verifiable Credentials Data Model v2.0</cite> [[VC-DATA-MODEL-2.0]]. The short definitions below are included for readability. The cited documents remain the source definitions.
 
-### Terminology
+<dl>
+  <dt><dfn export>identity</dfn></dt>
+  <dd>The characteristics by which a person, organization, device, service, website, or other entity can be recognized in a given context. Identity is broader than a login name, account, credential, or identifier.</dd>
 
-This document uses the definition of identity from ISO/IEC 24760-1:2019, "[IT Security and Privacy - A framework for identity management](https://standards.iso.org/ittf/PubliclyAvailableStandards/c077582_ISO_IEC_24760-1_2019(E).zip)".
+  <dt><dfn export>identifier</dfn></dt>
+  <dd>A specific piece of information used to recognize or refer to an entity. An identifier can refer to an identity, but it is not the identity itself.</dd>
 
-**Identity** is "a set of attributes related to an entity". An entity is something "that has recognizably distinct existence", and can be "logical or physical", such as "a person, an organization, a device, a group of such items, a human subscriber to a telecom service, a SIM card, a passport, a network interface card, a software application, a service or a website". Attributes are "characteristics or properties", such as "an entity type, address information, telephone number, a privilege, a MAC address, a domain name".
+  <dt><dfn export>claim</dfn></dt>
+  <dd>An assertion made about a subject. Claims can describe attributes, properties, qualifications, status, or other facts asserted by an issuer.</dd>
 
-We present **credentials** to claim a certain identity, whether in the physical or digital world. Just as we do not have a one-size-fits-all definition of identity, we also do not have a one-size-fits-all definition of credentials in IT, as they vary by context.
+  <dt><dfn export>credential</dfn></dt>
+  <dd>A set of one or more claims made by an issuer. A credential can include metadata, such as the issuer, validity period, verification material, or status information.</dd>
 
-The credential definition from the W3C Verifiable Credentials Data Model (VCDM) states: a "set of one or more claims made by an issuer". Its framing is in the decentralized identity model, and this document maps the ISO’s *attributes* to VCDM *claims*.
+  <dt><dfn export>verifiable credential</dfn></dt>
+  <dd>A tamper-evident credential whose authorship can be cryptographically verified. Verifiability does not mean that the underlying claims are true.</dd>
 
-For example, a person's characteristics can include physical appearance, voice, beliefs, and habits. Identity is distinct from an identifier, such as a username.
+  <dt><dfn export>presentation</dfn></dt>
+  <dd>Data derived from one or more verifiable credentials and shared with a specific verifier.</dd>
 
-Digital credentials are often discussed in relation to people, particularly government-issued credentials or "real-world identities". They can also be used for non-human identities.
+  <dt><dfn export>verifiable presentation</dfn></dt>
+  <dd>A tamper-evident presentation whose authorship can be checked through cryptographic verification. A verifiable presentation can include credentials, selected claims, or data synthesized from credentials, depending on the credential format and protocol.</dd>
 
-For that reason, this threat model also considers privacy as a right and harms as part of the analysis.
+  <dt><dfn export>subject</dfn></dt>
+  <dd>The person, organization, device, service, or other thing about which claims are made.</dd>
+
+  <dt><dfn export>holder</dfn></dt>
+  <dd>The role that possesses one or more verifiable credentials and can generate verifiable presentations from them. A holder is often, but not always, the subject of the credentials they hold.</dd>
+
+  <dt><dfn export>issuer</dfn></dt>
+  <dd>The role that asserts claims about one or more subjects, creates a verifiable credential from those claims, and transmits it to a holder.</dd>
+
+  <dt><dfn export>verifier</dfn></dt>
+  <dd>The role that receives one or more verifiable credentials, optionally inside a verifiable presentation, for processing before relying on the claims.</dd>
+
+  <dt><dfn export>verifiable data registry</dfn></dt>
+  <dd>A role a system can perform by mediating identifiers, verification material, schemas, status information, revocation registries, or other data needed to verify credentials.</dd>
+
+  <dt><dfn export>credential repository</dfn></dt>
+  <dd>Software, such as a wallet, storage vault, or file system, that stores and protects access to a holder's credentials.</dd>
+
+  <dt><dfn export>verification</dfn></dt>
+  <dd>The evaluation of whether a verifiable credential or verifiable presentation is authentic and current, including checks on conformance, securing mechanisms, and status information where present.</dd>
+
+  <dt><dfn export>validation</dfn></dt>
+  <dd>The verifier's evaluation of whether claims from a specific issuer satisfy the verifier's policy or business requirements for a particular use.</dd>
+</dl>
 
 ## Related Work
 
-- [Joint work on rights-respecting digital credentials](https://github.com/w3c/strategy/issues/458)
+- [Preventing Abuse of Digital Credentials](https://www.w3.org/2001/tag/doc/prevent-credential-abuse/)
 - [User considerations for credential presentation on the Web](https://github.com/w3cping/credential-considerations/blob/main/credentials-considerations.md)
 - [Building Consensus on the Role of Real World Identities on the Web](https://github.com/w3c/breakouts-day-2024/issues/12)
 
 ## Methodology
 
-Security can be understood as a separation function between an asset and a threat. In this document, a threat may have security, privacy, or harms-related effects.
+The method is <cite>Shostack's Four Question Frame for Threat Modeling</cite> [[SHOSTACK-FOUR-QUESTION-FRAME]]. The frame keeps the work tied to the system under analysis instead of starting from a fixed checklist of attacks. The work also follows the <cite>Threat Modeling Manifesto</cite> [[THREAT-MODELING-MANIFESTO]] as a set of values and principles: collaborative, iterative, practical, and focused on finding and fixing design issues rather than treating threat modeling as a compliance checkbox.
 
-There are many approaches to threat modeling. This document uses [Adam Shostack's four-question frame](https://github.com/adamshostack/4QuestionFrame) as the organizing structure:
+The first question, *What are we working on?*, anchors the analysis in the credential architecture: actors, credentials, data flows, stores, trust boundaries, and assumptions.
 
- - What are we working on? This includes the architecture, actors, assets, flows, and trust boundaries.
- - What can go wrong? This includes threats, threat actors, attacks, privacy failures, and harms.
- - What are we going to do about it? This includes responses, assumptions, transfers, acceptances, and remaining threats.
- - Did we do a good job? This includes checking whether the model is useful enough to guide the next stage of work.
+The second question, *What can go wrong?*, uses those flows and boundaries to find threats, threat actors, attacks, privacy failures, and pathways that can lead to socio-technical harms.
 
-The central phases use prompt lists and analysis frameworks as aids for finding issues, not as exhaustive taxonomies. Useful sources include:
+The third question, *What are we going to do about it?*, records mitigations, responsibility boundaries, assumptions, transfers, acceptances, and remaining threats.
 
- - [Solove's Taxonomy](https://wiki.openrightsgroup.org/wiki/A_Taxonomy_of_Privacy) 
- - [Privacy Patterns](https://privacypatterns.org/patterns/)
- - [Privacy Principles](https://www.w3.org/TR/privacy-principles/)
+The final question, *Did we do a good enough job?*, checks whether the model is specific, traceable, and ready to guide the next round of design, review, or implementation work.
+
+The external frameworks and prompt sets listed below are prompts, not completeness criteria.
+
+ - Ben Laurie's privacy properties from <cite>Selective Disclosure</cite> [[BEN-LAURIE-SELECTIVE-DISCLOSURE]]
  - [LINDDUN](https://linddun.org/threats/)
  - [RFC 6973](https://datatracker.ietf.org/doc/html/rfc6973)
  - [RFC 3552](https://datatracker.ietf.org/doc/html/rfc3552)
  - [STRIDE](https://learn.microsoft.com/en-us/previous-versions/commerce-server/ee823878(v=cs.20)?redirectedfrom=MSDN)
  - [OSSTMM v3](https://www.isecom.org/OSSTMM.3.pdf)
- - [Microsoft's Types of Harm](https://learn.microsoft.com/en-us/azure/architecture/guide/responsible-innovation/harms-modeling/type-of-harm) ([tailored for Identity](https://www.scitepress.org/Papers/2025/136014/136014.pdf))
- - [RFC 9620](https://datatracker.ietf.org/doc/html/rfc9620)
-
-This analysis also uses OSSTMM. OSSTMM controls help identify what can go wrong, such as a missing control or a control that fails in context.
-
-Although OSSTMM is control-oriented and often reads as security-oriented, privacy can be treated as an operational control that connects different parts of the model.
-
-## Channel and Vector
-
-OSSTMM analyses define a channel and a vector.
-
-This model uses the COMSEC Data Networks channel and the Internet/Web vector.
-
-Although different digital credentials may use different channels or vectors (e.g., Wireless), they can still be analyzed similarly.
-
-# Analysis
-
-## What are we working on?
-
-This threat model first identifies the components of the decentralized identity architecture, which in this context is used as a synonym for self-sovereign identity, as defined in the [W3C Verifiable Credentials Data Model](https://www.w3.org/TR/vc-data-model-2.0/), and how they interact.
-
-### Architecture and Actors
-
-- A *Holder* has credentials inside a *Wallet*.
-- An *Issuer* issues credentials to the *Holder* and manages revocation.
-- A *Verifier* verifies the Holder's credentials to give access to a resource or a service.
-- A *Verifiable Data Registry* (VDR) stores identifiers and schemas.
-
-<img alt="Decentralized Identity Model" src="decentralized-identity-model.svg">
-
-Interactions between actors typically occur through software or other technological components. This document refers to those components as *Agents*. One agent might be embedded in a *Wallet*, the component that contains the *Holder's* credentials. Another might be a browser, which is a user agent.
-
-### Flows
-
-The model considers three general flows, with four "ceremonies" where the actors interact.
-
-- Credential-Issuing
-- Credential-Presentation and Credential-Verification
-- Credential Revocation
-
-The flow stops here, but deployments can continue it in several ways. For example, the *Holder* receives credentials from an *Issuer* and uses them to identify themselves to a *Verifier* to buy a physical object or a ticket to an event. The *Verifier* could then become an *Issuer* to issue a certificate of authenticity for the object, or issue the ticket directly into the *Holder's* Wallet.
-
-* **Credential-Issuing (CI):**
-    1. The *Issuer* requests a certain authentication mechanism from the *Holder*.
-    2. After authentication, the *Holder* asks the *Issuer* for the credential, or the *Issuer* submits it.
-    3. If both parties agree, the *Issuer* sends the credential to the Holder in a specific format.
-    4. The *Holder* enters their credential into the *Wallet*.
-* **Credential-Presentation (CP)**
-    1. The *Holder* requests access to a specific resource or service from the *Verifier*.
-    2. The Verifier then requests Proof from the *Holder*. This can be done actively (e.g., the Verifier presents a QR code for the Holder to scan) or passively (e.g., the Holder accesses a web page and is prompted to provide a credential).
-    3. Through the *Wallet*, the Holder's user agent determines whether credentials exist to generate the required Proof.
-    4. The *Holder* may use the Proof explicitly if they possess it.
-    5. The Holder's user agent then prepares the Presentation, which can contain the full credential or part of it, and sends it to the *Verifier*.
-* **Credential-Verification (CV)**
-    1. The user agent of the *Verifier* verifies the *Presentation* (e.g., if the Presentation and the contained Credentials are signed correctly, issued by an *Issuer* they trust, compliant with their policy, the Holder is entitled to hold it, and that it has not been revoked or expired). The revocation check can be done using the methods defined by the specific credential.
-    2. If the verification is successful, the *Verifier* gives the *Holder* access.
-* **Credential-Revocation (CR)**
-    1. The *Issuer* can revoke a credential in various ways.
-
-### Trust and Trust Boundaries
-
-Trust is a key element in threat modeling. In fact, in OSSTMM, it is an element of privileged access to the asset, which, when trusted, lowers various operational controls.
-
-At the **Process level**, trust relationships are:
-
-- The *Holder* trusts the *Issuer* during issuance.
-- The *Holder* always trusts its agents and wallet.
-- The *Holder* trusts the *Verifier* during the Presentation.
-- The *Verifier* relies on trust in the *Issuer* during Verification.
-- All *actors* trust the record of verifiable data.
-- Both the *Holder* and *Verifier* rely on the *Issuer* to revoke VCs that have been compromised or are no longer true.
-
-At the **Software level**, Trust boundaries are documented in the [Data Model in section 8.2](https://www.w3.org/TR/vc-data-model-2.0/#software-trust-boundaries):
-
-- An issuer's user agent (issuer software), such as an online education platform, is expected to issue only verifiable credentials to individuals that the Issuer asserts have completed their educational program.
-- A verifier's user agent (verification software), such as a hiring website, is expected to only allow access to individuals with a valid verification status for verifiable credentials and verifiable presentations provided to the platform by such individuals.
-- A holder's user agent (holder software), such as a digital wallet, is expected to divulge information to a verifier only after the Holder has consented to its release.
-
-However, from a threat modeling perspective, the Issuer, Verifier, and Holder are external entities, so there are trust boundaries between them. This makes sense and is also why we have the concept of (crypto) verification.
-
-### Data Model, Formats, Protocols
-
-To model Decentralized Identities and Credentials, it is possible to use them as a high-level meta-model using Verifiable Credentials documentation (the list of technologies is partial; feel free to extend):
-
-* **Data Models:** abstract models for Credentials and Presentation (e.g., the [Verifiable Credentials Data Model](https://www.w3.org/TR/vc-data-model/), mDL in ISO/IEC [18013-5:2021](https://www.iso.org/standard/69084.html)).
-* **Identifiers**: [DIDs](https://www.w3.org/TR/did-core/) and the [DID methods](https://www.w3.org/TR/did-extensions-methods/), or [WebID](https://w3c.github.io/WebID/spec/identity/).
-* **Encoding Schemas**: JSON, JSON-LD, CBOR, CBOR-LD.
-* **Securing Mechanisms:** Each mechanism may or may not support different privacy features or be quantum-resistant:
-  * **Enveloped Formats (Credential Formats)**: The Proof wraps around the serialization of the credential. 
-    JSON credentials can be enveloped using JSON Object Signing and Encryption ([JOSE](https://datatracker.ietf.org/wg/jose/about/)); relevant formats include JWT, JWS, and JWK. JOSE is "cryptographically agile" because it can fit different cryptographic primitives, and can also support Selective Disclosure (SD) with [SD-JWT](https://www.ietf.org/archive/id/draft-fett-oauth-selective-disclosure-jwt-02.html), which uses HMAC. New security mechanisms are emerging, such as [SD-BLS](https://arxiv.org/abs/2406.19035), which uses BLS, and ongoing efforts to implement BBS#.
-    CBORs are enveloped using CBOR Object Signing and Encryption ([COSE](https://www.rfc-editor.org/rfc/rfc9052)).
-    Other formats include *mdoc* and [*SPICE*](https://datatracker.ietf.org/wg/spice/about/).
-    The mechanism to use VCDM with JOSE/COSE is described in [Securing Verifiable Credentials using JOSE and COSE](https://www.w3.org/TR/vc-jose-cose/).
-  * **Embedded Formats (Signature Algorithms):** The Proof is included in the serialization alongside the credentials (e.g., BBS, ECDSA, EdDSA). The mechanism is described in [Verifiable Credential Data Integrity 1.0](https://www.w3.org/TR/vc-data-integrity/).
-* **Status Information (Revocation Algorithms)**: *Issuers* can implement several ways to keep up to date the status of the credential, such as Revocation List, Status List (e.g., [Bitstring Status List v1.0](https://www.w3.org/TR/vc-bitstring-status-list/)), Cryptographic Accumulators, etc.
-* **Communication Protocols**: for the different phases of Issuance and Presentation (e.g.,  [OID4VCI](https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html), [OID4VP](https://openid.net/specs/openid-4-verifiable-presentations-1_0.html), [SIOPv2](https://openid.net/specs/openid-connect-self-issued-v2-1_0.html)).
-
-### Assets
-
-Assuming that the main asset is the credential and information derived during its life cycle, this model uses the three privacy properties defined by [Ben Laurie](http://www.links.org/files/selective-disclosure.pdf) as a starting point:
-
-- Verifiable
-- Minimal
-- Unlinkable
-
-These properties were defined in a very specific case of Decentralized Identities. Those related to people, and, more specifically, those issued by governments, are based on the concept of Privacy for the protection of the Holder.
-
-The *Minimal* and *Unlinkable* properties primarily protect the *Holder*. The *Verifiable* property is relevant to all actors. Verifiable means that the *Verifier* can confirm who issued the credential, that it has not been tampered with, has not expired or been revoked, contains the required data, and may be associated with the Holder.
-
-This threat model starts with government-issued credentials for people because that use case exposes many of the relevant security, privacy, and harms-related tensions.
-
-Minimization and Unlinkability are generally interrelated: the less data a Holder discloses, the less data can be linked. They need to coexist with *Verifiability*. For example, checking whether a credential has been revoked may require contacting the Issuer or a service that maintains revocation information, but that approach can also make the credential linkable.
-
-#### Minimization Scale
-
-The following scale helps qualify *Minimization*:
-
- - Full Disclosure (e.g., showing the whole passport).
- - Selective Disclosure (e.g., showing only the date of birth).
- - Predicate Disclosure (e.g., proving only the age).
- - Range Disclosure (e.g., proving only that a person is an adult).
-
-#### Unlinkability Scale
-
-The [Nymity Slider](https://www.cypherpunks.ca/~iang/pubs/thesis-final.pdf) helps qualify *Unlinkability* by classifying credentials as:
-
- - Verinymity (e.g., Legal name or Government Identifier).
- - Persistent Pseudonymity (e.g., Nickname).
- - Linkable Anonymity (e.g., Bitcoin/Ethereum Address).
- - Unlinkable Anonymity (e.g., Anonymous Remailers).
-
-One possible response is to move the design toward Unlinkable Anonymity where the credential properties and use case allow it.
-
-## What can go wrong?
-
-After identifying the assets and properties, the model identifies who can affect them.
-
-### Threat Actors
-
-Protecting the *Holder* is a central concern. A conservative model treats each actor as a possible threat actor to the others:
-
-Holder, Issuer, Verifier, and their agents/software components (e.g., Browser, Wallet, Websites). Each actor can threaten the others, and an actor can also create threats for itself (e.g., [Alert fatigue](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7272062/)).
-
-In addition, although there are trust relationships between the various actors and their software (which hold across the various steps), such software can also be malicious. It can track Holders, the type of credential they have, and how and where they use it through telemetry and statistical collection, and it can influence user choices.
-
-The analysis also needs to consider a possible external **threat actor**, who could also be an observer or use active techniques, and who wants to track the three main actors or their agents, such as Marketers, Data brokers, Stalkers, Identity thieves, intelligence and law enforcement agencies (laws often constrain them), and OSINT investigators.
-
-The model also considers combinations of actors, such as multiple *Verifiers* acting together or an *Issuer* and *Verifier* collaborating to track the *Holder*.
-
-### Evil user stories
-
-Using this model, the following [Evil User Stories](https://dsomm.owasp.org/activity-description?uuid=bacf85b6-5bc0-405d-b5ba-a5d971467cc1&dimension=Culture%20and%20Organization&subDimension=Design&level=3&activityName=Creation%20of%20simple%20abuse%20stories) can be used as starting points:
-
- - A malicious *Verifier* who wants to collect too much data from the Holder.
- - A malicious *Holder* who wants to get something they are not entitled to from the verifier.
- - A malicious *Issuer* that wants to track its holders.
- - A malicious *Agent* who wants to track its holder.
- - An external *Adversary* who wants to track the *Issuer*, how a *Verifier* works, or a specific *Holder*.
-
-### Finding the Threats
-
-One effective, though inefficient, approach to threat modeling is to cycle through the lists of threats and attacks, controls, and objectives in a brainstorming session to assess how they may affect architecture components, actors, assets, and the overall flow. Using multiple frameworks may result in some elements being repeated.
-
-#### Ben's Privacy Properties (Objectives)
-
- - **Verifiable**:
-   - *Description*: A statement is more useful when the relying party has a way to check whether it is true. This is not always required: a person may not need to prove that an address is theirs to receive a delivery, but may need to prove that they are over 18 to receive alcohol.
-   - *Analysis*: This brings us to the concept of integrity (via cryptographic means), which is authenticated and trusted at the level of the issuer and from what exists.
- - **Minimal**:
-   - *Description*: This is the privacy-preserving property: the relying party receives only the information needed for the transaction. A person should not have to reveal their date of birth when the verifier only needs to know whether they are over 18.
-   - *Analysis*: The interaction should release only what is strictly necessary. Since this is an interaction, we consider Subjugation an interactive OSSTMM control. For example, age verification can be handled by showing the whole document, showing only the date of birth (Selective Disclosure), or answering a specific true/false query (Predicate Proofs). This property also helps Unlinkability: the less data is disclosed, the less data can be correlated.
-
- - **Unlinkable**:
-   - *Description*: If the relying party, multiple relying parties, or other actors in the system can link a person's assertions, then minimal disclosure no longer provides the expected privacy protection.
-   - *Analysis*: The interaction should remain minimal. Ideally, it should not be possible to map the signer (Signature Blinding), contact them to know if the credential has been revoked (e.g., Revocation via Cryptographic Accumulation), or use revocation lists that expose the list of credentials. Generally, if an identifier can be used to link identities, it should be rotated (Rotational Identifiers), as with PAN numbers used with Apple Pay.
-
-#### LINDDUN (Threats)
-
-- **Linking**:
-  - *Description*: Learning more about an individual or a group by associating data items or user actions. Linking may lead to unwanted privacy implications, even if it does not reveal one's identity.
-  - *Threat*: This is primarily a threat to the Holder and to the unlinkability of their attributes, but an *Issuer* can also track its users. The same concern applies to a *Verifier*, a group of Verifiers, or an external third party observing exchanges or the Revocation list.
-  - *Responses*:
-    - Use Signature Blinding.
-    - The *Verifier* should request the following: Range Proof, Predicate Proof, Selective Disclosure, and the credential.
-    - The *Issuer* should use an anonymous revocation method such as Cryptographic Accumulators.
-    - The *Issuer* should use random identifiers when generating the credential.
-    - When interacting with the Verifier, the Holder should always use rotational and random identifiers specific to that interaction session.
-    - The *Issuer* should use privacy-preserving identifiers (e.g., DID). Once resolved, they do not establish a connection to a system controlled, directly or indirectly, by the *Issuer*.
-
-- **Identifying**:
-  - *Description*: Identifying threats arises when the identity of individuals can be revealed through leaks, deduction, or inference in cases where this is not desired.
-  - *Threat*: The threat is the ability to identify an individual using their credentials.
-  - *Responses*:
-    The *Verifier* should request the following: Range Proof, Predicate Proof, Selective Disclosure, and the credential.
-    - The *Issuer* and the *Holder* should avoid writing personally identifiable information (PII) or linkable identifiers in the *VDR*.
-     - The *Issuer* should use an anonymous revocation method.
-
-- **Non-Repudiation**:
-  - *Description*: Non-repudiation threats pertain to situations where an individual can no longer deny specific claims.
-  - *Threat*: The inability of an actor to deny the issuance or presentation of a credential; an example is a [DHS use case](https://www.dhs.gov/science-and-technology/publication/misuse-mobile-drivers-license-mdl-investigative-aid).
-   - *Responses*:
-     - Depending on the Levels of Assurance (LOAs), the issuer is expected to use appropriate authentication during the issuing process.
-     - Appropriate logging is expected for the issuer, the Verifier, and the Holder (and their agents), e.g., following the OWASP. [ASVS 7.1](https://github.com/OWASP/ASVS/blob/master/4.0/en/0x15-V7-Error-Logging.md) e.g., each log should contain enough metadata for an investigation, time with timezone reference, without PII but with session identifiers, but in a hashed format, in a common machine-readable format, and possibly signed.
-
-- **Detecting**:
-  - *Description*: Detecting threats pertains to situations where an individual's involvement, participation, or membership can be deduced through observation.
-  - *Threat*: In this case, the threat can happen in several stages: when a credential is required to be presented, the credential is verified.
-   - *Responses*:
-     - When proof or a credential is requested, the Holder agent is expected to return the same message and behavior (including timing, to avoid side-channel attacks) whether or not a wallet is present, whether the wallet has a credential or not, whether it has a valid credential, or whether the user does not accept. It is the same whether or not the user gives the browser access to the wallet.
-      - When a credential's validity is verified, there should be no direct connections or systems controlled by the Issuer (e.g., when a DID is resolved) to avoid back-channel connections.
-
-- **Data Disclosure**:
-  - *Description*: Data disclosure threats represent cases in which disclosures of personal data to, within, and from the system are considered problematic.
-  - *Threat*: The threat will be disclosed during presentation and verification. 
-   - *Responses*:
-     - The *Verifier* should request the following: Range Proof, Predicate Proof, Selective Disclosure, and the credential.
-     - The *Issuer* and the *Holder* should avoid writing personally identifiable information (PII) or linkable identifiers in the *VDR*.
-     - The *Issuer* should use an anonymous revocation method.
-
-- **Unawareness & Unintervenability**:
-
-  - *Description*: Unawareness and Unintervenability threats occur when individuals are insufficiently informed, involved, or empowered concerning the processing of their data.
-  - *Threat*: For the *Holder*, unaware of how their credentials are used or shared.
-  - *Responses*:
-    - The *Holder* should be informed when a *Verifier* asks for the credential's Full Disclosure or Selected Disclosure.
-    - The *Holder* should be informed when their credentials is *Phoning Home* or possible *back-channel connections*.
-    - The *Holder* should consent to each use of their credential and be able to identify the Verifier, the Proof Requested (at the moment of request), and which credentials and information are shared with the Verifier after the selection.
-
-- **Non-Compliance**:
-  - *Description*: Non-compliance threats arise when the system deviates from legislation, regulation, standards, and best practices, leading to incomplete risk management.
-  - *Threat*: The risk of credentials not complying with legal, regulatory, or policy requirements. It is also possible to translate this element about minimal training for the *Holder*, particularly if they are in a protected or at-risk category, so they can be aware of what they are doing and the risks associated with Social Engineering.
-  - *Responses*:
-    - Provide Security Awareness Training to the *Holder* 
-    - Verifiers and Issuers should be subject to regular audit.
-    - The standards and their implementation should include responses to harms such as Surveillance, Discrimination, Dehumanization, Loss of Autonomy, and Exclusion.
-
-#### RFC 6973 (Threats)
-
-- **Surveillance**:
-  - *Description*: Surveillance observes or monitors an individual's communications or activities. 
-  - *Threat*: Surveillance can involve governments tracking the *Holder* or an adversary, but it also includes profiling for targeted advertising, tracking by software agents that the *Holder* is expected to trust, or tracking by threat actors such as stalkers.
-   - *Responses*:
-     - Refer to LINDDUN's *Linking*, *Identifying*, and *Data Disclosure*
-
-- **Stored Data Compromise**:
-  - *Description*: End systems that do not take adequate measures to secure stored data from unauthorized or inappropriate access expose individuals to potential financial, reputational, or physical harm.
-  - *Threat*: All actors can be compromised. This matters especially for wallets and agents used by the *Holder*, the end-user device, and the *Issuer*'s signature keys.
-   - *Responses*:
-     - Keys are expected to be stored securely and protected from compromise of the device or location where they are contained (e.g., Secure Enclave, Keystore, HSMs).
-      - At the Issuer's organizational level, the Incident Response Plan should include what to do in case of compromise of [private keys](https://www.wionews.com/world/eus-green-pass-hacked-adolf-hitlers-covid-certificate-doing-rounds-online-report-424736) or [underlying device technology](https://ria.ee/en/news/2011-researchers-identified-security-vulnerability-id-card-used-estonia).
-
-- **Intrusion**:
-  - *Description*:  Intrusion consists of invasive acts that disturb or interrupt one's life or activities.  Intrusion can thwart individuals' desires to be left alone, sap their time or attention, or interrupt their activities.  This threat focuses on intrusions into one's life rather than direct intrusions into one's communications.
-  - *Threat*: Intrusive and multiple data requests by *Verifier*
-  - *Responses*:
-    - Refer to LINDDUN's *Linking*, *Identifying*, and *Data Disclosure*
-    - Implement time-based throttling for requests
-
-- **Misattribution**:
-  - *Description*:  Misattribution occurs when data or communications related to one individual are attributed to another. 
-  - *Threat*: Incorrect issuance or verification of credentials.
-  - *Responses*:
-    - Refer to LINDDUN's *Non-Repudiation*
-
-- **Correlation**:
-  - *Description*: Correlation is the combination of various information related to an individual, or that obtains that characteristic when combined.
-  - *Threats*: Linking multiple credentials or interactions to profile or track a *Holder*. We are linking individuals to the same *Issuer*.
-  - *Responses*:
-        - Refer to LINDDUN's *Linking*, *Identifying*, and *Data Disclosure*
-
-- **Identification**: 
-  - *Description*:  Identification is linking information to a particular individual to infer an individual's identity or to allow the inference of an individual's identity.
-  - *Threats*: Verifiers asking more information than necessary during credential verification.
-   - *Responses*:
-     - Refer to LINDDUN's *Unawareness & Unintervenability*  and *Identifying*.
-
-- **Secondary Use** :
-  - *Description*:  Secondary use is the use of collected information about an individual without the individual's consent for a purpose different from that for which the information was collected.
-  - *Threat*: Unauthorized use of collected information, e.g., for targeted advertising or creating profiles, and Abuse of Functionality on collected data
-  - *Responses*:
-    - Refer to LINDDUN's *Non-Compliance*.
-
-- **Disclosure**:
-  - *Description*:  Disclosure is the revelation of information about an individual that affects how others judge the individual.  Disclosure can violate individuals' expectations of data confidentiality.
-  - *Threat*: A *Verifier* asks for more data than needed.
-  - *Responses*:
-    - Refer to LINDDUN's *Data Disclosure*.
-
-- **Exclusion**:
-  - *Description*:  Exclusion is the failure to let individuals know about the data that others have about them and participate in its handling and use.  Exclusion reduces accountability on the part of entities that maintain information about people and creates a sense of vulnerability about individuals' ability to control how their information is collected and used.
-  - *Threats*: Lack of transparency in using the data provided.
-  - *Responses*:
-    - Refer to LINDDUN's *Unawareness & Unintervenability*.
-
-#### RFC 3552 (Attacks)
-
-- **Passive Attacks**:
-  - *Description*:  In a passive attack, the attacker reads packets off the network but does not write them, which can bring Confidentiality Violations, Password Sniffing, and Offline Cryptographic Attacks.
-  - Responses:
-    - Encrypt Traffic.
-    - Use Quantum-Resistant Algorithms.
-    - Use Key Management practices to rotate keys.
-
-- **Active Attacks**:
-  - *Description*: When an attack involves writing data to the network. This can bring Replay Attacks (e.g., recording the message and resending it), Message Insertion (e.g., forging a message and injecting it into the network), Message Deletion (e.g., removing a legit message from the network), Message Modification (e.g., copying the message, deleting the original one, modifying the copied message re-injecting it into the flow), Man-In-The-Middle (e.g., combination of all the previous attacks).
-  - *Responses*:
-    - Use a nonce to prevent replay attacks
-    - Use Message Authentication Codes/Digital Signatures for message integrity and authenticity
-    - Use a specific field to bind the request to a specific interaction between the Issuer, Verifier, and Issuer to Holder.
-     - Encrypt Traffic.
-     - Use Quantum-Resistant Algorithms.
-
-#### STRIDE (Threats)
-
-- **Spoofing** (Threats to Authentication):
-  - *Description*: Pretending to be something or someone other than yourself.
-  - *Responses*:
-    - Implement Digital Signatures
-    - During the presentation, indicate proper messages for identifying the *Verifier* to limit Phishing Attacks.
-    - During issuing, use proper LOAs depending on the issued credentials.
-
-- **Tampering** (Threats to Integrity):
-  - *Description*: Modifying something on disk, network, memory, or elsewhere.
-  - *Responses*:
-    - Implement Digital Signatures in transit and at rest.
-
-- **Repudiation** (Threats to Non-Repudiation):
-  - *Description*: Claiming that you didn't do something or were not responsible can be honest or false
-  - *Responses*:
-    - Refer to LINDDUN's *Non-Repudiation*.
-
-- **Information disclosure** (Threat to Confidentiality and Privacy):
-  - *Description*: Confidentiality  Someone obtaining information they are not authorized to access
-  - *Responses*:
-    - Refer to LINDDUN *Data Disclosure*.
-
-- **Denial of service** (Threats to Availability and Continuity):
-  - *Description*: Exhausting resources needed to provide service
-  - *Responses*:
-    - Use a decentralized VDR for verification
-
-  - **Elevation of privilege**  (Threats to Authorization): 
-    - *Description*: Allowing someone to do something they are not authorized to do
-     - *Responses*:
-       - During issuing, use proper LOAs depending on the issued credentials.
-
-
-#### OSSTMM (Controls)
-
-- **Visibility**:
-
-  - *Description*: Police science places “opportunity” as one of the three elements that encourage theft, along with “benefit” and “diminished risk.” Visibility is a means of calculating opportunity. Each target’s asset is known to exist within the scope. Unknown assets are only at risk of being discovered, not of being targeted.
-   - *Analysis*: In the specific case of (request for) submission, the visibility of a specific wallet credential or assertion wallet will be limited as much as possible when the website requests it. This is best handled at the user-agent level, or, where possible, hidden from it and routed directly to the Wallet.
-
-- **Access**
-
-  - *Description*: Access in OSSTMM is precisely when you allow interaction. 
-   - *Analysis*: In this case, the only way to do this is with the available API subset, which is expected to be a specific request.
-
-- **Trust**:
-
-  - *Description*: Trust in OSSTMM is when we leverage an existing trust relationship to interact with the asset. Normally, this involves a "relaxation" of the security controls that otherwise manage the interaction.
-   - *Analysis*: This specific case should have no trusted access. However, the interaction could be triggered when asking permission for powerful features. Consider avoiding or limiting this over time, balancing Trust with Subjugation.
-
-- **Authentication**:
-
-  - *Description*: is control through the challenge of credentials based on identification and authorization.
-  - *Analysis*: This can be considered the Trust of the issuers and the signatures (in the OSSTMM definition, Identity, Authentication, and Authorization are collapsed in the Authentication).
-
-- **Indemnification**: 
-
-  - *Description*: is a control through a contract between the asset owner and the interacting party. This contract may serve as a visible warning, a precursor to legal action if posted rules are not followed, specific, public legislative protection, or a third-party assurance provider in case of damages, such as an insurance company.
-
-  - *Analysis*: This is the agreement between the interacting parties, such as contracts. In this case, *Notifications* can describe what happens in a "secure" context (e.g., Payments API); all operations should be specifically authorized with Informed Consent. Holder should be notified if the Verifier asks for Full Disclosure, if the Issued Credentials do not support Selective Disclosure, or if it is phoning home.
-
-    *Note: this can be used as a [nudge](https://en.wikipedia.org/wiki/Nudge_theory), as used in behavioural economics, to guide Verifiers, Holders, and Issuers toward the intended behaviour.*
-
-- **Resilience**: 
-
-  - *Description*: Control all interactions to protect assets in the event of corruption or failure.
-  - *Analysis*: In this context, it means failing securely, which can be considered a failure in the case of cryptographic problems.
-
-- **Subjugation**: 
-
-  - *Description*: It is a control that assures that interactions occur only according to defined processes. The asset owner defines how the interaction occurs, thereby removing the interacting party's freedom of choice and liability for any losses.
-  - *Analysis*: This control is especially relevant to credential presentation. The analysis should check that the interaction asks for the minimum information, if and when available (e.g., prioritize Predicates Proof, then Selective Disclosure, and, if none, the whole credential), similar to negotiation in SSL/TLS cipher selection.
-
-- **Continuity**: 
-
-  - *Description*: controls all interactions to maintain *interactivity* with assets in the event of corruption or failure.
-  - *Analysis*: This covers continuity when an interaction fails. In some cases, the safer response is to terminate the interaction. The Holder may also need a secure backup.
-
-- **Non-Repudiation**: 
-
-  - *Description*:  is a control that prevents the interacting party from denying its role in any interactivity.
-  - *Analysis*: Non-repudiation raises logging questions: where logs are kept, who keeps them, and how they are protected. The Holder and Verifier may both need records of what happened, for example to show that access to a service was granted after a credential presentation. Those records also need privacy constraints.
-
-- **Confidentiality**:
-
-  - *Description*: is a control for assuring that an asset displayed or exchanged between interacting parties cannot be known outside of those parties.
-  - *Analysis*: Cryptography can help provide confidentiality. Post-quantum cryptography (PQC) readiness is one consideration. One response is to limit a credential's lifetime and reissue it with a more secure cryptographic suite.
-
-- **Privacy**:
-
-  - *Description*:  is a control for assuring that the means of how an asset is accessed, displayed, or exchanged between parties cannot be known outside of those parties.
-  - *Analysis*: This mainly concerns Unlinkability and minimization, as described before. In the Digital Credentials API context, this also includes preventing third parties from unnecessarily learning about the end-user's environment (e.g., which wallets are available, their brand, and their capabilities).
-
-- **Integrity**: 
-
-  - *Description*: It is a control to ensure that interacting parties know when assets and processes have changed.
-  - *Analysis*: The credential and its presentation to be verified are expected to be cryptographically signed.
-
-- **Alarm**:
-
-  - *Description*: is a control to notify that an interaction is occurring or has occurred.
-  - *Analysis*: Users need notification and control when an interaction happens, particularly when it scores poorly on the Unlinkability Scale or Minimization Scale. For example, the Issuer might use a technology that "calls home," or the Verifier might ask for data that could be minimized.
-
-#### Responsible Innovation (Harms)
-
-- **Opportunity loss** (*Discrimination*): Discrimination spans multiple areas. If digital identities are required for access to public services, no alternatives are present, and access depends on specific hardware, software, or stable connectivity, people without those resources can be excluded. Interoperability gaps between national technologies and implementations can create additional discrimination.
-- **Economic loss** (*Discrimination*): Digital identities and related credentials can contain information about wealth status and can be used to discriminate in access to credit. A W3C breakout session also identified concerns related to the Jevons paradox: the more information is available in this mode, the more likely it is that collection, particularly in greedy data-driven contexts, is abused.
-- **Dignity loss** (*Dehumanization*): If the vocabulary does not correctly describe people's characteristics, this can reduce or obscure their humanity and characteristics.
-- **Privacy Loss** (*Surveillance*): if this technology is not designed and implemented properly, it may enable Surveillance by state and non-state actors such as government and private Surveillance providers. For example, centralized or federated models are more prone to these threats, while decentralized models are less so; however, this depends on how they are implemented. Privacy-preserving technologies need to be available and implemented properly.
-
-### Other Threats and Harms
-
-#### Government-issued credentials
-
-For government credentials issued to people, the following use cases illustrate additional threats:
-
-- In some countries, at-risk workers who are taken abroad have their passports seized by those who exploit them so that they can be controlled. Digital Credentials can reduce this threat because they are intangible and can be regenerated after theft. The remaining question is how the threat agent would adapt and what responses, often process responses rather than technical measures, governments can implement.
-- Normally, we assume that the *Holder* of the credential is also the *Subject* to whom the credential refers.  This is not necessarily the case.
-  - Delegation of a credential is one relevant case, although this document uses the term delegation loosely because questions such as Guardianship have a precise legal meaning. Delegation can help prevent abuse and identity theft, and should be modeled as Issuer rules at the upper layers of the architecture.
-  - Delegation can also matter when a government generates a credential at the organizational level and legal representatives use it on behalf of the organization.
-
-#### Credentials used for authentication
-
-Another scenario is the use of a credential for authentication:
-
-- In contrast to what can happen with credentials in other identity models, where credentials are used primarily for authentication, it can be risky to use a credential issued by an issuer to authenticate to a service that is not under the control of the Issuer, as a malicious issuer could generate a parallel ad-hoc credential to authenticate. For example, it may not be a good idea to log in to your personal e-mail account with a government-issued credential, such as a passport.
-
-Other threats [to consider](https://github.com/w3c/identity-web-impact/issues/29#issuecomment-2309436586):
-
- - Identity leakage
- - Identity impersonation
-
-#### Societal Threats
-
-Other threats [to consider](https://lists.w3.org/Archives/Public/public-review-comments/2024Sep/0017.html) as specified in the [Team report on Federated Identity Working Group Charter Formal Objection - Adding Digital Credentials API](https://www.w3.org/2024/10/team-report-fedid-wg-fo.html):
-
-- Perpetuates sharing of personal data by making it more available via a browser API.
-- Increased centralization through subtle tradeoffs.
-- Content will be moved from the deep web to the “attributed deep web”.
-- Exchanges user agency for greater compliance and convenience.
-
-#### Socio-technical Threats
-
-This section records results from a threat modeling activity that combined cards derived from [A Framework for Institutional and Technical Harm Prevention Inspired by Microsoft’s Harms Modeling](https://www.scitepress.org/Papers/2025/136014/136014.pdf) with [LEGO SERIOUS PLAY](https://www.w3.org/blog/2025/threat-modeling-with-lego-serious-play-building-your-digital-identity-threat/). The activity was applied in a series of workshops analyzing decentralized identity in the context of national digital identity systems.
-
-A key finding is that the analysis should not just look at individual threats. It needs to consider their context and how they connect. For example, constraining how a person can present identity, making enrolment effectively compulsory, or tying access to a single official wallet path can create conditions for additional downstream threats.
-
-This section captures those relations as connected threats. While not every deployment follows the same pattern, these threats should not be viewed as isolated events. In government-issued digital credential systems, it is more useful to view them as part of a propagation path, similar to a "kill-chain" model. Different patterns were identified:
-
-* **Restriction of identity multiplicity, profiling, and censorship**. Participants repeatedly returned to the idea that forcing a person into one stable identity, or one acceptable proof path, makes profiling easier. Once behaviour can be linked back to the same holder over time, the profile becomes actionable. Censorship is then no longer a separate problem; persistent visibility can enable later intervention. This is why the connection between multiplicity and profiling was treated as strong. Limiting a holder to one identity cannot be treated only as a usability or policy choice. It can function as a profiling infrastructure. For example, if the issuer generates or signs a special anonymous credential to express a single claim or attribute (e.g., in the case of Age Verification), even where the issuer does not observe each use directly, repeated requests for additional capacity, combined with the metadata, can still support inference. In this case, an issuer may have enough information to correlate user behaviour, in particular in the case of collusion with a verifier.
-* **Forced association, overreach, and surveillance**. Where enrolment is not realistically optional, the identity system stops being a neutral mechanism for facilitating presentation and becomes a gate through which access is forced to pass. This was represented in different connected landscapes of threats. Forced association was treated as an entry condition because it exposes the person to the rest of the system, whether or not that person would otherwise choose to participate. Once that condition holds, surveillance is no longer only an implementation defect or abuse case. It becomes structurally easier.
-* **Exclusion from the official wallet or application path**. Several workshop models did not view exclusion as just non-participation. It has two effects: excluded people may lose access to official services, be drawn to unofficial or harmful apps, disclose more data than necessary, and be more vulnerable to fraud or exploitation. Meanwhile, those who can access the official path gain relative privilege. This is not just a technical interoperability issue; it is a stratification problem within the identity ecosystem.  
-* **Connection between classification, discrimination, denial of identity, and loss of participation**. An identity system may begin by managing claims needed for a narrow transaction and then expand into a classifier of persons. Once that happens, the system can support discriminatory vetting, exclusion from services, denial of access to the system itself, and, in the more severe cases discussed in the workshops, practical denial of political or civic participation. Here again, the issue is not one isolated failure. The problem is that a classification function, once operationalised, can be transferred.
-* **Identity theft**. This threat appeared differently. In one workshop landscape, it was intentionally left less connected because participants did not identify a strong direct dependency between identity theft and the other threats in that specific model. That distinction should be preserved. The purpose of connected threats is not to force links where the model does not support them. At the same time, other workshop scenarios did show a meaningful chain from identity theft to profiling, suspicion, discriminatory targeting, and effective exclusion from the system. In this case, identity theft, as a fraudulent event, was the starting point for persecution directed at the wrong person.
-
-A system may look secure and privacy-preserving at one interface and still produce an adverse social impact if it normalizes forced enrolment, persistent correlation, discriminatory classification, or exclusion from the channels through which social, civic, or economic life is conducted.
-
-For that reason, connected threats are an additional analytical layer. They do not replace security or privacy analysis. They make visible how local design choices accumulate.
-
-These workshop outputs suggest that threat modeling for decentralized credentials should account for propagation across layers: from credential design, to wallet and issuer behaviour, to governance choices, to participation conditions.
-
-Single threats are:
-* **Loss of representation**: A person is excluded from the identity system and can no longer access services or participate in society because their existence is not recognized by the digital infrastructure.  
-* **Discrimination**: A user is denied access to a service because automated policies classify them negatively based on characteristics contained in the digital credential.  
-* **Profiling and “identity stacking”**: Continuous profiling and aggregation of identity data can create a system where users cannot escape.  
-* **Political chilling effect**: People avoid political participation or advocacy because they fear that their digital identity could expose them to retaliation or surveillance.  
-* **Forced association**: Individuals are forced to join or identify through a specific organization or identity framework in order to access essential services or prove who they are.
-* **Denied right to an identity**: Existing barriers in authentication and authorization systems are exploited to deny individuals access to a valid digital identity.
-* **Surveillance and censorship**: Constant monitoring and surveillance restrict freedom of expression by making people feel permanently observed and controlled.
-* **Function creep**: Data originally collected for one purpose is gradually reused for additional purposes beyond what the user initially consented to.
-* **Fear of persecution**: As these actions can be tracked by government, fear of being tracked, punished, or persecuted causes individuals to self-censor and limit their freedom of speech and movement.
-* **Identity theft**: A malicious actor uses stolen identities to impersonate other people and gain unauthorized access to systems or services.
-* **Phishing**: An attacker tricks an employee through a fraudulent email into revealing credentials or executing malicious actions, resulting in sensitive data leakage. The impact can be significant if the compromised credentials are high-level credentials.
-* **Denial of healthcare**: Failures or restrictions in digital identity systems prevent individuals from receiving timely medical care, potentially causing serious harm to their health or life.
-* **Digital censorship**: Identity systems can be used to selectively block or allow access, enabling censorship and exclusion based on who the user is, as an abuse case after the technology is deployed for a purpose such as child protection.
-* **Statelessness**: A person’s digital identity is considered invalid or fraudulent, effectively excluding them from social participation and access to essential resources.
-
-
-## What are we going to do about it?
-
-Potential responses and features:
-
-- <strong><a href="http://www.hit.bme.hu/~buttyan/courses/BMEVIHIM219/2009/Chaum.BlindSigForPayment.1982.PDF">Signature Blinding</a></strong>: is a type of digital signature in which the content of the message is concealed before it is signed. With public-key cryptography, the signature can be correlated with the signer's public key, which is useful when the recipient needs to verify the sender. Zero-knowledge proof (ZKP) methods can instead provide cryptographic proof of signature without giving the Verifier additional information about who signed, protecting the Holder's public key.
-- <strong><a href="http://www.links.org/files/selective-disclosure.pdf">Selective disclosure</a></strong>: is the ability to show only a part (claim) of the credential and not all of it, or show only possession of that credential, as needed in the context of the transaction. For example, a Holder can show only the date of birth rather than the entire driver's license number. This further minimizes the data sent to the Verifier.
-- <strong><a href="https://arxiv.org/pdf/2401.08196">Predicate Proofs and Range Proof</a></strong>: is the ability to respond to a Boolean assertion (true/false) to a specific request, which is an additional step for privacy and minimization. For example, if the Holder needs to prove that they are of age, the proof can answer that question without disclosing the date of birth.
-- **Anonymous Revocation**: A credential has its life cycle: it is issued, it is used, and then it can be revoked for various reasons. Therefore, a verifier needs to be able to verify whether the credential has been revoked, without allowing the ability to correlate information about other revoked credentials. There are different techniques:
-  - **Revocation List**: This is the current generally used approach, although it creates privacy issues, as the lists are public and typically contain user information.
-  - <strong><a href="https://www.w3.org/community/reports/credentials/CG-FINAL-vc-status-list-2021-20230102/">Status List</a></strong>: revocation document only contains flipped bits at positions that can only be tied to a given credential if you'd been privy to the disclosure of their association.
-  - <strong><a href="https://datatracker.ietf.org/doc/html/draft-demarco-oauth-status-assertions">Status Assertions</a></strong>: is a signed object that demonstrates the validity status of a digital credential. These assertions are periodically provided to holders, who can present them to the Verifier with the corresponding digital credentials.
-  - <strong><a href="https://eprint.iacr.org/2024/657.pdf">Cryptographic accumulators</a></strong>: can generate <a href="https://ieeexplore.ieee.org/document/10237019">proof of validity without exposing other information</a>.
-- **Rotational Identifiers**: As indicated by the [Security and Privacy Questionnaire](https://www.w3.org/TR/security-privacy-questionnaire/#temporary-id), identifiers can be used to correlate, so it is important that they are temporary as much as possible during a session and changed after they are used. In this context, the identifiers that can be exploited to correlate can be present at different levels.
-- **No Phoning home or back-channel communication**: Software often "calls home" for several reasons. They normally do this to collect usage or crash statistics (which could indicate a vulnerability). The problem is that this feature, often critical to software improvement and security, has privacy implications for the user, in this case, the *Holder*. At the Credentials level, this call can be made at different times and by different *agents*. For example, the *Issuer* might be contacted by the *Verifier* to check the revocation of a credential, or the *Wallet* might contact its vendor to collect usage statistics. In those cases, two response patterns are relevant:
-  - **Do not phone home or back-channel communication**: This could also be an operational necessity (several use cases require the presentation to be made in offline environments or with limited connection) or a choice of the *Holder*, who should always *consent* to telemetry and external connections to third parties.
-  - **Minimize and Anonymize the Data**: Limit the data passed or, even better, cryptographic privacy-preserving techniques like [STAR](https://arxiv.org/pdf/2109.10074) that implement [k-anonymity](https://dataprivacylab.org/dataprivacy/projects/kanonymity/paper3.pdf) for telemetry.
-  - **Using Privacy-Preserving DIDs**: When resolving a DID, the method may use a connection to a system for resolution. If this system is under the direct or indirect control of the *Issuer*, it generates potential privacy issues. For example, this typically happens with `did:web` [as mentioned in section 2.5.2](https://w3c-ccg.github.io/did-method-web/#read-resolve) where a GET is generated that retrieves a file, effectively exposing the requesting user agent and allowing the *Issuer* to make statistics. 
-- **Notification/Alerts**: Interactions that require the user to present an Internet credential need communication with the user at the following times:
-  - Before the request for the proof: for example, a website requests age verification, permission should first be given to the website to access the functionality, and when the user decides whether or not to give access, the URL and type of credential requested and the level of Minimization (to discourage you know the Verifier and the Holder from using Full Disclosure) should be indicated in a secure context.
-  - Before sending the proof, the user selects the Wallet of their choice, the credential or set of credentials from the Wallet, and the specific claims from the credentials. The Holder should be notified and asked for confirmation and consent, particularly when the selected presentation includes **phone calling** or **back-channel communication** features (to discourage the *Issuer* and *Verifier* from these practices).
+ - [Microsoft's Types of Harm](https://learn.microsoft.com/en-us/azure/architecture/guide/responsible-innovation/harms-modeling/type-of-harm), and the NDIS Harms framework adapted from it in <cite>Enhancing National Digital Identity Systems</cite> [[NDIS-HARMS]]
+
+OSSTMM adds a control-oriented check to the four-question method. For that check, the channel is COMSEC Data Networks and the vector is Internet/Web; other credential systems may need a different channel or vector, such as Wireless.
+
+Here, OSSTMM is used as a control check: is a control absent, does it fail in this context, or does it move responsibility to another actor? Privacy is included in that check when it changes actors, flows, or trust boundaries.
+
+# What are we working on?
+
+This model starts from the credential layer described in the introduction and uses the [ecosystem overview](https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#ecosystem-overview) in <cite>Verifiable Credentials Data Model v2.0</cite> [[VC-DATA-MODEL-2.0]] as its baseline. The system under analysis is defined without assuming a single credential format, wallet architecture, transport protocol, governance model, or presentation ceremony.
+
+## Scenario
+
+The scenario modeled here is the baseline credential-layer flow. The baseline ecosystem roles come from <cite>Verifiable Credentials Data Model v2.0</cite> [[VC-DATA-MODEL-2.0]]:
+
+- *Subject*: the person, organization, device, service, or other thing described by the claims.
+- *Holder*: possesses credentials and can generate presentations. A Holder is often, but not always, the Subject of the credential.
+- *Issuer*: asserts claims, creates a credential from those claims, and transmits the credential to a Holder.
+- *Verifier*: receives credentials, optionally inside a presentation, and processes them before relying on the claims.
+- *Verifiable Data Registry* (VDR): provides identifiers, verification material, schemas, revocation registries, or other data needed to verify credentials.
+
+The scenario uses the common case in which the Holder is also the Subject. This is a baseline modeling assumption. If the Holder and Subject are different, or if a credential can be delegated, the deployment model should add the Subject, delegated Holder, and any authority-granting or revocation process as separate ecosystem roles when those roles affect issuance, presentation, recovery, revocation, or reliance decisions.
+
+The trust relationships among these ecosystem roles are part of the source specification. <cite>Verifiable Credentials Data Model v2.0</cite> [[VC-DATA-MODEL-2.0]] includes a [Software Trust Boundaries](https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#software-trust-boundaries) section, which describes trust relationships among ecosystem roles and the software that operates on their behalf. For that reason, this scenario shows trust boundaries and treats Holder, Issuer, Verifier, and VDR as separate control points unless a deployment explicitly combines them.
+
+Because one organization can play several roles, the scenario keeps the roles separate when that separation helps expose data flows, trust boundaries, or responsibility boundaries.
+
+Software can exercise the authority of one of these roles. A deputy acts on behalf of a principal; here, the principal is the Holder, Issuer, Verifier, or VDR role whose authority the software uses. Wallets, browsers, issuer software, verifier websites, credential repositories, status services, and systems that operate a VDR are examples. The rest of this document uses *agent* for this software. When an agent accepts input or direction from one actor while exercising authority for another, confused-deputy threats should be considered.
+
+This model stops at the credential and presentation layer. A Verifier may use a presentation result to grant service access, sell a ticket, issue a follow-on credential, or make another decision. Those downstream decisions are deployment context unless later analysis brings a specific decision path into scope.
+
+## Diagram
+
+The diagram shows the baseline credential-layer flow and the trust boundaries used by this threat model.
+
+<figure>
+  <img alt="Data-flow diagram for decentralized credentials with dotted trust boundaries around Holder control, Issuer control, Verifier control, and registry or status control, including the status or revocation update flow." src="images/credential-trust-boundaries.svg">
+  <figcaption>High-level credential-layer data-flow diagram.</figcaption>
+</figure>
+
+Note: The DFD uses square nodes for external entities, rounded rectangles for processes, drum shapes for data stores, and arrows for data flows. Dotted boundaries mark changes in control, trust, authority, privilege, responsibility, or assumptions.
+
+## Dictionary
+
+The dictionary assigns each diagram item a stable identifier.
+
+<table class="data">
+  <caption>Dictionary for the high-level credential-layer data-flow diagram.</caption>
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Type</th>
+      <th scope="col">Title</th>
+      <th scope="col">Description</th>
+      <th scope="col">Standard section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr id="ee-01">
+      <th scope="row"><a href="#ee-01">EE-01</a></th>
+      <td>External entity</td>
+      <td>Issuer</td>
+      <td>Role that asserts claims, creates a credential from those claims, and transmits the credential to a Holder.</td>
+      <td><a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#dfn-issuers">VCDM 2.0 Section 2, issuer</a>; <a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#ecosystem-overview">Section 1.2, Ecosystem Overview</a></td>
+    </tr>
+    <tr id="ee-02">
+      <th scope="row"><a href="#ee-02">EE-02</a></th>
+      <td>External entity</td>
+      <td>Holder / Subject</td>
+      <td>Role that possesses credentials and can generate presentations. In this high-level model, the Holder is also the Subject; if the roles differ, model the Subject separately.</td>
+      <td><a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#dfn-holders">VCDM 2.0 Section 2, holder</a>; <a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#dfn-subjects">Section 2, subject</a>; <a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#ecosystem-overview">Section 1.2, Ecosystem Overview</a></td>
+    </tr>
+    <tr id="ee-03">
+      <th scope="row"><a href="#ee-03">EE-03</a></th>
+      <td>External entity</td>
+      <td>Verifier</td>
+      <td>Role that receives credentials or presentations for processing before relying on the claims.</td>
+      <td><a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#dfn-verifier">VCDM 2.0 Section 2, verifier</a>; <a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#ecosystem-overview">Section 1.2, Ecosystem Overview</a></td>
+    </tr>
+    <tr id="po-01">
+      <th scope="row"><a href="#po-01">PO-01</a></th>
+      <td>Process</td>
+      <td>Issuer agent</td>
+      <td>Software or service acting for the Issuer during issuance.</td>
+      <td><a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#software-trust-boundaries">VCDM 2.0 Section 8.2, Software Trust Boundaries</a></td>
+    </tr>
+    <tr id="po-02">
+      <th scope="row"><a href="#po-02">PO-02</a></th>
+      <td>Process</td>
+      <td>Wallet / browser / holder agent</td>
+      <td>Software acting for the Holder to store credentials, select credentials or claims, mediate credential requests, and generate presentations. This can include a wallet, browser-mediated credential interface, holder agent, or equivalent software acting on the Holder's behalf.</td>
+      <td><a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#software-trust-boundaries">VCDM 2.0 Section 8.2, Software Trust Boundaries</a>; <a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#dfn-credential-repositories">Section 2, credential repository</a></td>
+    </tr>
+    <tr id="po-03">
+      <th scope="row"><a href="#po-03">PO-03</a></th>
+      <td>Process</td>
+      <td>Verifier agent</td>
+      <td>Software or service acting for the Verifier to receive presentations, perform verification checks, and support policy decisions.</td>
+      <td><a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#software-trust-boundaries">VCDM 2.0 Section 8.2, Software Trust Boundaries</a>; <a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#verification">Section 7.1, Verification</a></td>
+    </tr>
+    <tr id="ds-01">
+      <th scope="row"><a href="#ds-01">DS-01</a></th>
+      <td>Data store</td>
+      <td>Credential repository</td>
+      <td>Store controlled by, or acting for, the Holder where credentials, keys, presentations, metadata, or related state may be stored.</td>
+      <td><a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#dfn-credential-repositories">VCDM 2.0 Section 2, credential repository</a></td>
+    </tr>
+    <tr id="ds-02">
+      <th scope="row"><a href="#ds-02">DS-02</a></th>
+      <td>Data store</td>
+      <td>Verifiable data registry / status data</td>
+      <td>Registry or status data source that provides identifiers, verification material, schemas, revocation registries, or other verification data.</td>
+      <td><a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#dfn-verifiable-data-registries">VCDM 2.0 Section 2, verifiable data registry</a>; <a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#status">Section 4.10, Status</a></td>
+    </tr>
+    <tr id="df-01">
+      <th scope="row"><a href="#df-01">DF-01</a></th>
+      <td>Data flow</td>
+      <td>Issuance decision and claims</td>
+      <td>Information controlled by the Issuer and used by the issuer agent to create a credential.</td>
+      <td><a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#dfn-issuers">VCDM 2.0 Section 2, issuer</a>; <a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#dfn-claims">Section 2, claim</a></td>
+    </tr>
+    <tr id="df-02">
+      <th scope="row"><a href="#df-02">DF-02</a></th>
+      <td>Data flow</td>
+      <td>Transmit verifiable credential</td>
+      <td>Credential transmitted from the issuer agent to the wallet or other holder agent.</td>
+      <td><a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#dfn-verifiable-credential">VCDM 2.0 Section 2, verifiable credential</a>; <a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#verifiable-credentials">Section 4.2, Verifiable Credentials</a></td>
+    </tr>
+    <tr id="df-03">
+      <th scope="row"><a href="#df-03">DF-03</a></th>
+      <td>Data flow</td>
+      <td>Store credential</td>
+      <td>Credential and related state stored by the holder agent in the credential repository.</td>
+      <td><a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#dfn-credential-repositories">VCDM 2.0 Section 2, credential repository</a></td>
+    </tr>
+    <tr id="df-04">
+      <th scope="row"><a href="#df-04">DF-04</a></th>
+      <td>Data flow</td>
+      <td>Presentation choice</td>
+      <td>Holder decision about whether and how to present credential information.</td>
+      <td><a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#dfn-holders">VCDM 2.0 Section 2, holder</a>; <a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#verifiable-presentations">Section 4.13, Verifiable Presentations</a></td>
+    </tr>
+    <tr id="df-05">
+      <th scope="row"><a href="#df-05">DF-05</a></th>
+      <td>Data flow</td>
+      <td>Transmit verifiable presentation</td>
+      <td>Presentation generated by the holder agent and sent to the verifier agent. A presentation can disclose a credential, selected claims, or proofs derived from credential data, depending on the credential format and protocol.</td>
+      <td><a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#dfn-verifiable-presentation">VCDM 2.0 Section 2, verifiable presentation</a>; <a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#verifiable-presentations">Section 4.13, Verifiable Presentations</a></td>
+    </tr>
+    <tr id="df-06">
+      <th scope="row"><a href="#df-06">DF-06</a></th>
+      <td>Data flow</td>
+      <td>Verification material and status request</td>
+      <td>Request from the verifier agent for identifiers, verification material, schemas, or status information.</td>
+      <td><a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#dfn-verification-material">VCDM 2.0 Section 2, verification material</a>; <a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#status">Section 4.10, Status</a></td>
+    </tr>
+    <tr id="df-07">
+      <th scope="row"><a href="#df-07">DF-07</a></th>
+      <td>Data flow</td>
+      <td>Verification material and status response</td>
+      <td>Response from the VDR or status data source to the verifier agent.</td>
+      <td><a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#dfn-verification-material">VCDM 2.0 Section 2, verification material</a>; <a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#status">Section 4.10, Status</a></td>
+    </tr>
+    <tr id="df-08">
+      <th scope="row"><a href="#df-08">DF-08</a></th>
+      <td>Data flow</td>
+      <td>Verification and policy result</td>
+      <td>Result used by the Verifier after technical verification and local policy evaluation. Verifiability does not make the underlying claims true.</td>
+      <td><a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#verification">VCDM 2.0 Section 7.1, Verification</a>; <a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#dfn-claim-validation">Section 2, validation</a></td>
+    </tr>
+    <tr id="df-09">
+      <th scope="row"><a href="#df-09">DF-09</a></th>
+      <td>Data flow</td>
+      <td>Status or revocation update</td>
+      <td>Update from the issuer agent to status data or a revocation registry indicating that a credential is revoked, suspended, expired, reactivated, or otherwise has changed status.</td>
+      <td><a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#status">VCDM 2.0 Section 4.10, Status</a>; <a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#dfn-verifiable-data-registries">Section 2, verifiable data registry</a></td>
+    </tr>
+    <tr id="tb-01">
+      <th scope="row"><a href="#tb-01">TB-01</a></th>
+      <td>Trust boundary</td>
+      <td>Holder control</td>
+      <td>Boundary around the Holder, holder agent, and credential repository. Crossing it can change user agency, disclosure, storage, and consent assumptions.</td>
+      <td><a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#software-trust-boundaries">VCDM 2.0 Section 8.2, Software Trust Boundaries</a></td>
+    </tr>
+    <tr id="tb-02">
+      <th scope="row"><a href="#tb-02">TB-02</a></th>
+      <td>Trust boundary</td>
+      <td>Issuer control</td>
+      <td>Boundary around the Issuer and issuer agent. Crossing it can change claim authority, issuance policy, authentication assumptions, and credential validity assumptions.</td>
+      <td><a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#software-trust-boundaries">VCDM 2.0 Section 8.2, Software Trust Boundaries</a></td>
+    </tr>
+    <tr id="tb-03">
+      <th scope="row"><a href="#tb-03">TB-03</a></th>
+      <td>Trust boundary</td>
+      <td>Verifier control</td>
+      <td>Boundary around the Verifier and verifier agent. Crossing it can change reliance, access-control, logging, retention, and policy assumptions.</td>
+      <td><a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#software-trust-boundaries">VCDM 2.0 Section 8.2, Software Trust Boundaries</a></td>
+    </tr>
+    <tr id="tb-04">
+      <th scope="row"><a href="#tb-04">TB-04</a></th>
+      <td>Trust boundary</td>
+      <td>Registry / status control</td>
+      <td>Boundary around VDR or status data. Crossing it can change availability, correlation, freshness, revocation, and governance assumptions.</td>
+      <td><a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#software-trust-boundaries">VCDM 2.0 Section 8.2, Software Trust Boundaries</a>; <a href="https://www.w3.org/TR/2025/REC-vc-data-model-2.0-20250515/#status">Section 4.10, Status</a></td>
+    </tr>
+  </tbody>
+</table>
+
+## Assets
+
+The main assets are credentials and lifecycle data: claims, presentations, proofs, identifiers, keys, verification material, status information, verifier policy decisions, and metadata.
+
+The main properties are *Verifiability*, *Minimization*, and *Unlinkability*. Ben Laurie's <cite>Selective Disclosure</cite> [[BEN-LAURIE-SELECTIVE-DISCLOSURE]] uses those properties to describe privacy-preserving assertions. *Verifiability* matters to every role that relies on a credential or presentation. *Minimization* and *Unlinkability* primarily protect the Holder and other affected people, especially when credentials concern government-issued identity or high-assurance attributes.
+
+# What can go wrong?
+
+With the assets and properties in view, the next step is to ask who can affect them, what those actors may try to do, and which security, privacy, and socio-technical concerns need testing.
+
+## Threat Actors and Deputies
+
+Protecting the *Holder* is a central concern. Each role, each software deputy that acts for a role, and external observers are possible sources of threats. A role can threaten another role, itself, or the people represented by credentials.
+
+Software deputies in this model include wallets, browsers, issuer software, verifier websites, credential repositories, status services, and systems that operate or access a VDR. The role behind the deputy does not need to be malicious for something to go wrong. The deputy might leak data, change a presentation, collect excess telemetry, hide relevant choices from a Holder, or use more authority than the role intended.
+
+External observers and active adversaries can include marketers, data brokers, stalkers, identity thieves, OSINT investigators, and government or law-enforcement actors, depending on the deployment. The model also treats collusion as in scope, including Verifiers that share presentation records or an Issuer and Verifier that link Holder activity.
+
+## Starter Abuse Stories
+
+These abuse stories are starting points for threat elicitation, not a complete set of findings:
+
+- A Verifier asks for, stores, or reuses more credential data than the transaction needs.
+- A Holder presents a credential, presentation, or claim outside their authority.
+- An Issuer or issuer deputy uses issuance, status checking, or presentation flows to track Holders.
+- A wallet, browser, or other Holder deputy leaks credential data, narrows Holder choice, or steers which credential is presented.
+- An external observer correlates issuance, presentation, verification, or status-checking activity.
+- Verifiers share presentation records, or an Issuer and Verifier link Holder activity.
+
+## Threat Elicitation Frameworks
+
+The threat table records findings from the data-flow diagrams, trust boundaries, assets, starter abuse stories, and socio-technical pathway analysis. Elicitation used Ben's privacy properties, LINDDUN, RFC 6973, RFC 3552, STRIDE, OSSTMM, NDIS Harms, and Microsoft Responsible Innovation harms as prompts, not as separate threat models or completeness criteria. The Elicitation framework column records the framework family used to find the threat. The Prompt column records the specific prompt or subcategory used inside that framework, and includes the closest STRIDE prompt when that mapping clarifies the row.
+
+<!-- Source material normalized into this table is preserved in source-data/threat-elicitation-frameworks-2-2-3.bs for local editing and review. -->
+
+When multiple prompts expose the same underlying condition, the table consolidates them into one threat row and preserves the prompts in the Elicitation framework and Prompt columns.
+
+<table class="data">
+  <caption>Threats identified from the credential data-flow model.</caption>
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Category</th>
+      <th scope="col">Elicitation framework</th>
+      <th scope="col">Prompt</th>
+      <th scope="col">Name</th>
+      <th scope="col">Affected DFD element</th>
+      <th scope="col">Affected property</th>
+      <th scope="col">Description</th>
+      <th scope="col">Response IDs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr id="t-001"><th scope="row"><a href="#t-001">T-001</a></th><td>Security</td><td>Ben's Privacy Properties</td><td>Ben's Privacy Properties: Verifiability</td><td>Verifiability confused with truth</td><td><a href="#ee-02">EE-02</a>, <a href="#ee-03">EE-03</a>, <a href="#po-03">PO-03</a>, <a href="#df-05">DF-05</a>, <a href="#df-08">DF-08</a></td><td>Verifiability; integrity</td><td>A Verifier can treat cryptographic verifiability as evidence that the underlying claims are true, rather than evidence that the credential or presentation can be checked.</td><td><a href="#r-007">R-007</a>, <a href="#r-025">R-025</a>, <a href="#r-027">R-027</a></td></tr>
+    <tr id="t-002"><th scope="row"><a href="#t-002">T-002</a></th><td>Privacy</td><td>Ben's Privacy Properties; LINDDUN; RFC 6973; OSSTMM; STRIDE</td><td>Ben's Privacy Properties: Minimization; LINDDUN Data Disclosure; RFC 6973 Disclosure; OSSTMM Subjugation; STRIDE Information Disclosure; STRIDE Expansion of Authority</td><td>Over-disclosure or minimization failure</td><td><a href="#df-04">DF-04</a>, <a href="#df-05">DF-05</a>, <a href="#po-02">PO-02</a>, <a href="#po-03">PO-03</a></td><td>Minimization; confidentiality; control</td><td>A Verifier can request, receive, retain, or reuse more credential data than is needed for a transaction, or the interaction can fail to prefer the least revealing presentation available.</td><td><a href="#r-002">R-002</a>, <a href="#r-038">R-038</a>, <a href="#r-039">R-039</a>, <a href="#r-012">R-012</a>, <a href="#r-037">R-037</a></td></tr>
+    <tr id="t-003"><th scope="row"><a href="#t-003">T-003</a></th><td>Privacy</td><td>Ben's Privacy Properties; LINDDUN; RFC 6973; STRIDE</td><td>Ben's Privacy Properties: Unlinkability; LINDDUN Linking; RFC 6973 Correlation; RFC 6973 Surveillance; STRIDE Information Disclosure</td><td>Linking and surveillance across presentations</td><td><a href="#df-02">DF-02</a>, <a href="#df-05">DF-05</a>, <a href="#df-06">DF-06</a>, <a href="#df-07">DF-07</a>, <a href="#df-08">DF-08</a>, <a href="#ds-02">DS-02</a></td><td>Unlinkability; privacy; autonomy</td><td>Credentials, presentations, identifiers, status checks, registry data, or metadata can be associated or observed across interactions to link or monitor a Holder's activity.</td><td><a href="#r-001">R-001</a>, <a href="#r-003">R-003</a>, <a href="#r-004">R-004</a>, <a href="#r-005">R-005</a>, <a href="#r-006">R-006</a>, <a href="#r-010">R-010</a>, <a href="#r-040">R-040</a>, <a href="#r-041">R-041</a>, <a href="#r-042">R-042</a>, <a href="#r-043">R-043</a>, <a href="#r-044">R-044</a>, <a href="#r-045">R-045</a></td></tr>
+    <tr id="t-004"><th scope="row"><a href="#t-004">T-004</a></th><td>Privacy</td><td>LINDDUN; RFC 6973; STRIDE</td><td>LINDDUN Linking; RFC 6973 Surveillance; STRIDE Information Disclosure</td><td>Issuer tracking</td><td><a href="#ee-02">EE-02</a>, <a href="#po-01">PO-01</a>, <a href="#ds-02">DS-02</a>, <a href="#df-06">DF-06</a>, <a href="#df-07">DF-07</a></td><td>Unlinkability; privacy</td><td>An Issuer or issuer-controlled service can learn how, where, or when a Holder uses a credential.</td><td><a href="#r-001">R-001</a>, <a href="#r-003">R-003</a>, <a href="#r-006">R-006</a>, <a href="#r-010">R-010</a>, <a href="#r-040">R-040</a>, <a href="#r-043">R-043</a>, <a href="#r-044">R-044</a>, <a href="#r-045">R-045</a></td></tr>
+    <tr id="t-005"><th scope="row"><a href="#t-005">T-005</a></th><td>Privacy</td><td>LINDDUN; RFC 6973; STRIDE</td><td>LINDDUN Identifying; RFC 6973 Identification; STRIDE Information Disclosure</td><td>Identification from credential or registry data</td><td><a href="#df-02">DF-02</a>, <a href="#df-05">DF-05</a>, <a href="#ds-01">DS-01</a>, <a href="#ds-02">DS-02</a></td><td>Unlinkability; minimization</td><td>Credential content, metadata, identifiers, schemas, VDR entries, or status data can reveal or help infer the Holder or Subject.</td><td><a href="#r-002">R-002</a>, <a href="#r-003">R-003</a>, <a href="#r-011">R-011</a>, <a href="#r-038">R-038</a>, <a href="#r-039">R-039</a>, <a href="#r-045">R-045</a></td></tr>
+    <tr id="t-006"><th scope="row"><a href="#t-006">T-006</a></th><td>Privacy</td><td>LINDDUN; STRIDE</td><td>LINDDUN Non-Repudiation; STRIDE Repudiation</td><td>Undesired non-repudiation</td><td><a href="#df-01">DF-01</a>, <a href="#df-02">DF-02</a>, <a href="#df-05">DF-05</a>, <a href="#df-08">DF-08</a>, <a href="#po-01">PO-01</a>, <a href="#po-02">PO-02</a>, <a href="#po-03">PO-03</a></td><td>Deniability; privacy</td><td>An actor may be unable to deny issuance, presentation, or use of a credential when deniability is expected or needed.</td><td><a href="#r-007">R-007</a>, <a href="#r-008">R-008</a>, <a href="#r-034">R-034</a></td></tr>
+    <tr id="t-007"><th scope="row"><a href="#t-007">T-007</a></th><td>Privacy</td><td>LINDDUN; OSSTMM; STRIDE</td><td>LINDDUN Detecting; OSSTMM Visibility; STRIDE Information Disclosure</td><td>Wallet or credential detection</td><td><a href="#df-04">DF-04</a>, <a href="#df-05">DF-05</a>, <a href="#po-02">PO-02</a>, <a href="#po-03">PO-03</a></td><td>Unlinkability; privacy</td><td>A requester can infer whether a Holder has a wallet, which wallet or capability is available, whether a credential exists or is valid, what a credential contains, or whether the Holder declined to present one.</td><td><a href="#r-009">R-009</a>, <a href="#r-010">R-010</a>, <a href="#r-036">R-036</a></td></tr>
+    <tr id="t-008"><th scope="row"><a href="#t-008">T-008</a></th><td>Privacy</td><td>LINDDUN; RFC 6973; STRIDE</td><td>LINDDUN Unawareness and Unintervenability; RFC 6973 Exclusion; STRIDE Expansion of Authority</td><td>Unawareness and lack of intervention</td><td><a href="#df-04">DF-04</a>, <a href="#df-05">DF-05</a>, <a href="#po-02">PO-02</a>, <a href="#po-03">PO-03</a></td><td>Awareness; control</td><td>A Holder may be unable to understand what is requested, what will be disclosed, who receives it, or how to stop or correct the flow.</td><td><a href="#r-012">R-012</a>, <a href="#r-013">R-013</a>, <a href="#r-014">R-014</a>, <a href="#r-031">R-031</a>, <a href="#r-037">R-037</a></td></tr>
+    <tr id="t-009"><th scope="row"><a href="#t-009">T-009</a></th><td>Socio-technical</td><td>LINDDUN</td><td>LINDDUN Non-Compliance</td><td>Non-compliance and policy failure</td><td><a href="#ee-01">EE-01</a>, <a href="#ee-02">EE-02</a>, <a href="#ee-03">EE-03</a>, <a href="#po-01">PO-01</a>, <a href="#po-03">PO-03</a></td><td>Accountability; governance</td><td>A deployment can fail to satisfy legal, regulatory, policy, training, or audit expectations, leaving threats unmanaged.</td><td><a href="#r-015">R-015</a>, <a href="#r-016">R-016</a></td></tr>
+    <tr id="t-010"><th scope="row"><a href="#t-010">T-010</a></th><td>Security</td><td>RFC 6973; STRIDE</td><td>RFC 6973 Stored Data Compromise; STRIDE Information Disclosure; STRIDE Tampering</td><td>Stored data compromise</td><td><a href="#df-03">DF-03</a>, <a href="#ds-01">DS-01</a>, <a href="#ds-02">DS-02</a>, <a href="#po-01">PO-01</a>, <a href="#po-02">PO-02</a>, <a href="#po-03">PO-03</a></td><td>Confidentiality; integrity</td><td>Credentials, keys, wallet state, issuer systems, verifier systems, repositories, or status data may be compromised.</td><td><a href="#r-018">R-018</a>, <a href="#r-019">R-019</a>, <a href="#r-023">R-023</a></td></tr>
+    <tr id="t-011"><th scope="row"><a href="#t-011">T-011</a></th><td>Privacy</td><td>Formal objection review; LINDDUN; RFC 6973; STRIDE</td><td>Browser-mediated credential request; LINDDUN Data Disclosure; RFC 6973 Intrusion; RFC 6973 Secondary Use; STRIDE Information Disclosure; STRIDE Expansion of Authority</td><td>Intrusive or amplified credential requests</td><td><a href="#df-04">DF-04</a>, <a href="#df-05">DF-05</a>, <a href="#df-08">DF-08</a>, <a href="#po-02">PO-02</a>, <a href="#po-03">PO-03</a></td><td>Minimization; autonomy; privacy</td><td>A Verifier can repeatedly or intrusively request credential information. Browser-mediated credential capabilities can also make requests easier or more common, increasing disclosure pressure and normalizing third-party-attested data disclosure in Web interactions.</td><td><a href="#r-002">R-002</a>, <a href="#r-012">R-012</a>, <a href="#r-014">R-014</a>, <a href="#r-020">R-020</a>, <a href="#r-031">R-031</a>, <a href="#r-038">R-038</a>, <a href="#r-039">R-039</a>, <a href="#r-048">R-048</a></td></tr>
+    <tr id="t-012"><th scope="row"><a href="#t-012">T-012</a></th><td>Security</td><td>RFC 6973; STRIDE</td><td>RFC 6973 Misattribution; STRIDE Spoofing; STRIDE Tampering</td><td>Misattribution</td><td><a href="#df-01">DF-01</a>, <a href="#df-02">DF-02</a>, <a href="#df-05">DF-05</a>, <a href="#df-08">DF-08</a>, <a href="#po-01">PO-01</a>, <a href="#po-02">PO-02</a>, <a href="#po-03">PO-03</a></td><td>Correctness; integrity</td><td>Credential data or verification results may be attributed to the wrong Holder, Subject, Issuer, or transaction.</td><td><a href="#r-007">R-007</a>, <a href="#r-008">R-008</a></td></tr>
+    <tr id="t-013"><th scope="row"><a href="#t-013">T-013</a></th><td>Privacy</td><td>RFC 6973; STRIDE</td><td>RFC 6973 Secondary Use; STRIDE Information Disclosure; STRIDE Expansion of Authority</td><td>Secondary use</td><td><a href="#df-05">DF-05</a>, <a href="#df-08">DF-08</a>, <a href="#po-03">PO-03</a></td><td>Purpose limitation; privacy</td><td>Credential data collected for one transaction may be reused for another purpose, including profiling, advertising, or abuse of functionality.</td><td><a href="#r-014">R-014</a>, <a href="#r-016">R-016</a>, <a href="#r-044">R-044</a></td></tr>
+    <tr id="t-014"><th scope="row"><a href="#t-014">T-014</a></th><td>Privacy</td><td>RFC 6973</td><td>RFC 6973 Exclusion</td><td>Exclusion from data handling</td><td><a href="#df-04">DF-04</a>, <a href="#df-05">DF-05</a>, <a href="#df-08">DF-08</a></td><td>Transparency; participation</td><td>A Holder or affected person may be unable to know about, participate in, or challenge how credential data is handled.</td><td><a href="#r-012">R-012</a>, <a href="#r-014">R-014</a>, <a href="#r-031">R-031</a></td></tr>
+    <tr id="t-015"><th scope="row"><a href="#t-015">T-015</a></th><td>Security</td><td>RFC 3552; STRIDE</td><td>RFC 3552 Passive Attacks; STRIDE Information Disclosure</td><td>Passive network attack</td><td><a href="#df-02">DF-02</a>, <a href="#df-05">DF-05</a>, <a href="#df-06">DF-06</a>, <a href="#df-07">DF-07</a></td><td>Confidentiality</td><td>An observer can read network traffic and learn credential, presentation, status, or verification information.</td><td><a href="#r-021">R-021</a>, <a href="#r-022">R-022</a>, <a href="#r-023">R-023</a></td></tr>
+    <tr id="t-016"><th scope="row"><a href="#t-016">T-016</a></th><td>Security</td><td>RFC 3552; STRIDE</td><td>RFC 3552 Active Attacks; STRIDE Tampering</td><td>Active network attack</td><td><a href="#df-02">DF-02</a>, <a href="#df-05">DF-05</a>, <a href="#df-06">DF-06</a>, <a href="#df-07">DF-07</a>, <a href="#df-08">DF-08</a></td><td>Integrity; authenticity</td><td>An attacker can replay, insert, delete, modify, redirect, or substitute credential-related messages.</td><td><a href="#r-021">R-021</a>, <a href="#r-022">R-022</a>, <a href="#r-024">R-024</a>, <a href="#r-025">R-025</a>, <a href="#r-026">R-026</a></td></tr>
+    <tr id="t-017"><th scope="row"><a href="#t-017">T-017</a></th><td>Security</td><td>STRIDE</td><td>STRIDE Spoofing</td><td>Spoofing</td><td><a href="#ee-01">EE-01</a>, <a href="#ee-02">EE-02</a>, <a href="#ee-03">EE-03</a>, <a href="#po-01">PO-01</a>, <a href="#po-02">PO-02</a>, <a href="#po-03">PO-03</a></td><td>Authentication</td><td>An attacker can pretend to be a Holder, Issuer, Verifier, or deputy and cause another party to issue, present, accept, or rely on the wrong data.</td><td><a href="#r-007">R-007</a>, <a href="#r-027">R-027</a>, <a href="#r-028">R-028</a></td></tr>
+    <tr id="t-018"><th scope="row"><a href="#t-018">T-018</a></th><td>Security</td><td>OSSTMM; STRIDE</td><td>OSSTMM Integrity; STRIDE Tampering</td><td>Tampering or unnoticed integrity change</td><td><a href="#df-01">DF-01</a>, <a href="#df-02">DF-02</a>, <a href="#df-03">DF-03</a>, <a href="#df-05">DF-05</a>, <a href="#df-06">DF-06</a>, <a href="#df-07">DF-07</a>, <a href="#df-08">DF-08</a>, <a href="#df-09">DF-09</a>, <a href="#po-01">PO-01</a>, <a href="#po-02">PO-02</a>, <a href="#po-03">PO-03</a>, <a href="#ds-01">DS-01</a>, <a href="#ds-02">DS-02</a></td><td>Integrity</td><td>Credential data, presentations, verification material, status data, stored state, policy results, assets, or processes can be modified, or interacting parties may not know when they have changed.</td><td><a href="#r-025">R-025</a>, <a href="#r-027">R-027</a></td></tr>
+    <tr id="t-019"><th scope="row"><a href="#t-019">T-019</a></th><td>Security</td><td>STRIDE</td><td>STRIDE Repudiation</td><td>Repudiation of responsibility</td><td><a href="#df-02">DF-02</a>, <a href="#df-05">DF-05</a>, <a href="#df-08">DF-08</a>, <a href="#po-01">PO-01</a>, <a href="#po-02">PO-02</a>, <a href="#po-03">PO-03</a></td><td>Accountability</td><td>An actor can claim they did not issue, present, verify, log, retain, or rely on credential data.</td><td><a href="#r-008">R-008</a>, <a href="#r-034">R-034</a></td></tr>
+    <tr id="t-020"><th scope="row"><a href="#t-020">T-020</a></th><td>Security</td><td>STRIDE</td><td>STRIDE Information Disclosure</td><td>Unauthorized information disclosure</td><td><a href="#df-02">DF-02</a>, <a href="#df-03">DF-03</a>, <a href="#df-05">DF-05</a>, <a href="#df-06">DF-06</a>, <a href="#df-07">DF-07</a>, <a href="#ds-01">DS-01</a>, <a href="#ds-02">DS-02</a></td><td>Confidentiality; privacy</td><td>An actor can obtain credential-related information they are not authorized to access.</td><td><a href="#r-011">R-011</a>, <a href="#r-021">R-021</a>, <a href="#r-038">R-038</a>, <a href="#r-039">R-039</a></td></tr>
+    <tr id="t-021"><th scope="row"><a href="#t-021">T-021</a></th><td>Security</td><td>STRIDE</td><td>STRIDE Denial of Service</td><td>Denial of service</td><td><a href="#po-01">PO-01</a>, <a href="#po-02">PO-02</a>, <a href="#po-03">PO-03</a>, <a href="#ds-01">DS-01</a>, <a href="#ds-02">DS-02</a>, <a href="#df-06">DF-06</a>, <a href="#df-07">DF-07</a>, <a href="#df-09">DF-09</a></td><td>Availability; continuity</td><td>A wallet, issuer, verifier, VDR, status service, or verification path may become unavailable.</td><td><a href="#r-029">R-029</a>, <a href="#r-032">R-032</a>, <a href="#r-033">R-033</a></td></tr>
+    <tr id="t-022"><th scope="row"><a href="#t-022">T-022</a></th><td>Security</td><td>STRIDE</td><td>STRIDE Expansion of Authority</td><td>Expansion of authority</td><td><a href="#po-01">PO-01</a>, <a href="#po-02">PO-02</a>, <a href="#po-03">PO-03</a>, <a href="#ds-01">DS-01</a>, <a href="#ds-02">DS-02</a></td><td>Authorization; control</td><td>A deputy can use delegated authority to collect, change, retain, disclose, or decide more than the role intended.</td><td><a href="#r-007">R-007</a>, <a href="#r-030">R-030</a>, <a href="#r-031">R-031</a></td></tr>
+    <tr id="t-024"><th scope="row"><a href="#t-024">T-024</a></th><td>Security</td><td>OSSTMM; STRIDE</td><td>OSSTMM Trust; STRIDE Expansion of Authority</td><td>Over-trust in existing relationships</td><td><a href="#po-01">PO-01</a>, <a href="#po-02">PO-02</a>, <a href="#po-03">PO-03</a></td><td>Authorization; control</td><td>A deployment can relax controls because a trust relationship exists, allowing credential interaction beyond the intended scope.</td><td><a href="#r-030">R-030</a>, <a href="#r-031">R-031</a></td></tr>
+    <tr id="t-025"><th scope="row"><a href="#t-025">T-025</a></th><td>Security</td><td>OSSTMM; STRIDE</td><td>OSSTMM Authentication; STRIDE Spoofing; STRIDE Expansion of Authority</td><td>Insufficient authentication or authorization</td><td><a href="#df-01">DF-01</a>, <a href="#df-02">DF-02</a>, <a href="#df-05">DF-05</a>, <a href="#df-08">DF-08</a>, <a href="#po-01">PO-01</a>, <a href="#po-02">PO-02</a>, <a href="#po-03">PO-03</a></td><td>Authentication; authorization</td><td>Issuance, signing, presentation, or reliance can occur with authentication or authorization that is not appropriate for the credential or transaction.</td><td><a href="#r-007">R-007</a>, <a href="#r-027">R-027</a></td></tr>
+    <tr id="t-026"><th scope="row"><a href="#t-026">T-026</a></th><td>Socio-technical</td><td>OSSTMM</td><td>OSSTMM Indemnification</td><td>Unclear consent, contract, or liability</td><td><a href="#df-04">DF-04</a>, <a href="#df-05">DF-05</a>, <a href="#df-08">DF-08</a></td><td>Consent; accountability</td><td>The parties can lack clear notice, agreement, responsibility, or redress for credential presentation and use.</td><td><a href="#r-012">R-012</a>, <a href="#r-014">R-014</a>, <a href="#r-031">R-031</a></td></tr>
+    <tr id="t-027"><th scope="row"><a href="#t-027">T-027</a></th><td>Security</td><td>OSSTMM; STRIDE</td><td>OSSTMM Resilience; OSSTMM Continuity; STRIDE Denial of Service</td><td>Failure and recovery weakness</td><td><a href="#df-03">DF-03</a>, <a href="#po-01">PO-01</a>, <a href="#po-02">PO-02</a>, <a href="#po-03">PO-03</a>, <a href="#ds-01">DS-01</a>, <a href="#ds-02">DS-02</a></td><td>Resilience; continuity</td><td>Credential interactions can fail insecurely, or a Holder can lose access without a secure recovery path.</td><td><a href="#r-032">R-032</a>, <a href="#r-033">R-033</a></td></tr>
+    <tr id="t-029"><th scope="row"><a href="#t-029">T-029</a></th><td>Privacy</td><td>OSSTMM; STRIDE</td><td>OSSTMM Non-Repudiation; STRIDE Repudiation; STRIDE Information Disclosure</td><td>Logging without privacy constraints</td><td><a href="#df-05">DF-05</a>, <a href="#df-08">DF-08</a>, <a href="#po-01">PO-01</a>, <a href="#po-02">PO-02</a>, <a href="#po-03">PO-03</a>, <a href="#ds-01">DS-01</a></td><td>Accountability; privacy</td><td>Records can be needed for accountability but can also expose what happened, who participated, or what credential was used.</td><td><a href="#r-008">R-008</a>, <a href="#r-034">R-034</a></td></tr>
+    <tr id="t-030"><th scope="row"><a href="#t-030">T-030</a></th><td>Security</td><td>OSSTMM; STRIDE</td><td>OSSTMM Confidentiality; STRIDE Information Disclosure</td><td>Cryptographic confidentiality weakness</td><td><a href="#df-02">DF-02</a>, <a href="#df-03">DF-03</a>, <a href="#df-05">DF-05</a>, <a href="#df-06">DF-06</a>, <a href="#df-07">DF-07</a>, <a href="#ds-01">DS-01</a>, <a href="#ds-02">DS-02</a></td><td>Confidentiality</td><td>Credential data may be exposed if cryptographic protections, lifetimes, or algorithms are not appropriate over time.</td><td><a href="#r-021">R-021</a>, <a href="#r-022">R-022</a>, <a href="#r-023">R-023</a>, <a href="#r-035">R-035</a></td></tr>
+    <tr id="t-031"><th scope="row"><a href="#t-031">T-031</a></th><td>Privacy</td><td>OSSTMM; STRIDE</td><td>OSSTMM Privacy; STRIDE Information Disclosure</td><td>Wallet environment leakage</td><td><a href="#po-02">PO-02</a>, <a href="#df-04">DF-04</a>, <a href="#df-05">DF-05</a></td><td>Privacy; unlinkability</td><td>Third parties can learn about the end-user environment, including which wallets are available, their brand, or their capabilities.</td><td><a href="#r-036">R-036</a>, <a href="#r-044">R-044</a></td></tr>
+    <tr id="t-033"><th scope="row"><a href="#t-033">T-033</a></th><td>Privacy</td><td>OSSTMM; STRIDE</td><td>OSSTMM Alarm; STRIDE Information Disclosure; STRIDE Expansion of Authority</td><td>Missing alarm or notice</td><td><a href="#df-04">DF-04</a>, <a href="#df-05">DF-05</a>, <a href="#df-06">DF-06</a>, <a href="#df-07">DF-07</a>, <a href="#po-02">PO-02</a>, <a href="#po-03">PO-03</a></td><td>Awareness; control</td><td>A Holder may miss that an interaction is occurring, has occurred, scores poorly on minimization, or involves phoning home.</td><td><a href="#r-012">R-012</a>, <a href="#r-013">R-013</a>, <a href="#r-031">R-031</a>, <a href="#r-037">R-037</a></td></tr>
+    <tr id="t-038"><th scope="row"><a href="#t-038">T-038</a></th><td>Socio-technical</td><td>NDIS Harms</td><td>NDIS Harms: Loss of autonomy; surveillance harm</td><td>Constrained identity or proof path</td><td><a href="#df-04">DF-04</a>, <a href="#df-05">DF-05</a>, <a href="#df-08">DF-08</a>, <a href="#po-02">PO-02</a>, <a href="#po-03">PO-03</a></td><td>Autonomy; contextual integrity; unlinkability</td><td>A deployment can constrain Holders to one identity, one acceptable proof path, or linkable presentations, making contextual identity and unlinkable participation unavailable.</td><td><a href="#r-002">R-002</a>, <a href="#r-003">R-003</a>, <a href="#r-006">R-006</a>, <a href="#r-038">R-038</a>, <a href="#r-040">R-040</a>, <a href="#r-045">R-045</a></td></tr>
+    <tr id="t-039"><th scope="row"><a href="#t-039">T-039</a></th><td>Socio-technical</td><td>Formal objection review; NDIS Harms</td><td>Credential-gated access; NDIS Harms: Forced association; political chilling effect; exclusion</td><td>Mandatory or credential-gated access path</td><td><a href="#df-04">DF-04</a>, <a href="#df-05">DF-05</a>, <a href="#df-06">DF-06</a>, <a href="#df-07">DF-07</a>, <a href="#df-08">DF-08</a>, <a href="#po-02">PO-02</a>, <a href="#po-03">PO-03</a></td><td>Autonomy; participation; openness; freedom from surveillance</td><td>Access to essential services, legal status, employment, education, civic participation, Web content, or registration can depend on use of a specific credential path, leaving affected people unable to avoid observable credential flows or participate without acceptable credentials.</td><td><a href="#r-010">R-010</a>, <a href="#r-014">R-014</a>, <a href="#r-031">R-031</a>, <a href="#r-038">R-038</a>, <a href="#r-039">R-039</a>, <a href="#r-040">R-040</a>, <a href="#r-044">R-044</a>, <a href="#r-045">R-045</a>, <a href="#r-048">R-048</a>, <a href="#r-050">R-050</a></td></tr>
+    <tr id="t-040"><th scope="row"><a href="#t-040">T-040</a></th><td>Socio-technical</td><td>NDIS Harms; Microsoft Responsible Innovation harms</td><td>NDIS Harms: Exclusion; Microsoft Responsible Innovation harms: Opportunity loss</td><td>Exclusion from official credential path</td><td><a href="#ee-02">EE-02</a>, <a href="#po-02">PO-02</a>, <a href="#ds-01">DS-01</a>, <a href="#df-03">DF-03</a>, <a href="#df-04">DF-04</a>, <a href="#df-05">DF-05</a></td><td>Availability; accessibility; participation</td><td>People can be unable to use the official credential path because of device, software, connectivity, document, accessibility, recovery, or interoperability requirements.</td><td><a href="#r-029">R-029</a>, <a href="#r-032">R-032</a>, <a href="#r-033">R-033</a></td></tr>
+    <tr id="t-041"><th scope="row"><a href="#t-041">T-041</a></th><td>Socio-technical</td><td>NDIS Harms; Microsoft Responsible Innovation harms</td><td>NDIS Harms: Discrimination; Microsoft Responsible Innovation harms: Economic discrimination; dignity loss</td><td>Credential-based classification</td><td><a href="#df-01">DF-01</a>, <a href="#df-02">DF-02</a>, <a href="#df-05">DF-05</a>, <a href="#df-08">DF-08</a>, <a href="#ds-02">DS-02</a>, <a href="#po-01">PO-01</a>, <a href="#po-03">PO-03</a></td><td>Fairness; dignity; participation</td><td>Credential attributes, schemas, verifier policies, or derived verification results can be reused to classify people beyond the immediate transaction and support discriminatory decisions.</td><td><a href="#r-002">R-002</a>, <a href="#r-012">R-012</a>, <a href="#r-014">R-014</a>, <a href="#r-016">R-016</a>, <a href="#r-038">R-038</a>, <a href="#r-039">R-039</a></td></tr>
+    <tr id="t-042"><th scope="row"><a href="#t-042">T-042</a></th><td>Socio-technical</td><td>NDIS Harms</td><td>NDIS Harms: Identity theft; persecution; exclusion</td><td>Consequential reliance on stolen or misbound credentials</td><td><a href="#df-01">DF-01</a>, <a href="#df-02">DF-02</a>, <a href="#df-03">DF-03</a>, <a href="#df-05">DF-05</a>, <a href="#df-08">DF-08</a>, <a href="#po-01">PO-01</a>, <a href="#po-02">PO-02</a>, <a href="#po-03">PO-03</a>, <a href="#ds-01">DS-01</a></td><td>Correctness; accountability; participation</td><td>If a stolen, delegated, fraudulent, or misbound credential is accepted, later decisions may target the wrong person with suspicion, discrimination, or exclusion.</td><td><a href="#r-007">R-007</a>, <a href="#r-018">R-018</a>, <a href="#r-019">R-019</a>, <a href="#r-025">R-025</a>, <a href="#r-027">R-027</a>, <a href="#r-028">R-028</a>, <a href="#r-033">R-033</a></td></tr>
+    <tr id="t-043"><th scope="row"><a href="#t-043">T-043</a></th><td>Socio-technical</td><td>DFD review; STRIDE</td><td>Holder/Subject separation; STRIDE Spoofing; STRIDE Expansion of Authority</td><td>Confused holder-subject delegation</td><td><a href="#ee-02">EE-02</a>, <a href="#po-01">PO-01</a>, <a href="#po-02">PO-02</a>, <a href="#po-03">PO-03</a>, <a href="#df-01">DF-01</a>, <a href="#df-02">DF-02</a>, <a href="#df-04">DF-04</a>, <a href="#df-05">DF-05</a>, <a href="#df-08">DF-08</a></td><td>Authorization; consent; accountability; correctness</td><td>A deployment can treat the Holder as the Subject, or allow delegation without clear scope, consent, revocation, recovery, and reliance rules, causing a credential to be issued, presented, or relied on for the wrong person or authority.</td><td><a href="#r-007">R-007</a>, <a href="#r-012">R-012</a>, <a href="#r-014">R-014</a>, <a href="#r-016">R-016</a>, <a href="#r-028">R-028</a>, <a href="#r-030">R-030</a>, <a href="#r-031">R-031</a>, <a href="#r-033">R-033</a>, <a href="#r-046">R-046</a></td></tr>
+    <tr id="t-044"><th scope="row"><a href="#t-044">T-044</a></th><td>Security</td><td>DFD review; STRIDE; OSSTMM</td><td>Credential used for authentication; STRIDE Spoofing; STRIDE Expansion of Authority; OSSTMM Trust</td><td>Issuer-controlled authentication path</td><td><a href="#ee-01">EE-01</a>, <a href="#ee-02">EE-02</a>, <a href="#ee-03">EE-03</a>, <a href="#po-01">PO-01</a>, <a href="#po-02">PO-02</a>, <a href="#po-03">PO-03</a>, <a href="#df-02">DF-02</a>, <a href="#df-05">DF-05</a>, <a href="#df-08">DF-08</a></td><td>Authentication; authorization; separation of authority; unlinkability</td><td>A credential issued by one Issuer can be used to authenticate to a service outside the Issuer's control, allowing issuer-controlled credentials, parallel credentials, or credential-specific identifiers to influence account access or link activity across contexts.</td><td><a href="#r-010">R-010</a>, <a href="#r-012">R-012</a>, <a href="#r-014">R-014</a>, <a href="#r-016">R-016</a>, <a href="#r-024">R-024</a>, <a href="#r-026">R-026</a>, <a href="#r-028">R-028</a>, <a href="#r-030">R-030</a>, <a href="#r-031">R-031</a>, <a href="#r-038">R-038</a>, <a href="#r-039">R-039</a>, <a href="#r-040">R-040</a>, <a href="#r-045">R-045</a>, <a href="#r-047">R-047</a></td></tr>
+    <tr id="t-046"><th scope="row"><a href="#t-046">T-046</a></th><td>Socio-technical</td><td>Formal objection review; OSSTMM; STRIDE</td><td>Centralized trust dependency; OSSTMM Trust; STRIDE Expansion of Authority</td><td>Centralized trust dependency</td><td><a href="#po-02">PO-02</a>, <a href="#po-03">PO-03</a>, <a href="#ds-02">DS-02</a>, <a href="#df-06">DF-06</a>, <a href="#df-07">DF-07</a>, <a href="#df-09">DF-09</a></td><td>Autonomy; openness; accountability</td><td>A deployment can depend on a small set of trusted issuers, wallets, operating systems, certification programs, or registry operators, concentrating control over who can issue, hold, present, verify, or rely on credentials.</td><td><a href="#r-029">R-029</a>, <a href="#r-030">R-030</a>, <a href="#r-031">R-031</a>, <a href="#r-045">R-045</a>, <a href="#r-049">R-049</a></td></tr>
+    <tr id="t-048"><th scope="row"><a href="#t-048">T-048</a></th><td>Socio-technical</td><td>Formal objection review; STRIDE</td><td>Issuer/verifier authority displacement; STRIDE Expansion of Authority</td><td>Institutional authority displacement</td><td><a href="#df-01">DF-01</a>, <a href="#df-04">DF-04</a>, <a href="#df-05">DF-05</a>, <a href="#df-08">DF-08</a>, <a href="#po-01">PO-01</a>, <a href="#po-02">PO-02</a>, <a href="#po-03">PO-03</a></td><td>Agency; consent; contestability</td><td>A deployment can make Issuers or Verifiers the preferred authority for claims about a person, reducing the ability of Holders or Subjects to self-represent, contest, or avoid institutional framing.</td><td><a href="#r-012">R-012</a>, <a href="#r-014">R-014</a>, <a href="#r-016">R-016</a>, <a href="#r-031">R-031</a>, <a href="#r-038">R-038</a>, <a href="#r-039">R-039</a>, <a href="#r-046">R-046</a>, <a href="#r-051">R-051</a></td></tr>
+    <tr id="t-049"><th scope="row"><a href="#t-049">T-049</a></th><td>Socio-technical</td><td>Government-issued credential scenario; STRIDE; RFC 6973</td><td>Remote invalidation; STRIDE Denial of Service; STRIDE Expansion of Authority; RFC 6973 Exclusion</td><td>Remote credential invalidation as coercive control</td><td><a href="#ee-01">EE-01</a>, <a href="#ee-03">EE-03</a>, <a href="#po-01">PO-01</a>, <a href="#po-03">PO-03</a>, <a href="#ds-02">DS-02</a>, <a href="#df-06">DF-06</a>, <a href="#df-07">DF-07</a>, <a href="#df-08">DF-08</a>, <a href="#df-09">DF-09</a></td><td>Availability; autonomy; contestability; freedom from coercion</td><td>An Issuer, status service, governance process, or compromised authority can revoke, suspend, expire, or make unverifiable a credential in order to prevent a Subject from moving, accessing services, proving status, or escaping a coercive context.</td><td><a href="#r-019">R-019</a>, <a href="#r-033">R-033</a>, <a href="#r-050">R-050</a>, <a href="#r-051">R-051</a>, <a href="#r-052">R-052</a></td></tr>
+  </tbody>
+</table>
+
+## Socio-technical Threat Pathways and Harm Prompts
+
+The threat table above is the main inventory of identified threats. Some socio-technical material was elicited from possible harms rather than from a single DFD element, STRIDE category, or privacy property. This section keeps that material visible without treating every harm prompt as a separate threat.
+
+It records how harm prompts were used to reason backward to threat pathways, where those pathways have already been normalized into threat IDs, and where material still needs deployment-specific analysis before it becomes a separate threat, response, or remaining threat.
+
+These results come from threat modeling workshops on decentralized identity in national digital identity systems. The framework used for this section is NDIS Harms, derived from <cite>Enhancing National Digital Identity Systems</cite> [[NDIS-HARMS]]. The activity combined NDIS Harms cards with [LEGO SERIOUS PLAY](https://www.w3.org/blog/2025/threat-modeling-with-lego-serious-play-building-your-digital-identity-threat/).
+
+A threat describes what can go wrong and the pathway through which it can happen. A harm is the adverse impact that may result, including impact on people and society. This section uses harm categories as prompts to reason backward from those impacts and identify socio-technical threat pathways. That framing helps identify threats from the system to people and society when a credential capability is used, misused, abused, deployed, or governed in harmful ways.
+
+The connected pathways do not replace the individual threats in the previous table. They show how local design choices, software deputies, institutional choices, and participation conditions can connect individual threats and produce broader harms. Where the pathway analysis exposed a discrete "what can go wrong" condition, that condition is also normalized into the threat table, mainly in the <a href="#t-038">T-038</a> through <a href="#t-049">T-049</a> range. The related threat and response identifiers are initial links; they can be refined as the model becomes more deployment-specific.
+
+<table class="data">
+  <caption>Connected socio-technical threat pathways.</caption>
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Harm prompt</th>
+      <th scope="col">Threat pathway</th>
+      <th scope="col">Entry condition</th>
+      <th scope="col">Affected capability / DFD element</th>
+      <th scope="col">Affected people</th>
+      <th scope="col">System condition</th>
+      <th scope="col">Related threats</th>
+      <th scope="col">Response focus</th>
+      <th scope="col">Candidate responses</th>
+      <th scope="col">Remaining threat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr id="p-001"><th scope="row"><a href="#p-001">P-001</a></th><td>Surveillance; censorship; loss of autonomy</td><td>Restricting identity multiplicity or acceptable proof paths can create stable correlation. That correlation can support profiling, which can enable intervention, censorship, or pressure.</td><td>A deployment constrains Holders to one identity, one acceptable proof path, or linkable presentations for repeated interactions.</td><td><a href="#df-04">DF-04</a>, <a href="#df-05">DF-05</a>, <a href="#df-08">DF-08</a>, <a href="#po-02">PO-02</a>, <a href="#po-03">PO-03</a></td><td>Holders; affected people; people who need contextual identities or unlinkable participation.</td><td>Deployment constrains identity choice or proof alternatives.</td><td><a href="#t-002">T-002</a>, <a href="#t-003">T-003</a>, <a href="#t-004">T-004</a>, <a href="#t-007">T-007</a>, <a href="#t-038">T-038</a></td><td>Reduce linkability; preserve alternatives; limit issuer and verifier observability.</td><td><a href="#r-002">R-002</a>, <a href="#r-003">R-003</a>, <a href="#r-006">R-006</a>, <a href="#r-010">R-010</a>, <a href="#r-038">R-038</a>, <a href="#r-040">R-040</a>, <a href="#r-045">R-045</a></td><td>Verifier policy, deployment rules, or governance requirements may still force linkable presentations even when the credential format supports minimization.</td></tr>
+    <tr id="p-002"><th scope="row"><a href="#p-002">P-002</a></th><td>Forced association; surveillance; political chilling effect</td><td>When enrollment is effectively mandatory, people may have to reach services through the credential system. Presentation, verification, and status data can then be observed or combined across interactions, creating a surveillance path.</td><td>Essential services, legal status, employment, education, or civic participation require enrollment in, or use of, a specific credential path.</td><td><a href="#df-05">DF-05</a>, <a href="#df-06">DF-06</a>, <a href="#df-07">DF-07</a>, <a href="#df-08">DF-08</a></td><td>Holders, indirect users, people who cannot realistically opt out, and groups exposed to state or private monitoring.</td><td>Credential use becomes a condition for participation.</td><td><a href="#t-003">T-003</a>, <a href="#t-004">T-004</a>, <a href="#t-009">T-009</a>, <a href="#t-014">T-014</a>, <a href="#t-026">T-026</a>, <a href="#t-039">T-039</a></td><td>Preserve meaningful alternatives; limit status and registry observability; constrain mandatory use.</td><td><a href="#r-010">R-010</a>, <a href="#r-014">R-014</a>, <a href="#r-031">R-031</a>, <a href="#r-040">R-040</a>, <a href="#r-044">R-044</a>, <a href="#r-045">R-045</a></td><td>Technical privacy controls do not remove coercion when access to essential services depends on the credential path.</td></tr>
+    <tr id="p-003"><th scope="row"><a href="#p-003">P-003</a></th><td>Exclusion; fraud; opportunity loss</td><td>Exclusion from the official wallet or application path may deny access to official services. It may also push people toward unofficial channels, where they may disclose more data or become more exposed to fraud and exploitation.</td><td>The official credential path depends on hardware, software, network access, supported documents, accessibility conditions, or interoperability that some people lack.</td><td><a href="#ee-02">EE-02</a>, <a href="#po-02">PO-02</a>, <a href="#ds-01">DS-01</a>, <a href="#df-03">DF-03</a>, <a href="#df-04">DF-04</a>, <a href="#df-05">DF-05</a></td><td>Holders, people without supported devices or connectivity, people with accessibility needs, and high-risk groups.</td><td>Credential availability depends on inaccessible technology, documents, recovery, or interoperability.</td><td><a href="#t-009">T-009</a>, <a href="#t-014">T-014</a>, <a href="#t-021">T-021</a>, <a href="#t-027">T-027</a>, <a href="#t-040">T-040</a></td><td>Preserve access paths; improve resilience and recovery; assign deployment responsibility.</td><td><a href="#r-029">R-029</a>, <a href="#r-032">R-032</a>, <a href="#r-033">R-033</a></td><td>Resilient technical design may still exclude people when enrollment, device access, support, or legal recognition is unavailable.</td></tr>
+    <tr id="p-004"><th scope="row"><a href="#p-004">P-004</a></th><td>Discrimination; denial of identity; loss of participation</td><td>A credential system can move from proving claims for a narrow transaction to classifying people. Classification can then support discriminatory vetting, denial of access, denial of identity, or loss of civic and economic participation.</td><td>Credential attributes, schemas, verifier policies, or derived verification results are reused to classify people beyond the immediate transaction.</td><td><a href="#df-01">DF-01</a>, <a href="#df-02">DF-02</a>, <a href="#df-05">DF-05</a>, <a href="#df-08">DF-08</a>, <a href="#ds-02">DS-02</a>, <a href="#po-01">PO-01</a>, <a href="#po-03">PO-03</a></td><td>Holders; Subjects; people represented by credentials; groups affected by classification or policy decisions.</td><td>Credential data or verification results become a reusable classification input.</td><td><a href="#t-001">T-001</a>, <a href="#t-005">T-005</a>, <a href="#t-012">T-012</a>, <a href="#t-013">T-013</a>, <a href="#t-041">T-041</a></td><td>Constrain verifier requests and reuse; preserve minimization; audit consequential policy.</td><td><a href="#r-002">R-002</a>, <a href="#r-012">R-012</a>, <a href="#r-014">R-014</a>, <a href="#r-016">R-016</a>, <a href="#r-038">R-038</a>, <a href="#r-039">R-039</a></td><td>Minimized disclosure does not prevent discriminatory policy when the remaining disclosed or inferred data is still used for classification.</td></tr>
+    <tr id="p-005"><th scope="row"><a href="#p-005">P-005</a></th><td>Persecution; exclusion; suspicion after identity theft</td><td>Identity theft can be an entry event rather than only an isolated security failure. A stolen or fraudulent identity can lead to incorrect profiling, suspicion, discriminatory targeting, or effective exclusion of the wrong person.</td><td>An issuer, wallet, verifier, or recovery process accepts a stolen, delegated, fraudulent, or misbound credential, and a later decision relies on it.</td><td><a href="#df-01">DF-01</a>, <a href="#df-02">DF-02</a>, <a href="#df-03">DF-03</a>, <a href="#df-05">DF-05</a>, <a href="#df-08">DF-08</a>, <a href="#po-01">PO-01</a>, <a href="#po-02">PO-02</a>, <a href="#po-03">PO-03</a>, <a href="#ds-01">DS-01</a></td><td>The impersonated person, people whose credentials or recovery paths are compromised, and people subject to consequential verification decisions.</td><td>Credential binding, recovery, or reliance fails before a consequential decision.</td><td><a href="#t-010">T-010</a>, <a href="#t-012">T-012</a>, <a href="#t-017">T-017</a>, <a href="#t-018">T-018</a>, <a href="#t-019">T-019</a>, <a href="#t-025">T-025</a>, <a href="#t-027">T-027</a>, <a href="#t-042">T-042</a></td><td>Strengthen issuance, binding, recovery, and verifier identification; provide incident response.</td><td><a href="#r-007">R-007</a>, <a href="#r-018">R-018</a>, <a href="#r-019">R-019</a>, <a href="#r-025">R-025</a>, <a href="#r-027">R-027</a>, <a href="#r-028">R-028</a>, <a href="#r-033">R-033</a></td><td>Even after technical correction, affected people may need redress when prior decisions relied on the wrong credential or identity binding.</td></tr>
+    <tr id="p-006"><th scope="row"><a href="#p-006">P-006</a></th><td>Privacy regression; disclosure normalization</td><td>Browser mediation can make credential requests easier to issue. If those requests become routine, third-party-attested disclosure may be expected in more Web interactions, increasing opportunities for over-disclosure, secondary use, and profiling.</td><td>Websites can request credentials through a browser-mediated capability, and Holders face repeated or expected disclosure decisions.</td><td><a href="#df-04">DF-04</a>, <a href="#df-05">DF-05</a>, <a href="#df-08">DF-08</a>, <a href="#po-02">PO-02</a>, <a href="#po-03">PO-03</a></td><td>Holders; Subjects; people whose participation depends on repeated Web interactions.</td><td>Credential presentation becomes routine or expected in Web interactions.</td><td><a href="#t-002">T-002</a>, <a href="#t-003">T-003</a>, <a href="#t-008">T-008</a>, <a href="#t-011">T-011</a>, <a href="#t-020">T-020</a></td><td>Constrain request frequency and purpose; preserve minimization; make requests visible and contestable.</td><td><a href="#r-002">R-002</a>, <a href="#r-012">R-012</a>, <a href="#r-014">R-014</a>, <a href="#r-020">R-020</a>, <a href="#r-031">R-031</a>, <a href="#r-038">R-038</a>, <a href="#r-039">R-039</a>, <a href="#r-048">R-048</a></td><td>Even with technical minimization, relying parties may still pressure disclosure when participation depends on the interaction.</td></tr>
+    <tr id="p-007"><th scope="row"><a href="#p-007">P-007</a></th><td>Centralization; credential-gated participation; loss of agency</td><td>Accepted issuers, wallets, operating systems, certification programs, or verifier policies can become concentration points. When access depends on those choices, Web participation can depend on credentials and on institutional decisions about which credentials and software count.</td><td>Access to Web content, registration, or services depends on credentials from accepted issuers or on wallet and device environments accepted by verifiers.</td><td><a href="#df-04">DF-04</a>, <a href="#df-05">DF-05</a>, <a href="#df-06">DF-06</a>, <a href="#df-07">DF-07</a>, <a href="#df-08">DF-08</a>, <a href="#df-09">DF-09</a>, <a href="#po-02">PO-02</a>, <a href="#po-03">PO-03</a>, <a href="#ds-02">DS-02</a></td><td>Holders; Subjects; people without accepted credentials, devices, wallets, or institutional recognition; people needing contextual or self-represented identities.</td><td>Verifiers, issuers, or governance rules choose trusted credentials, wallets, platforms, or authorities for participation.</td><td><a href="#t-024">T-024</a>, <a href="#t-026">T-026</a>, <a href="#t-038">T-038</a>, <a href="#t-039">T-039</a>, <a href="#t-040">T-040</a>, <a href="#t-041">T-041</a>, <a href="#t-046">T-046</a>, <a href="#t-048">T-048</a></td><td>Preserve alternatives; reduce centralization pressure; make authority and contestability explicit.</td><td><a href="#r-014">R-014</a>, <a href="#r-016">R-016</a>, <a href="#r-029">R-029</a>, <a href="#r-030">R-030</a>, <a href="#r-031">R-031</a>, <a href="#r-045">R-045</a>, <a href="#r-049">R-049</a>, <a href="#r-050">R-050</a>, <a href="#r-051">R-051</a></td><td>A technical credential design cannot by itself prevent Web services or governance bodies from making institutional credentials a condition of participation.</td></tr>
+    <tr id="p-008"><th scope="row"><a href="#p-008">P-008</a></th><td>Coercive control; recovery; remote invalidation</td><td>A physical credential can be seized to control a person's movement, work, resignation, or access to services. A digital credential can reduce that pathway when safe recovery or reissuance is available. It can also create a different control point if an issuer, status service, wallet provider, device holder, or governance process can revoke, suspend, block recovery, or make the credential unverifiable.</td><td>A person depends on a credential for movement, work, access to services, or safety, and recovery, re-enrollment, status, or revocation processes can be controlled or abused.</td><td><a href="#df-03">DF-03</a>, <a href="#df-05">DF-05</a>, <a href="#df-06">DF-06</a>, <a href="#df-07">DF-07</a>, <a href="#df-08">DF-08</a>, <a href="#df-09">DF-09</a>, <a href="#po-01">PO-01</a>, <a href="#po-02">PO-02</a>, <a href="#po-03">PO-03</a>, <a href="#ds-01">DS-01</a>, <a href="#ds-02">DS-02</a></td><td>Holders; Subjects; people in coercive relationships; people whose safety depends on movement, access, or proof of status.</td><td>Credential recovery and revocation are part of the same control surface.</td><td><a href="#t-021">T-021</a>, <a href="#t-027">T-027</a>, <a href="#t-040">T-040</a>, <a href="#t-042">T-042</a>, <a href="#t-049">T-049</a></td><td>Model recovery and revocation together; preserve emergency recovery; constrain remote invalidation; provide contestability and non-credential alternatives.</td><td><a href="#r-019">R-019</a>, <a href="#r-033">R-033</a>, <a href="#r-050">R-050</a>, <a href="#r-051">R-051</a>, <a href="#r-052">R-052</a></td><td>Digital recovery may reduce dependence on a seized physical document, but it can also create remote or procedural control points that remain outside the credential data model.</td></tr>
+  </tbody>
+</table>
+
+The workshop activity also produced harm prompts and individual threat material for later review. Some entries are already represented by the pathway table or by the threat table above. Others need a clearer pathway before they should become separate threat IDs.
+
+<table class="data">
+  <caption>Harm prompts and candidate threat material.</caption>
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Framework / source</th>
+      <th scope="col">Material type</th>
+      <th scope="col">Harm prompt</th>
+      <th scope="col">Description</th>
+      <th scope="col">Candidate pathway</th>
+      <th scope="col">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr id="h-001"><th scope="row"><a href="#h-001">H-001</a></th><td>NDIS Harms</td><td>Harm prompt</td><td>Loss of representation</td><td>A person is excluded from the identity system and can no longer access services or participate in society because their existence is not recognized by the digital infrastructure.</td><td><a href="#p-003">P-003</a>; <a href="#p-004">P-004</a></td><td>Mapped to pathway</td></tr>
+    <tr id="h-002"><th scope="row"><a href="#h-002">H-002</a></th><td>NDIS Harms</td><td>Harm prompt</td><td>Discrimination</td><td>A person is denied access to a service because automated policies classify them negatively based on characteristics contained in, or derived from, a digital credential.</td><td><a href="#p-004">P-004</a></td><td>Mapped to pathway</td></tr>
+    <tr id="h-003"><th scope="row"><a href="#h-003">H-003</a></th><td>NDIS Harms</td><td>Harm prompt</td><td>Profiling and identity stacking</td><td>Continuous profiling and aggregation of identity data may create a system in which people cannot escape prior classifications or accumulated inferences.</td><td><a href="#p-001">P-001</a>; <a href="#p-002">P-002</a></td><td>Mapped to pathway</td></tr>
+    <tr id="h-004"><th scope="row"><a href="#h-004">H-004</a></th><td>NDIS Harms</td><td>Harm prompt</td><td>Political chilling effect</td><td>People avoid political participation or advocacy because they fear that their digital identity could expose them to retaliation or surveillance.</td><td><a href="#p-001">P-001</a>; <a href="#p-002">P-002</a></td><td>Mapped to pathway</td></tr>
+    <tr id="h-005"><th scope="row"><a href="#h-005">H-005</a></th><td>NDIS Harms</td><td>Harm prompt</td><td>Forced association</td><td>People are forced to join or identify through a specific organization or identity framework in order to access essential services or prove who they are.</td><td><a href="#p-002">P-002</a></td><td>Mapped to pathway</td></tr>
+    <tr id="h-006"><th scope="row"><a href="#h-006">H-006</a></th><td>NDIS Harms</td><td>Harm prompt</td><td>Denied right to an identity</td><td>Barriers in enrollment, authentication, authorization, recovery, or recognition prevent people from obtaining or using a valid digital identity.</td><td><a href="#p-003">P-003</a>; <a href="#p-004">P-004</a></td><td>Needs deployment-specific pathway</td></tr>
+    <tr id="h-007"><th scope="row"><a href="#h-007">H-007</a></th><td>NDIS Harms</td><td>Harm prompt</td><td>Surveillance harm and censorship</td><td>Monitoring or correlation of identity activity can restrict expression by making people feel observed, identifiable, or subject to later intervention.</td><td><a href="#p-001">P-001</a>; <a href="#p-002">P-002</a></td><td>Mapped to pathway</td></tr>
+    <tr id="h-008"><th scope="row"><a href="#h-008">H-008</a></th><td>NDIS Harms</td><td>Candidate threat material</td><td>Function creep</td><td>Data collected for one purpose is gradually reused for additional purposes beyond the original presentation or verification context.</td><td><a href="#p-004">P-004</a></td><td>Already covered by <a href="#t-013">T-013</a>; can be linked to pathway</td></tr>
+    <tr id="h-009"><th scope="row"><a href="#h-009">H-009</a></th><td>NDIS Harms</td><td>Harm prompt</td><td>Fear of persecution</td><td>People limit speech, movement, or participation because credential use can be tracked, combined, or acted on by powerful actors.</td><td><a href="#p-001">P-001</a>; <a href="#p-002">P-002</a>; <a href="#p-005">P-005</a></td><td>Mapped to pathway</td></tr>
+    <tr id="h-010"><th scope="row"><a href="#h-010">H-010</a></th><td>NDIS Harms</td><td>Candidate threat material</td><td>Identity theft</td><td>A malicious actor uses stolen identities to impersonate other people and gain unauthorized access to systems or services.</td><td><a href="#p-005">P-005</a></td><td>Already covered by technical threats; pathway entry point</td></tr>
+    <tr id="h-011"><th scope="row"><a href="#h-011">H-011</a></th><td>NDIS Harms</td><td>Candidate threat material</td><td>Phishing</td><td>An attacker tricks a person into revealing credentials or performing an action that leaks sensitive data or enables unauthorized access.</td><td><a href="#p-005">P-005</a></td><td>Already covered by technical threats; pathway entry point</td></tr>
+    <tr id="h-012"><th scope="row"><a href="#h-012">H-012</a></th><td>NDIS Harms</td><td>Harm prompt</td><td>Denial of healthcare</td><td>Failures or restrictions in digital identity systems prevent people from receiving timely medical care.</td><td><a href="#p-003">P-003</a>; <a href="#p-004">P-004</a></td><td>Needs deployment-specific pathway</td></tr>
+    <tr id="h-013"><th scope="row"><a href="#h-013">H-013</a></th><td>NDIS Harms</td><td>Harm prompt</td><td>Digital censorship</td><td>Identity systems may be used to selectively block or allow access based on who the person is or what credential-derived classification applies.</td><td><a href="#p-001">P-001</a>; <a href="#p-004">P-004</a></td><td>Mapped to pathway</td></tr>
+    <tr id="h-014"><th scope="row"><a href="#h-014">H-014</a></th><td>NDIS Harms</td><td>Harm prompt</td><td>Statelessness</td><td>A person's digital identity is considered invalid, fraudulent, or unavailable, excluding them from social participation and essential resources.</td><td><a href="#p-003">P-003</a>; <a href="#p-004">P-004</a>; <a href="#p-005">P-005</a></td><td>Needs deployment-specific pathway</td></tr>
+    <tr id="h-015"><th scope="row"><a href="#h-015">H-015</a></th><td>Microsoft Responsible Innovation harms</td><td>Harm prompt</td><td>Opportunity loss</td><td>People may be excluded from services or opportunities when access depends on specific credentials, hardware, software, connectivity, or interoperability.</td><td><a href="#p-003">P-003</a></td><td>Mapped to pathway</td></tr>
+    <tr id="h-016"><th scope="row"><a href="#h-016">H-016</a></th><td>Microsoft Responsible Innovation harms</td><td>Harm prompt</td><td>Economic discrimination</td><td>Credential attributes or derived information may be used to discriminate in access to credit, services, or economic opportunity.</td><td><a href="#p-004">P-004</a></td><td>Mapped to pathway</td></tr>
+    <tr id="h-017"><th scope="row"><a href="#h-017">H-017</a></th><td>Microsoft Responsible Innovation harms</td><td>Harm prompt</td><td>Dignity loss</td><td>Credential vocabularies, schemas, or classifications can fail to represent people correctly or can obscure their humanity and characteristics.</td><td><a href="#p-004">P-004</a></td><td>Mapped to pathway</td></tr>
+    <tr id="h-018"><th scope="row"><a href="#h-018">H-018</a></th><td>Government-issued credential scenario</td><td>Abuse story / harm prompt</td><td>Coercive control through credential seizure or invalidation</td><td>Physical document seizure can enable coercive control when a person needs a credential to move, work, resign, or access services. Digital credentials can change that pathway because credentials may be reissued or recovered, but the threat can shift to device seizure, account takeover, coercive recovery, blocked re-enrollment, or remote revocation by an authority.</td><td><a href="#p-008">P-008</a></td><td>Mapped to pathway</td></tr>
+  </tbody>
+</table>
+
+
+# What are we going to do about it?
+
+The response table maps candidate responses to the threat, pathway, and harm identifiers in the previous section. It is intentionally not deduplicated. Some rows overlap because they came from different prompts or address the same threat or pathway at different layers.
+
+<table class="data">
+  <caption>Candidate responses mapped to identified threats and pathways.</caption>
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Response</th>
+      <th scope="col">Related IDs</th>
+      <th scope="col">Response approach</th>
+      <th scope="col">Response owner</th>
+      <th scope="col">Description</th>
+      <th scope="col">Assumptions / remaining threat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr id="r-001"><th scope="row"><a href="#r-001">R-001</a></th><td>Signature blinding</td><td><a href="#t-003">T-003</a>, <a href="#t-004">T-004</a></td><td>Technical</td><td>Issuer; credential format; proof system</td><td>Use a signature scheme where the signed content or later proof cannot be directly correlated with the signer or issuance event. See <cite>Blind Signatures for Untraceable Payments</cite> [[CHAUM-BLIND-SIGNATURES]].</td><td>Depends on credential format support and correct use. It does not address metadata, status checks, or verifier collusion by itself.</td></tr>
+    <tr id="r-002"><th scope="row"><a href="#r-002">R-002</a></th><td>Selective disclosure</td><td><a href="#t-002">T-002</a>, <a href="#t-005">T-005</a>, <a href="#t-011">T-011</a>, <a href="#t-038">T-038</a>, <a href="#t-041">T-041</a>, <a href="#p-001">P-001</a>, <a href="#p-004">P-004</a>, <a href="#p-006">P-006</a></td><td>Technical</td><td>Wallet; credential format; verifier policy</td><td>Use credential formats and verifier flows that let the Holder present selected claims or proof of possession without disclosing the whole credential. See <cite>Selective Disclosure</cite> [[BEN-LAURIE-SELECTIVE-DISCLOSURE]] and <cite>On Cryptographic Mechanisms for the Selective Disclosure of Verifiable Credentials</cite> [[SELECTIVE-DISCLOSURE-VC-CRYPTO]].</td><td>Requires credentials and verifier flows that accept minimized presentations. It does not prevent a Verifier from asking for more.</td></tr>
+    <tr id="r-003"><th scope="row"><a href="#r-003">R-003</a></th><td>Predicate and range proofs</td><td><a href="#t-003">T-003</a>, <a href="#t-004">T-004</a>, <a href="#t-005">T-005</a>, <a href="#t-038">T-038</a>, <a href="#p-001">P-001</a></td><td>Technical</td><td>Credential format; wallet; verifier agent</td><td>Use proofs that answer a specific predicate or range question without disclosing the underlying value. See <cite>On Cryptographic Mechanisms for the Selective Disclosure of Verifiable Credentials</cite> [[SELECTIVE-DISCLOSURE-VC-CRYPTO]].</td><td>Only helps when the verifier can rely on the predicate instead of the raw claim.</td></tr>
+    <tr id="r-004"><th scope="row"><a href="#r-004">R-004</a></th><td>Anonymous revocation</td><td><a href="#t-003">T-003</a></td><td>Technical</td><td>Issuer; status service; verifier agent</td><td>Use revocation or status mechanisms that let a Verifier check status without exposing which credential is being checked to parties that do not need to know. Candidate mechanisms include status lists [[STATUS-LIST-2021]], status assertions [[OAUTH-STATUS-ASSERTIONS]], and cryptographic accumulators [[ZK-ACCUMULATORS]].</td><td>Status design can still leak through timing, network metadata, or deployment choices.</td></tr>
+    <tr id="r-005"><th scope="row"><a href="#r-005">R-005</a></th><td>Random credential identifiers</td><td><a href="#t-003">T-003</a></td><td>Technical</td><td>Issuer; issuer agent</td><td>Generate credential identifiers that are random and not meaningfully linkable across credentials or presentations.</td><td>Other fields or metadata can still enable linking.</td></tr>
+    <tr id="r-006"><th scope="row"><a href="#r-006">R-006</a></th><td>Rotational identifiers</td><td><a href="#t-003">T-003</a>, <a href="#t-004">T-004</a>, <a href="#t-038">T-038</a>, <a href="#p-001">P-001</a></td><td>Technical</td><td>Holder agent; wallet; verifier agent</td><td>Use temporary or per-interaction identifiers where identifiers are needed. See the <cite>Self-Review Questionnaire: Security and Privacy</cite> discussion of temporary identifiers [[SPQ]].</td><td>Rotation must be coordinated across protocol layers; stable metadata can defeat it.</td></tr>
+    <tr id="r-007"><th scope="row"><a href="#r-007">R-007</a></th><td>Appropriate issuance authentication</td><td><a href="#t-001">T-001</a>, <a href="#t-006">T-006</a>, <a href="#t-012">T-012</a>, <a href="#t-017">T-017</a>, <a href="#t-022">T-022</a>, <a href="#t-025">T-025</a>, <a href="#t-042">T-042</a>, <a href="#t-043">T-043</a>, <a href="#p-005">P-005</a></td><td>Technical; Governance / ecosystem</td><td>Issuer; issuer agent</td><td>Choose authentication and assurance processes appropriate to the credential and transaction before issuance.</td><td>This reduces misissuance but does not make claims true after circumstances change.</td></tr>
+    <tr id="r-008"><th scope="row"><a href="#r-008">R-008</a></th><td>Privacy-constrained logging</td><td><a href="#t-006">T-006</a>, <a href="#t-012">T-012</a>, <a href="#t-019">T-019</a>, <a href="#t-029">T-029</a></td><td>Human / operational; Governance / ecosystem</td><td>Issuer; Verifier; Holder agent</td><td>Keep records needed for investigation or accountability while limiting personal data, retention, and access.</td><td>Logs can themselves become sensitive assets and must be protected.</td></tr>
+    <tr id="r-009"><th scope="row"><a href="#r-009">R-009</a></th><td>Indistinguishable wallet responses</td><td><a href="#t-007">T-007</a></td><td>Technical; Human / operational</td><td>Wallet; browser; holder agent</td><td>Make requester-visible behavior similar whether a wallet exists, a credential exists, a credential is valid, or the Holder declines.</td><td>Timing, side channels, and browser behavior need separate review.</td></tr>
+    <tr id="r-010"><th scope="row"><a href="#r-010">R-010</a></th><td>Avoid issuer back channels</td><td><a href="#t-003">T-003</a>, <a href="#t-004">T-004</a>, <a href="#t-007">T-007</a>, <a href="#t-039">T-039</a>, <a href="#t-044">T-044</a>, <a href="#p-001">P-001</a>, <a href="#p-002">P-002</a></td><td>Technical; Governance / ecosystem</td><td>Verifier agent; status service; DID method; issuer agent</td><td>Avoid verification paths that directly contact issuer-controlled systems when that contact can reveal credential use.</td><td>Some deployments may need status checking; the remaining threat depends on the selected status design.</td></tr>
+    <tr id="r-011"><th scope="row"><a href="#r-011">R-011</a></th><td>Avoid personal or linkable data in registries</td><td><a href="#t-005">T-005</a>, <a href="#t-020">T-020</a></td><td>Technical; Governance / ecosystem</td><td>Issuer; Holder; VDR operator</td><td>Do not write personally identifiable information or linkable identifiers to VDR or status data when they are not necessary.</td><td>Registry governance and resolver behavior can still reveal metadata.</td></tr>
+    <tr id="r-012"><th scope="row"><a href="#r-012">R-012</a></th><td>Notice for disclosure level</td><td><a href="#t-002">T-002</a>, <a href="#t-008">T-008</a>, <a href="#t-011">T-011</a>, <a href="#t-014">T-014</a>, <a href="#t-026">T-026</a>, <a href="#t-033">T-033</a>, <a href="#t-041">T-041</a>, <a href="#t-043">T-043</a>, <a href="#t-044">T-044</a>, <a href="#t-048">T-048</a>, <a href="#p-004">P-004</a>, <a href="#p-006">P-006</a></td><td>Human / operational</td><td>Wallet; browser; verifier agent</td><td>Inform the Holder when a Verifier asks for full disclosure, selective disclosure, or another presentation form.</td><td>Notice alone does not ensure meaningful choice.</td></tr>
+    <tr id="r-013"><th scope="row"><a href="#r-013">R-013</a></th><td>Notice for phoning home or back channels</td><td><a href="#t-008">T-008</a>, <a href="#t-033">T-033</a></td><td>Human / operational</td><td>Wallet; browser; issuer agent; verifier agent</td><td>Inform the Holder when a credential flow may contact an Issuer, wallet provider, status service, or other third party.</td><td>Some connections can happen below the visible credential layer.</td></tr>
+    <tr id="r-014"><th scope="row"><a href="#r-014">R-014</a></th><td>Per-use Holder consent and review</td><td><a href="#t-008">T-008</a>, <a href="#t-011">T-011</a>, <a href="#t-013">T-013</a>, <a href="#t-014">T-014</a>, <a href="#t-026">T-026</a>, <a href="#t-039">T-039</a>, <a href="#t-041">T-041</a>, <a href="#t-043">T-043</a>, <a href="#t-044">T-044</a>, <a href="#t-048">T-048</a>, <a href="#p-002">P-002</a>, <a href="#p-004">P-004</a>, <a href="#p-006">P-006</a>, <a href="#p-007">P-007</a></td><td>Human / operational; Governance / ecosystem</td><td>Wallet; browser; verifier agent</td><td>Ask the Holder to confirm each use and show the Verifier, requested proof, selected credentials, and disclosed information.</td><td>Consent may be pressured, bundled, or unavailable for essential services.</td></tr>
+    <tr id="r-015"><th scope="row"><a href="#r-015">R-015</a></th><td>Holder security awareness</td><td><a href="#t-009">T-009</a></td><td>Human / operational</td><td>Issuer; deployer; governance body</td><td>Provide security and privacy guidance for Holders, especially when social engineering or protected groups are in scope.</td><td>Training does not transfer responsibility away from system designers.</td></tr>
+    <tr id="r-016"><th scope="row"><a href="#r-016">R-016</a></th><td>Issuer and verifier audit</td><td><a href="#t-009">T-009</a>, <a href="#t-013">T-013</a>, <a href="#t-041">T-041</a>, <a href="#t-043">T-043</a>, <a href="#t-044">T-044</a>, <a href="#t-048">T-048</a>, <a href="#p-004">P-004</a>, <a href="#p-007">P-007</a></td><td>Governance / ecosystem</td><td>Issuer; Verifier; auditor; governance body</td><td>Subject Issuers and Verifiers to regular audit of credential handling, retention, and policy compliance.</td><td>Audit effectiveness depends on scope, independence, and enforcement.</td></tr>
+    <tr id="r-018"><th scope="row"><a href="#r-018">R-018</a></th><td>Secure key storage</td><td><a href="#t-010">T-010</a>, <a href="#t-042">T-042</a>, <a href="#p-005">P-005</a></td><td>Technical</td><td>Issuer; wallet; verifier; device platform</td><td>Store keys in protected locations such as hardware security modules, secure enclaves, or platform keystores.</td><td>Device compromise, backup, recovery, and operational access remain in scope.</td></tr>
+    <tr id="r-019"><th scope="row"><a href="#r-019">R-019</a></th><td>Incident response for key or device compromise</td><td><a href="#t-010">T-010</a>, <a href="#t-042">T-042</a>, <a href="#t-049">T-049</a>, <a href="#p-005">P-005</a>, <a href="#p-008">P-008</a></td><td>Human / operational</td><td>Issuer; wallet provider; deployer</td><td>Prepare procedures for private-key compromise, device compromise, revocation, reissuance, and affected-party notification.</td><td>Response speed and discoverability determine residual exposure.</td></tr>
+    <tr id="r-020"><th scope="row"><a href="#r-020">R-020</a></th><td>Request throttling</td><td><a href="#t-011">T-011</a>, <a href="#p-006">P-006</a></td><td>Technical; Human / operational</td><td>Wallet; browser; verifier agent</td><td>Limit repeated or abusive credential requests over time.</td><td>Throttling may be bypassed across origins, devices, or colluding Verifiers.</td></tr>
+    <tr id="r-021"><th scope="row"><a href="#r-021">R-021</a></th><td>Encrypt traffic</td><td><a href="#t-015">T-015</a>, <a href="#t-016">T-016</a>, <a href="#t-020">T-020</a>, <a href="#t-030">T-030</a></td><td>Technical</td><td>All protocol endpoints</td><td>Protect credential-related flows in transit against passive observation and some active modification.</td><td>Encryption does not hide all metadata and does not protect compromised endpoints.</td></tr>
+    <tr id="r-022"><th scope="row"><a href="#r-022">R-022</a></th><td>Quantum-resistant algorithms</td><td><a href="#t-015">T-015</a>, <a href="#t-016">T-016</a>, <a href="#t-030">T-030</a></td><td>Technical</td><td>Credential format; issuer; verifier; wallet</td><td>Use algorithm agility and post-quantum readiness for credentials that need long-term confidentiality or integrity.</td><td>This is deployment- and lifetime-dependent and needs cryptographic review.</td></tr>
+    <tr id="r-023"><th scope="row"><a href="#r-023">R-023</a></th><td>Key management and key rotation</td><td><a href="#t-010">T-010</a>, <a href="#t-015">T-015</a>, <a href="#t-030">T-030</a></td><td>Technical; Human / operational</td><td>Issuer; wallet; verifier; status service</td><td>Plan key rotation, key replacement, and compromise recovery as part of credential operations.</td><td>Rotation can break verification unless status, trust anchors, and archival needs are handled.</td></tr>
+    <tr id="r-024"><th scope="row"><a href="#r-024">R-024</a></th><td>Nonce for replay prevention</td><td><a href="#t-016">T-016</a>, <a href="#t-044">T-044</a></td><td>Technical</td><td>Verifier agent; wallet; holder agent</td><td>Use a nonce or equivalent freshness mechanism to bind a presentation to a specific request.</td><td>Freshness must be bound to the right parties and context.</td></tr>
+    <tr id="r-025"><th scope="row"><a href="#r-025">R-025</a></th><td>Message authentication and digital signatures</td><td><a href="#t-001">T-001</a>, <a href="#t-016">T-016</a>, <a href="#t-018">T-018</a>, <a href="#t-042">T-042</a>, <a href="#p-005">P-005</a></td><td>Technical</td><td>Issuer; wallet; verifier agent</td><td>Use message authentication codes or digital signatures to protect integrity and authenticity of credential-related messages.</td><td>Correct key binding and canonicalization remain necessary.</td></tr>
+    <tr id="r-026"><th scope="row"><a href="#r-026">R-026</a></th><td>Bind requests to an interaction</td><td><a href="#t-016">T-016</a>, <a href="#t-044">T-044</a></td><td>Technical</td><td>Verifier agent; wallet; issuer agent</td><td>Bind requests and responses to a specific interaction between the relevant parties.</td><td>Binding must include enough context to prevent redirection or substitution.</td></tr>
+    <tr id="r-027"><th scope="row"><a href="#r-027">R-027</a></th><td>Credential and presentation signatures</td><td><a href="#t-001">T-001</a>, <a href="#t-017">T-017</a>, <a href="#t-018">T-018</a>, <a href="#t-025">T-025</a>, <a href="#t-042">T-042</a>, <a href="#p-005">P-005</a></td><td>Technical</td><td>Issuer; wallet; verifier agent</td><td>Use signatures so credentials and presentations can be checked for authorship and integrity.</td><td>Signatures do not prove that claims are true or that disclosure is appropriate.</td></tr>
+    <tr id="r-028"><th scope="row"><a href="#r-028">R-028</a></th><td>Verifier identification in presentation UI</td><td><a href="#t-017">T-017</a>, <a href="#t-042">T-042</a>, <a href="#t-043">T-043</a>, <a href="#t-044">T-044</a>, <a href="#p-005">P-005</a></td><td>Human / operational</td><td>Wallet; browser; verifier website</td><td>Show information that helps the Holder understand which Verifier is requesting a presentation.</td><td>User interface cues may be spoofed or misunderstood without origin and policy support.</td></tr>
+    <tr id="r-029"><th scope="row"><a href="#r-029">R-029</a></th><td>Resilient or decentralized verification path</td><td><a href="#t-021">T-021</a>, <a href="#t-040">T-040</a>, <a href="#t-046">T-046</a>, <a href="#p-003">P-003</a>, <a href="#p-007">P-007</a></td><td>Technical; Governance / ecosystem</td><td>VDR operator; status service; verifier agent</td><td>Design verification and status paths to reduce single points of failure.</td><td>Decentralization can introduce governance, consistency, and privacy tradeoffs.</td></tr>
+    <tr id="r-030"><th scope="row"><a href="#r-030">R-030</a></th><td>Limit trusted access</td><td><a href="#t-022">T-022</a>, <a href="#t-024">T-024</a>, <a href="#t-043">T-043</a>, <a href="#t-044">T-044</a>, <a href="#t-046">T-046</a>, <a href="#p-007">P-007</a></td><td>Technical; Governance / ecosystem</td><td>Wallet; browser; issuer agent; verifier agent</td><td>Avoid granting broad access only because a trust relationship already exists.</td><td>Some trusted relationships are needed; the remaining threat is inappropriate scope.</td></tr>
+    <tr id="r-031"><th scope="row"><a href="#r-031">R-031</a></th><td>Explicit permission flow</td><td><a href="#t-008">T-008</a>, <a href="#t-011">T-011</a>, <a href="#t-014">T-014</a>, <a href="#t-022">T-022</a>, <a href="#t-024">T-024</a>, <a href="#t-026">T-026</a>, <a href="#t-033">T-033</a>, <a href="#t-039">T-039</a>, <a href="#t-043">T-043</a>, <a href="#t-044">T-044</a>, <a href="#t-046">T-046</a>, <a href="#t-048">T-048</a>, <a href="#p-002">P-002</a>, <a href="#p-006">P-006</a>, <a href="#p-007">P-007</a></td><td>Human / operational; Governance / ecosystem</td><td>Browser; wallet; verifier website</td><td>Use explicit authorization steps for credential operations and clearly communicate what is being authorized.</td><td>Permission fatigue and dark patterns can weaken this response.</td></tr>
+    <tr id="r-032"><th scope="row"><a href="#r-032">R-032</a></th><td>Fail securely</td><td><a href="#t-021">T-021</a>, <a href="#t-027">T-027</a>, <a href="#t-040">T-040</a>, <a href="#p-003">P-003</a></td><td>Technical</td><td>Wallet; issuer; verifier; status service</td><td>Terminate or constrain an interaction when cryptographic checks, status checks, or required processes fail.</td><td>Secure failure may still deny service; fallback policy needs review.</td></tr>
+    <tr id="r-033"><th scope="row"><a href="#r-033">R-033</a></th><td>Secure backup and recovery</td><td><a href="#t-021">T-021</a>, <a href="#t-027">T-027</a>, <a href="#t-040">T-040</a>, <a href="#t-042">T-042</a>, <a href="#t-043">T-043</a>, <a href="#t-049">T-049</a>, <a href="#p-003">P-003</a>, <a href="#p-005">P-005</a>, <a href="#p-008">P-008</a></td><td>Technical; Human / operational</td><td>Wallet; issuer; deployer</td><td>Provide recovery paths for credentials, keys, or wallets without creating easy takeover paths.</td><td>Recovery often trades off availability, privacy, and impersonation resistance.</td></tr>
+    <tr id="r-034"><th scope="row"><a href="#r-034">R-034</a></th><td>Protected audit records</td><td><a href="#t-006">T-006</a>, <a href="#t-019">T-019</a>, <a href="#t-029">T-029</a></td><td>Technical; Human / operational</td><td>Holder agent; verifier agent; issuer agent</td><td>Keep audit records protected when they identify participants, credential use, or the basis for reliance.</td><td>Audit records can increase linkability and retention risk.</td></tr>
+    <tr id="r-035"><th scope="row"><a href="#r-035">R-035</a></th><td>Limit credential lifetime and support crypto agility</td><td><a href="#t-030">T-030</a></td><td>Technical; Governance / ecosystem</td><td>Issuer; credential format; verifier</td><td>Bound credential lifetimes and plan for reissuance or algorithm migration as cryptographic strength changes.</td><td>Short lifetimes can increase issuer contact and tracking risk.</td></tr>
+    <tr id="r-036"><th scope="row"><a href="#r-036">R-036</a></th><td>Wallet discovery minimization</td><td><a href="#t-007">T-007</a>, <a href="#t-031">T-031</a></td><td>Technical; Human / operational</td><td>Browser; wallet; verifier website</td><td>Limit what a requester can learn about installed wallets, wallet brands, credential availability, and wallet capabilities.</td><td>Capability negotiation can still reveal information if not designed carefully.</td></tr>
+    <tr id="r-037"><th scope="row"><a href="#r-037">R-037</a></th><td>Alarm on low minimization or unlinkability</td><td><a href="#t-002">T-002</a>, <a href="#t-008">T-008</a>, <a href="#t-033">T-033</a></td><td>Human / operational</td><td>Wallet; browser</td><td>Warn the Holder when a presentation scores poorly on minimization or unlinkability, or when the Issuer may be contacted.</td><td>Warnings can create fatigue and may not change behavior in mandatory flows.</td></tr>
+    <tr id="r-038"><th scope="row"><a href="#r-038">R-038</a></th><td>Prefer least-revealing presentation</td><td><a href="#t-002">T-002</a>, <a href="#t-005">T-005</a>, <a href="#t-011">T-011</a>, <a href="#t-020">T-020</a>, <a href="#t-038">T-038</a>, <a href="#t-039">T-039</a>, <a href="#t-041">T-041</a>, <a href="#t-044">T-044</a>, <a href="#t-048">T-048</a>, <a href="#p-001">P-001</a>, <a href="#p-004">P-004</a>, <a href="#p-006">P-006</a></td><td>Technical; Governance / ecosystem</td><td>Wallet; verifier policy</td><td>Prefer predicate proof, then selective disclosure, then full credential disclosure only when less revealing options are unavailable.</td><td>Verifier acceptance and credential capabilities determine whether this is possible.</td></tr>
+    <tr id="r-039"><th scope="row"><a href="#r-039">R-039</a></th><td>Verifier request minimization policy</td><td><a href="#t-002">T-002</a>, <a href="#t-005">T-005</a>, <a href="#t-011">T-011</a>, <a href="#t-020">T-020</a>, <a href="#t-039">T-039</a>, <a href="#t-041">T-041</a>, <a href="#t-044">T-044</a>, <a href="#t-048">T-048</a>, <a href="#p-004">P-004</a>, <a href="#p-006">P-006</a></td><td>Governance / ecosystem</td><td>Verifier; verifier agent</td><td>Constrain verifier requests to range proof, predicate proof, selective disclosure, or the minimum credential data needed.</td><td>Policy must be enforceable and auditable to constrain greedy collection.</td></tr>
+    <tr id="r-040"><th scope="row"><a href="#r-040">R-040</a></th><td>No phoning home</td><td><a href="#t-003">T-003</a>, <a href="#t-004">T-004</a>, <a href="#t-038">T-038</a>, <a href="#t-039">T-039</a>, <a href="#t-044">T-044</a>, <a href="#p-001">P-001</a>, <a href="#p-002">P-002</a></td><td>Technical; Governance / ecosystem</td><td>Issuer; wallet; verifier agent; status service</td><td>Avoid external calls that reveal credential use to Issuers, wallet providers, or other third parties. Status assertions are one candidate pattern for avoiding direct verifier-to-issuer status checks [[OAUTH-STATUS-ASSERTIONS]].</td><td>Operational telemetry, status checks, and software updates may reintroduce this threat.</td></tr>
+    <tr id="r-041"><th scope="row"><a href="#r-041">R-041</a></th><td>Status list</td><td><a href="#t-003">T-003</a></td><td>Technical</td><td>Issuer; status service; verifier agent</td><td>Use a status list design where status is represented without publishing directly identifying credential information. See <cite>Status List 2021</cite> [[STATUS-LIST-2021]].</td><td>List access patterns, list size, and correlation with issuance can still matter.</td></tr>
+    <tr id="r-042"><th scope="row"><a href="#r-042">R-042</a></th><td>Status assertions</td><td><a href="#t-003">T-003</a></td><td>Technical</td><td>Issuer; Holder; verifier agent</td><td>Provide signed status assertions to Holders so they can present status evidence with credentials. See <cite>OAuth Status Assertions</cite> [[OAUTH-STATUS-ASSERTIONS]].</td><td>Freshness, issuer contact, and verifier acceptance remain open questions.</td></tr>
+    <tr id="r-043"><th scope="row"><a href="#r-043">R-043</a></th><td>Cryptographic accumulators</td><td><a href="#t-003">T-003</a>, <a href="#t-004">T-004</a></td><td>Technical</td><td>Issuer; status service; verifier agent</td><td>Use accumulator-based proofs to show validity without exposing other credential information. See <cite>Cryptographic Accumulators: New Definitions, Enhanced Security, and Delegatable Proofs</cite> [[ZK-ACCUMULATORS]].</td><td>Complexity, deployment maturity, and revocation semantics need review.</td></tr>
+    <tr id="r-044"><th scope="row"><a href="#r-044">R-044</a></th><td>Minimize and anonymize telemetry</td><td><a href="#t-003">T-003</a>, <a href="#t-004">T-004</a>, <a href="#t-013">T-013</a>, <a href="#t-031">T-031</a>, <a href="#t-039">T-039</a>, <a href="#p-002">P-002</a></td><td>Technical; Governance / ecosystem</td><td>Wallet provider; browser; issuer; verifier</td><td>Limit telemetry and use privacy-preserving aggregation where telemetry is needed. STAR [[STAR]] and k-anonymity [[KANONYMITY]] are examples of privacy-preserving aggregation and anonymization approaches.</td><td>Telemetry can remain sensitive even when aggregated.</td></tr>
+    <tr id="r-045"><th scope="row"><a href="#r-045">R-045</a></th><td>Privacy-preserving DID method selection</td><td><a href="#t-003">T-003</a>, <a href="#t-004">T-004</a>, <a href="#t-005">T-005</a>, <a href="#t-038">T-038</a>, <a href="#t-039">T-039</a>, <a href="#t-044">T-044</a>, <a href="#t-046">T-046</a>, <a href="#p-001">P-001</a>, <a href="#p-002">P-002</a>, <a href="#p-007">P-007</a></td><td>Technical; Governance / ecosystem</td><td>Issuer; Holder; verifier; DID method operator</td><td>Prefer identifier and resolution methods that do not create issuer-controlled or otherwise linkable resolution paths. Method behavior such as `did:web` resolution can involve HTTP requests to a domain-controlled endpoint [[DID-WEB]].</td><td>Method behavior, resolver deployment, and caching choices can change the privacy properties.</td></tr>
+    <tr id="r-046"><th scope="row"><a href="#r-046">R-046</a></th><td>Explicit delegation and subject binding model</td><td><a href="#t-043">T-043</a>, <a href="#t-048">T-048</a></td><td>Governance / ecosystem</td><td>Issuer; wallet; verifier; governance body</td><td>Represent the Subject, Holder, delegate, authority source, scope, duration, revocation, recovery, and relying-party semantics explicitly when the Holder is not the Subject.</td><td>Legal authority, guardianship, organizational representation, and emergency use can require deployment-specific policy and redress.</td></tr>
+    <tr id="r-047"><th scope="row"><a href="#r-047">R-047</a></th><td>Separate credential presentation from account authentication</td><td><a href="#t-044">T-044</a></td><td>Technical; Governance / ecosystem</td><td>Verifier; verifier agent; identity provider; wallet</td><td>Do not treat a credential issued by an unrelated Issuer as the sole authenticator for an account unless the deployment has explicitly modeled issuer authority, account binding, recovery, unlinkability, and verifier control of the authentication ceremony.</td><td>Convenience pressure may still turn credentials into broad login tokens unless product and governance rules constrain use.</td></tr>
+    <tr id="r-048"><th scope="row"><a href="#r-048">R-048</a></th><td>Credential request purpose and frequency limits</td><td><a href="#t-011">T-011</a>, <a href="#t-039">T-039</a>, <a href="#p-006">P-006</a></td><td>Technical; Governance / ecosystem</td><td>Browser; wallet; verifier; deployer</td><td>Limit credential requests to explicit, purpose-specific interactions, and review whether repeated or ambient credential requests can be blocked, throttled, or made visible to the Holder.</td><td>Request limits reduce frictionless disclosure but do not address mandatory disclosure when a service requires credentials for access.</td></tr>
+    <tr id="r-049"><th scope="row"><a href="#r-049">R-049</a></th><td>Centralization dependency controls</td><td><a href="#t-046">T-046</a>, <a href="#p-007">P-007</a></td><td>Governance / ecosystem</td><td>Standards group; deployer; governance body</td><td>Record dependencies on accepted issuers, wallets, operating systems, certification programs, registries, or status services, and define interoperability requirements or alternative paths where centralization would otherwise limit participation or choice.</td><td>Some deployments intentionally rely on trusted institutions. When alternatives are not feasible, record the dependency as an accepted or transferred remaining threat.</td></tr>
+    <tr id="r-050"><th scope="row"><a href="#r-050">R-050</a></th><td>Non-credential access path</td><td><a href="#t-039">T-039</a>, <a href="#t-049">T-049</a>, <a href="#p-007">P-007</a>, <a href="#p-008">P-008</a></td><td>Human / operational; Governance / ecosystem</td><td>Verifier; deployer; governance body</td><td>Preserve a meaningful access path that does not require presenting a digital credential when exclusion, surveillance, or loss of participation would be a material harm.</td><td>Alternative access paths may be weaker, stigmatizing, slower, or unavailable in practice unless deployment policy makes them meaningful.</td></tr>
+    <tr id="r-051"><th scope="row"><a href="#r-051">R-051</a></th><td>Agency and contestability safeguards</td><td><a href="#t-048">T-048</a>, <a href="#t-049">T-049</a>, <a href="#p-007">P-007</a>, <a href="#p-008">P-008</a></td><td>Human / operational; Governance / ecosystem</td><td>Issuer; Verifier; deployer; governance body</td><td>Where Issuer or Verifier claims can override Holder or Subject self-representation, define review, correction, appeal, or non-use paths for consequential decisions.</td><td>Some claims are intentionally authoritative. The remaining threat is loss of agency when authority, correction, appeal, or non-use options are unavailable or unclear.</td></tr>
+    <tr id="r-052"><th scope="row"><a href="#r-052">R-052</a></th><td>Revocation and recovery governance</td><td><a href="#t-049">T-049</a>, <a href="#p-008">P-008</a></td><td>Human / operational; Governance / ecosystem</td><td>Issuer; status service; verifier; governance body</td><td>Treat revocation, suspension, expiry, recovery, re-enrollment, and status checking as one control surface: define who can invalidate a credential, how that action is audited, how affected people can challenge it, and what emergency recovery or alternative access path remains.</td><td>Some credentials require revocation or suspension. The remaining threat is abuse or error in the authority and process that controls invalidation.</td></tr>
+  </tbody>
+</table>
+
+# Did we do a good enough job?
+
+For this draft, the threat model should let readers:
+
+- understand the scope, actors, assets, flows, and trust boundaries of decentralized credentials;
+- identify security, privacy, and socio-technical concerns from multiple analysis prompts;
+- distinguish threats from harms, vulnerabilities, responses, assumptions, and remaining threats;
+- see where candidate responses are technical, human or operational, or governance- and ecosystem-level;
+- identify which questions need a more concrete architecture, profile, or implementation before they can be answered;
+- identify missing stakeholders or affected groups that should be added before the next review pass.
+
+The threat model also records how formal review material was handled. <a href="#formal-objection-source-mapping">Formal Objection Source Mapping</a> records the source concerns from the Federated Identity Working Group charter review, the normalized threat-model treatment, and the remaining review questions.
+
+The next pass should refine the existing threat-response mappings. For each material threat, it should make the affected stakeholders, affected DFD elements, responses, response owners, assumptions, transfers, acceptances, and remaining threats explicit enough to review.
+
+<h2 class="no-num" id="formal-objection-source-mapping">Appendix: Formal Objection Source Mapping</h2>
+
+This appendix records how concerns from the Formal Objection to adding the Digital Credentials API to the Federated Identity Working Group charter [[FORMAL-OBJECTION-FEDID-DC]] and the related W3C Team report [[TEAM-REPORT-FEDID-FO]] were treated in this threat model. The source material is used as elicitation input. The normalized threats, pathways, responses, and remaining questions are the model's current treatment of that input.
+
+<table class="data">
+  <caption>Mapping from formal-objection material to threat-model elements.</caption>
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Source concern</th>
+      <th scope="col">Threat-model treatment</th>
+      <th scope="col">Mapped IDs</th>
+      <th scope="col">Remaining review question</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr id="fo-001"><th scope="row"><a href="#fo-001">FO-001</a></th><td>Browser mediation can make requests for third-party-attested personal data more available and more common.</td><td>Normalized as a privacy threat and disclosure-normalization pathway.</td><td><a href="#t-011">T-011</a>; <a href="#p-006">P-006</a>; <a href="#r-002">R-002</a>; <a href="#r-012">R-012</a>; <a href="#r-014">R-014</a>; <a href="#r-020">R-020</a>; <a href="#r-031">R-031</a>; <a href="#r-038">R-038</a>; <a href="#r-039">R-039</a>; <a href="#r-048">R-048</a></td><td>Review a concrete browser-mediated flow to see whether request frequency, purpose, UI, origin policy, and verifier behavior are constrained enough.</td></tr>
+    <tr id="fo-002"><th scope="row"><a href="#fo-002">FO-002</a></th><td>A small set of issuers, wallets, operating systems, certification programs, or registry operators can become trust concentration points.</td><td>Normalized as a socio-technical threat and centralization pathway.</td><td><a href="#t-046">T-046</a>; <a href="#p-007">P-007</a>; <a href="#r-029">R-029</a>; <a href="#r-030">R-030</a>; <a href="#r-031">R-031</a>; <a href="#r-045">R-045</a>; <a href="#r-049">R-049</a></td><td>Identify which dependencies are required by the architecture, which are deployment choices, and which alternatives are meaningful in practice.</td></tr>
+    <tr id="fo-003"><th scope="row"><a href="#fo-003">FO-003</a></th><td>Web content, registration, or participation can become conditional on presenting acceptable credentials.</td><td>Normalized as a socio-technical threat about credential-gated Web access.</td><td><a href="#t-039">T-039</a>; <a href="#t-040">T-040</a>; <a href="#p-002">P-002</a>; <a href="#p-003">P-003</a>; <a href="#p-007">P-007</a>; <a href="#r-014">R-014</a>; <a href="#r-031">R-031</a>; <a href="#r-038">R-038</a>; <a href="#r-039">R-039</a>; <a href="#r-048">R-048</a>; <a href="#r-050">R-050</a></td><td>Analyze concrete access-control scenarios, including content access, account creation, political expression, and people without accepted credentials.</td></tr>
+    <tr id="fo-004"><th scope="row"><a href="#fo-004">FO-004</a></th><td>Authority can shift from people to Issuers, Verifiers, and institutions whose claims become preferred over self-representation.</td><td>Normalized as a socio-technical threat about institutional authority displacement.</td><td><a href="#t-026">T-026</a>; <a href="#t-041">T-041</a>; <a href="#t-048">T-048</a>; <a href="#p-004">P-004</a>; <a href="#p-007">P-007</a>; <a href="#r-012">R-012</a>; <a href="#r-014">R-014</a>; <a href="#r-016">R-016</a>; <a href="#r-031">R-031</a>; <a href="#r-046">R-046</a>; <a href="#r-051">R-051</a></td><td>Identify where credential-derived claims are consequential, whether affected people can contest or correct them, and whether non-use remains possible.</td></tr>
+    <tr id="fo-005"><th scope="row"><a href="#fo-005">FO-005</a></th><td>Some concerns may not be technically addressable, and standardization timing may affect whether harmful patterns are endorsed too early.</td><td>Treated as a sufficiency and responsibility-boundary question, not as a separate threat ID.</td><td><a href="#r-049">R-049</a>; <a href="#r-050">R-050</a>; <a href="#r-051">R-051</a></td><td>Before publication or adoption decisions, review which concerns are addressed by the technical design, which are transferred to deployment or governance, and which remain accepted or unresolved.</td></tr>
+  </tbody>
+</table>

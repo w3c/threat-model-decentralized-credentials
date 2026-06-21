@@ -283,7 +283,7 @@ The trust relationships among these ecosystem roles are part of the source speci
 
 Because one organization can play several roles, the scenario keeps the roles separate when that separation helps expose data flows, trust boundaries, or responsibility boundaries.
 
-Software can exercise the authority of one of these roles. A deputy acts on behalf of a principal; here, the principal is the Holder, Issuer, Verifier, or VDR role whose authority the software uses. Wallets, browsers, issuer software, verifier websites, credential repositories, status services, and systems that operate a VDR are examples. The rest of this document uses *agent* for this software. When an agent accepts input or direction from one actor while exercising authority for another, confused-deputy threats should be considered.
+This model treats ecosystem roles separately from the software that acts on their behalf. Software often exercises the authority of a role: wallets and browsers can act for Holders, issuer systems can act for Issuers, verifier websites can act for Verifiers, and status or registry services can act for a VDR. This document uses *agent* for software that acts on behalf of a role. The role whose authority the agent exercises is the principal. When an agent accepts input or direction from one actor while exercising another actor's authority, confused-deputy threats should be considered.
 
 This model stops at the credential and presentation layer. A Verifier may use a presentation result to grant service access, sell a ticket, issue a follow-on credential, or make another decision. Those downstream decisions are deployment context unless later analysis brings a specific decision path into scope.
 

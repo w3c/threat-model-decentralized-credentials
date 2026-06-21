@@ -296,6 +296,8 @@ The diagram shows the baseline credential-layer flow and the trust boundaries us
   <figcaption>High-level credential-layer data-flow diagram.</figcaption>
 </figure>
 
+These boundaries model ecosystem-level separations; they do not assert that each boundary corresponds to a separate deployed component in every implementation.
+
 Note: The DFD uses square nodes for external entities, rounded rectangles for processes, drum shapes for data stores, and arrows for data flows. Dotted boundaries mark changes in control, trust, authority, privilege, responsibility, or assumptions.
 
 ## Dictionary

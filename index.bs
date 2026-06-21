@@ -726,7 +726,7 @@ For this draft, the threat model should let readers:
 
 The threat model also records how formal review material was handled. <a href="#formal-objection-source-mapping">Formal Objection Source Mapping</a> records the source concerns from the Federated Identity Working Group charter review, the normalized threat-model treatment, and the remaining review questions.
 
-The next pass should refine the existing threat-response mappings. For each material threat, it should make the affected stakeholders, affected DFD elements, responses, response owners, assumptions, transfers, acceptances, and remaining threats explicit enough to review.
+The next pass should update the data-flow diagram and dictionary when it changes actors, flows, trust boundaries, or scoped components. It should also refine the existing threat-response mappings. For each material threat, it should make the affected stakeholders, affected DFD elements, responses, response owners, assumptions, transfers, acceptances, and remaining threats explicit enough to review.
 
 <h2 class="no-num" id="formal-objection-source-mapping">Appendix: Formal Objection Source Mapping</h2>
 

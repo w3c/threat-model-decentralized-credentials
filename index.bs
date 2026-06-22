@@ -484,7 +484,7 @@ Software deputies in this model include wallets, browsers, issuer software, veri
 
 External observers and active adversaries can include marketers, data brokers, stalkers, identity thieves, OSINT investigators, and government or law-enforcement actors, depending on the deployment. The model also treats collusion as in scope, including Verifiers that share presentation records or an Issuer and Verifier that link Holder activity.
 
-## Starter Abuse Stories
+## Abuse Stories
 
 These abuse stories are starting points for threat elicitation, not a complete set of findings:
 

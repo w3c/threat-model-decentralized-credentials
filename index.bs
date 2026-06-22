@@ -296,9 +296,9 @@ The external frameworks and prompt sets listed below are prompts, not completene
  - [OSSTMM v3](https://www.isecom.org/OSSTMM.3.pdf)
  - [Microsoft's Types of Harm](https://learn.microsoft.com/en-us/azure/architecture/guide/responsible-innovation/harms-modeling/type-of-harm), and the NDIS Harms framework adapted from it in <cite>Enhancing National Digital Identity Systems</cite> [[NDIS-HARMS]]
 
-OSSTMM adds a control-oriented check to the four-question method. For that check, the channel is COMSEC Data Networks and the vector is Internet/Web; other credential systems may need a different channel or vector, such as Wireless.
+OSSTMM is used here as a control-oriented key for the "what can go wrong?" question in the four-question framework. For that check, the channel is COMSEC Data Networks and the vector is Internet/Web; other credential systems may need a different channel or vector, such as Wireless.
 
-Here, OSSTMM is used as a control check: is a control absent, does it fail in this context, or does it move responsibility to another actor? Privacy is included in that check when it changes actors, flows, or trust boundaries.
+Here, OSSTMM asks whether a control is absent, fails in this context, or moves responsibility to another actor. Privacy is included in that check when it changes actors, flows, or trust boundaries.
 
 # What are we working on?
 
@@ -541,7 +541,7 @@ These abuse stories are starting points for threat elicitation, not a complete s
 - An external observer correlates issuance, presentation, verification, or status-checking activity.
 - Verifiers share presentation records, or an Issuer and Verifier link Holder activity.
 
-## Threat Elicitation Frameworks
+## Threats
 
 The threat table records findings from the data-flow diagrams, trust boundaries, assets, starter abuse stories, and socio-technical pathway analysis. Elicitation used Ben's privacy properties, LINDDUN, RFC 6973, RFC 3552, STRIDE, OSSTMM, NDIS Harms, and Microsoft Responsible Innovation harms as prompts, not as separate threat models or completeness criteria. The Elicitation framework column records the framework family used to find the threat. The Prompt column records the specific prompt or subcategory used inside that framework, and includes the closest STRIDE prompt when that mapping clarifies the row.
 
@@ -608,7 +608,7 @@ When multiple prompts expose the same underlying condition, the table consolidat
   </tbody>
 </table>
 
-## Socio-technical threat pathways from harms
+## Harms
 
 The threat table above is the main inventory of identified threats. The material in this section was elicited by starting from harm prompts and reasoning backward to what can go wrong. It keeps that material visible without treating each harm prompt as a separate threat, risk, or response.
 
@@ -773,9 +773,9 @@ For this draft, the threat model should let readers:
 - identify which questions need a more concrete architecture, profile, or implementation before they can be answered;
 - identify missing stakeholders or affected groups that should be added before the next review pass.
 
-The threat model also records how formal review material was handled. <a href="#formal-objection-source-mapping">Formal Objection Source Mapping</a> records the source concerns from the Federated Identity Working Group charter review and the normalized threat-model treatment.
+The next pass should refine the existing threat-response mappings. For each threat, it should make the affected stakeholders, affected DFD elements, responses, response owners, assumptions, transfers, acceptances, and remaining threats explicit enough to review.
 
-The next pass should update the data-flow diagram and dictionary when it changes actors, flows, trust boundaries, or scoped components. It should also refine the existing threat-response mappings. For each material threat, it should make the affected stakeholders, affected DFD elements, responses, response owners, assumptions, transfers, acceptances, and remaining threats explicit enough to review.
+The threat model also records how formal review material was handled. <a href="#formal-objection-source-mapping">Formal Objection Source Mapping</a> records the source concerns from the Federated Identity Working Group charter review and the normalized threat-model treatment.
 
 <h2 class="no-num" id="formal-objection-source-mapping">Appendix: Formal Objection Source Mapping</h2>
 

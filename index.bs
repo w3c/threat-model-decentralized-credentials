@@ -509,7 +509,7 @@ External observers and active adversaries can include marketers, data brokers, s
 These abuse stories are starting points for threat elicitation, not a complete set of findings:
 
 - A Verifier asks for, stores, or reuses more credential data than the transaction needs.
-- A Holder presents a credential, presentation, or claim outside their authority.
+- A Holder presents a credential or discloses a claim outside their authority.
 - An Issuer or issuer deputy uses issuance, status checking, or presentation flows to track Holders.
 - A wallet, browser, or other Holder deputy leaks credential data, narrows Holder choice, or steers which credential is presented.
 - An external observer correlates issuance, presentation, verification, or status-checking activity.

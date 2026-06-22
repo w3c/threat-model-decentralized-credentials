@@ -263,7 +263,7 @@ The method is <cite>Shostack's Four Question Frame for Threat Modeling</cite> [[
 
 The first question, *What are we working on?*, anchors the analysis in the credential architecture: actors, credentials, data flows, stores, trust boundaries, and assumptions.
 
-The second question, *What can go wrong?*, uses those flows and boundaries to find threats, threat actors, attacks, privacy failures, and pathways that can lead to socio-technical harms.
+The second question, *What can go wrong?*, uses those flows and boundaries to find threats, threat actors, attacks, security and privacy failures, and pathways that can lead to socio-technical harms.
 
 The third question, *What are we going to do about it?*, records mitigations, responsibility boundaries, assumptions, transfers, acceptances, and remaining threats.
 
@@ -510,7 +510,7 @@ These abuse stories are starting points for threat elicitation, not a complete s
 
 - A Verifier asks for, stores, or reuses more credential data than the transaction needs.
 - A Holder presents a credential or discloses a claim outside their authority.
-- An Issuer or issuer deputy uses issuance, status checking, or presentation flows to track Holders.
+- An Issuer or issuer deputy uses issuance or status checking to track Holders.
 - A wallet, browser, or other Holder deputy leaks credential data, narrows Holder choice, or steers which credential is presented.
 - An external observer correlates issuance, presentation, verification, or status-checking activity.
 - Verifiers share presentation records, or an Issuer and Verifier link Holder activity.

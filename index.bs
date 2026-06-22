@@ -189,6 +189,8 @@ Mailing List Archives: https://lists.w3.org/Archives/Public/public-security/
 
 This threat model covers decentralized credentials for people, especially high-assurance credentials issued by governments. It starts from credential flows, with particular attention to credential presentation.
 
+Note: <cite>Identity & the Web</cite> uses *Verifiable Digital Credentials* as a broader term for credential ecosystems whose credentials can be digitally verified [[IDENTITY-WEB-IMPACT]]. This threat model uses *decentralized credentials* and *verifiable digital credentials* as synonyms for the scoped model.
+
 Those credentials are part of the identity ecosystem described in the W3C Team report <cite>Identity & the Web</cite> [[IDENTITY-WEB-IMPACT]]. That report identifies five layers: Layer 5, Trust Frameworks and Ecosystems; Layer 4, Applications, Wallets, Products; Layer 3, Credential Layer; Layer 2, Agent Frameworks and Infrastructure; and Layer 1, Identifiers and Namespaces. The current threat model focuses on Layer 3, the Credential Layer. The other layers remain in scope when they affect threats, responses, assumptions, or remaining threats.
 
 Government-issued verifiable credentials sit inside a socio-technical system: technical components, people, organizations, processes, incentives, and rules all interact. A credential flow can satisfy a security or privacy property in a specific interaction while still causing broader socio-technical threats when the system is used, misused, abused, deployed, or governed in harmful ways. Consequently, this threat model includes socio-technical threats in addition to the usual security and privacy threats. This aligns with the need identified in the [joint work on rights-respecting digital credentials](https://github.com/w3c/strategy/issues/458): to assess societal and human-rights impacts, develop threat and harms models, and identify mitigations for high-assurance credential systems.
@@ -239,7 +241,7 @@ Terminology comes from <cite>Identity & the Web</cite> [[IDENTITY-WEB-IMPACT]] a
   <dd>A role a system can perform by mediating identifiers, verification material, schemas, status information, revocation registries, or other data needed to verify credentials.</dd>
 
   <dt><dfn export>credential repository</dfn></dt>
-  <dd>Software, such as a wallet, storage vault, or file system, that stores and protects access to a holder's credentials.</dd>
+  <dd>In this threat model, primarily a wallet or holder agent that stores and protects access to a holder's credentials. The broader VCDM definition also includes storage vaults, file systems, and other software that can perform this function.</dd>
 
   <dt><dfn export>verification</dfn></dt>
   <dd>The evaluation of whether a verifiable credential or verifiable presentation is authentic and current, including checks on conformance, securing mechanisms, and status information where present.</dd>

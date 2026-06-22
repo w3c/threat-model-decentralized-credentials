@@ -236,6 +236,8 @@ Terminology comes from <cite>Identity & the Web</cite> [[IDENTITY-WEB-IMPACT]] a
 - [User considerations for credential presentation on the Web](https://github.com/w3cping/credential-considerations/blob/main/credentials-considerations.md)
 - [Building Consensus on the Role of Real World Identities on the Web](https://github.com/w3c/breakouts-day-2024/issues/12)
 - [Protecting Digital Identity Wallet: A Threat Model in the Age of eIDAS 2.0](https://link.springer.com/chapter/10.1007/978-3-031-89350-6_6)
+- [Secure and Reliable Digital Wallets: A Threat Model for Secure Storage in eIDAS 2.0](https://link.springer.com/chapter/10.1007/978-3-031-96590-6_15)
+- [[A Threat Model for the W3C Digital Credentials API: An Initial Analysis](https://cris.fbk.eu/handle/11582/363967)](https://link.springer.com/chapter/10.1007/978-3-032-19567-8_4) 
 
 ## Methodology
 

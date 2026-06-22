@@ -96,6 +96,24 @@ Mailing List Archives: https://lists.w3.org/Archives/Public/public-security/
     "status": "Conference paper",
     "title": "Protecting Digital Identity Wallet: A Threat Model in the Age of eIDAS 2.0"
   },
+  "THREAT-MODEL-SECURE-STORAGE": {
+    "authors": ["Zahra Ebadi Ansaroudi", "Amir Sharif", "Giada Sciarretta", "Francesco Antonio Marino", "Silvio Ranise"],
+    "date": "24 June 2025",
+    "href": "https://link.springer.com/chapter/10.1007/978-3-031-96590-6_15",
+    "id": "THREAT-MODEL-SECURE-STORAGE",
+    "publisher": "Springer, Cham",
+    "status": "Conference paper",
+    "title": "Secure and Reliable Digital Wallets: A Threat Model for Secure Storage in eIDAS 2.0"
+  },
+  "DC-API-THREAT-MODEL": {
+    "authors": ["Zahra Ebadi Ansaroudi", "Amir Sharif", "Giada Sciarretta", "Simone Onofri", "Silvio Ranise"],
+    "date": "01 May 2026",
+    "href": "https://link.springer.com/chapter/10.1007/978-3-032-19567-8_4",
+    "id": "DC-API-THREAT-MODEL",
+    "publisher": "Springer, Cham",
+    "status": "Conference paper",
+    "title": "A Threat Model for the W3C Digital Credentials API: An Initial Analysis"
+  },
   "SELECTIVE-DISCLOSURE-VC-CRYPTO": {
     "authors": ["Andrea Flamini", "Giada Sciarretta", "Mario Scuro", "Amir Sharif", "Alessandro Tomasi", "Silvio Ranise"],
     "date": "16 January 2024",
@@ -236,8 +254,8 @@ Terminology comes from <cite>Identity & the Web</cite> [[IDENTITY-WEB-IMPACT]] a
 - [User considerations for credential presentation on the Web](https://github.com/w3cping/credential-considerations/blob/main/credentials-considerations.md)
 - [Building Consensus on the Role of Real World Identities on the Web](https://github.com/w3c/breakouts-day-2024/issues/12)
 - [Protecting Digital Identity Wallet: A Threat Model in the Age of eIDAS 2.0](https://link.springer.com/chapter/10.1007/978-3-031-89350-6_6)
-- [Secure and Reliable Digital Wallets: A Threat Model for Secure Storage in eIDAS 2.0](https://link.springer.com/chapter/10.1007/978-3-031-96590-6_15)
-- [[A Threat Model for the W3C Digital Credentials API: An Initial Analysis](https://cris.fbk.eu/handle/11582/363967)](https://link.springer.com/chapter/10.1007/978-3-032-19567-8_4) 
+- <cite>Secure and Reliable Digital Wallets: A Threat Model for Secure Storage in eIDAS 2.0</cite> [[THREAT-MODEL-SECURE-STORAGE]]
+- <cite>A Threat Model for the W3C Digital Credentials API: An Initial Analysis</cite> [[DC-API-THREAT-MODEL]]
 
 ## Methodology
 
@@ -294,7 +312,7 @@ This model stops at the credential and presentation layer. A Verifier may use a 
 The diagram shows the baseline credential-layer flow and the trust boundaries used by this threat model.
 
 <figure>
-  <img alt="Data-flow diagram for decentralized credentials with dotted trust boundaries around Holder control, Issuer control, Verifier control, and registry or status control, including the status or revocation update flow." src="images/credential-trust-boundaries.svg">
+  <img alt="Data-flow diagram for decentralized credentials with dotted trust boundaries around Holder control, Issuer control, Verifier control, and registry or status control, including the status or revocation update flow." src="images/credential-trust-boundaries.svg" width="2364" height="560">
   <figcaption>High-level credential-layer data-flow diagram.</figcaption>
 </figure>
 

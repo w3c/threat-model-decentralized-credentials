@@ -210,7 +210,7 @@ Those credentials are part of the identity ecosystem described in the W3C Team r
 
 Government-issued verifiable credentials sit inside a socio-technical system: technical components, people, organizations, processes, incentives, and rules all interact. A credential flow can satisfy a security or privacy property in a specific interaction, while still causing broader harms when the system is used, misused, abused, deployed, or governed in harmful ways. For that reason, this threat model includes socio-technical threats in addition to the usual security and privacy threats. This aligns with the need identified in the [joint work on rights-respecting digital credentials](https://github.com/w3c/strategy/issues/458): to assess societal and human-rights impacts, develop threat and harms models, and identify mitigations for high-assurance credential systems.
 
-The immediate trigger was W3C discussion about adding the <cite>Digital Credentials</cite> API [[DIGITAL-CREDENTIALS]] to the [Federated Identity Working Group](https://github.com/w3c/strategy/issues/450). <cite>Digital Credentials</cite> defines an API enabling user agents to mediate communication between a website that requests evidence and holder software, such as a wallet, which holds the evidence. The credential-flow model used here also applies to verifiable credentials across architectures, profiles, deployment patterns, and governance contexts. It is broader than wallet-specific work such as <cite>Protecting Digital Identity Wallet: A Threat Model in the Age of eIDAS 2.0</cite> [[PROTECTING-DIGITAL-IDENTITY-WALLET]], which focuses on the European Digital Identity Wallet context.
+The immediate trigger was W3C discussion about adding the <cite>Digital Credentials</cite> API [[DIGITAL-CREDENTIALS]] to the [Federated Identity Working Group](https://github.com/w3c/strategy/issues/450). <cite>Digital Credentials</cite> specifies an API that enables user agents to mediate the presentation and issuance of digital credentials. In the presentation flow, a website can request credential evidence and holder-side software, such as a wallet, can return a response under user-agent mediation. The credential-flow model used here also applies to verifiable credentials across architectures, profiles, deployment patterns, and governance contexts. It is broader than wallet-specific work such as <cite>Protecting Digital Identity Wallet: A Threat Model in the Age of eIDAS 2.0</cite> [[PROTECTING-DIGITAL-IDENTITY-WALLET]], which focuses on the European Digital Identity Wallet context.
 
 The result is intended as input for later architecture, profile, implementation, and deployment work.
 
@@ -282,19 +282,19 @@ The first question, *What are we working on?*, anchors the analysis in the crede
 
 The second question, *What can go wrong?*, uses those flows and boundaries to find threats, threat actors, attacks, security and privacy failures, and pathways that can lead to socio-technical harms.
 
-The third question, *What are we going to do about it?*, records mitigations, responsibility boundaries, assumptions, transfers, acceptances, and remaining threats.
+The third question, *What are we going to do about it?*, records responses, responsibility boundaries, assumptions, transfers, acceptances, and remaining threats.
 
 The final question, *Did we do a good enough job?*, checks whether the model is specific, traceable, and ready to guide the next round of design, review, or implementation work.
 
 The external frameworks and prompt sets listed below are prompts, not completeness criteria.
 
- - Ben Laurie's privacy properties from <cite>Selective Disclosure</cite> [[BEN-LAURIE-SELECTIVE-DISCLOSURE]]
- - [LINDDUN](https://linddun.org/threats/)
- - [RFC 6973](https://datatracker.ietf.org/doc/html/rfc6973)
- - [RFC 3552](https://datatracker.ietf.org/doc/html/rfc3552)
- - [STRIDE](https://learn.microsoft.com/en-us/previous-versions/commerce-server/ee823878(v=cs.20)?redirectedfrom=MSDN)
- - [OSSTMM v3](https://www.isecom.org/OSSTMM.3.pdf)
- - [Microsoft's Types of Harm](https://learn.microsoft.com/en-us/azure/architecture/guide/responsible-innovation/harms-modeling/type-of-harm), and the NDIS Harms framework adapted from it in <cite>Enhancing National Digital Identity Systems</cite> [[NDIS-HARMS]]
+- Ben Laurie's privacy properties from <cite>Selective Disclosure</cite> [[BEN-LAURIE-SELECTIVE-DISCLOSURE]]
+- [LINDDUN](https://linddun.org/threats/)
+- [RFC 6973](https://datatracker.ietf.org/doc/html/rfc6973)
+- [RFC 3552](https://datatracker.ietf.org/doc/html/rfc3552)
+- [STRIDE](https://learn.microsoft.com/en-us/previous-versions/commerce-server/ee823878(v=cs.20)?redirectedfrom=MSDN)
+- [OSSTMM v3](https://www.isecom.org/OSSTMM.3.pdf)
+- [Microsoft's Types of Harm](https://learn.microsoft.com/en-us/azure/architecture/guide/responsible-innovation/harms-modeling/type-of-harm), and the NDIS Harms framework adapted from it in <cite>Enhancing National Digital Identity Systems</cite> [[NDIS-HARMS]]
 
 OSSTMM is used here as a control-oriented key for the "what can go wrong?" question in the four-question framework. For that check, the channel is COMSEC Data Networks and the vector is Internet/Web; other credential systems may need a different channel or vector, such as Wireless.
 
@@ -545,8 +545,6 @@ These abuse stories are starting points for threat elicitation, not a complete s
 
 The threat table records findings from the data-flow diagrams, trust boundaries, assets, starter abuse stories, and socio-technical pathway analysis. Elicitation used Ben's privacy properties, LINDDUN, RFC 6973, RFC 3552, STRIDE, OSSTMM, NDIS Harms, and Microsoft Responsible Innovation harms as prompts, not as separate threat models or completeness criteria. The Elicitation framework column records the framework family used to find the threat. The Prompt column records the specific prompt or subcategory used inside that framework, and includes the closest STRIDE prompt when that mapping clarifies the row.
 
-<!-- Source material normalized into this table is preserved in source-data/threat-elicitation-frameworks-2-2-3.bs for local editing and review. -->
-
 When multiple prompts expose the same underlying condition, the table consolidates them into one threat row and preserves the prompts in the Elicitation framework and Prompt columns.
 
 <table class="data">
@@ -724,7 +722,7 @@ The response table maps candidate responses to the threat, pathway, and harm ide
     <tr id="r-015"><th scope="row"><a href="#r-015">R-015</a></th><td>Holder security awareness</td><td><a href="#t-009">T-009</a></td><td>Human / operational</td><td>Issuer; Deployer; Governance body</td><td>Provide security and privacy guidance for Holders, especially when social engineering or protected groups are in scope.</td><td>Training does not transfer responsibility away from system designers.</td></tr>
     <tr id="r-016"><th scope="row"><a href="#r-016">R-016</a></th><td>Issuer and verifier audit</td><td><a href="#t-009">T-009</a>, <a href="#t-013">T-013</a>, <a href="#t-041">T-041</a>, <a href="#t-043">T-043</a>, <a href="#t-044">T-044</a>, <a href="#t-048">T-048</a>, <a href="#p-004">P-004</a>, <a href="#p-007">P-007</a></td><td>Governance / ecosystem</td><td>Issuer; Verifier; Auditor; Governance body</td><td>Subject Issuers and Verifiers to regular audit of credential handling, retention, and policy compliance.</td><td>Audit effectiveness depends on scope, independence, and enforcement.</td></tr>
     <tr id="r-018"><th scope="row"><a href="#r-018">R-018</a></th><td>Secure key storage</td><td><a href="#t-010">T-010</a>, <a href="#t-042">T-042</a>, <a href="#p-005">P-005</a></td><td>Technical</td><td>Issuer; Wallet / Credential App; Verifier; Device platform</td><td>Store keys in protected locations such as hardware security modules, secure enclaves, or platform keystores.</td><td>Device compromise, backup, recovery, and operational access remain in scope.</td></tr>
-    <tr id="r-019"><th scope="row"><a href="#r-019">R-019</a></th><td>Incident response for key or device compromise</td><td><a href="#t-010">T-010</a>, <a href="#t-042">T-042</a>, <a href="#t-049">T-049</a>, <a href="#p-005">P-005</a>, <a href="#p-008">P-008</a></td><td>Human / operational</td><td>Issuer; Wallet / Credential App provider; Deployer</td><td>Prepare procedures for private-key compromise, device compromise, revocation, reissuance, and affected-party notification.</td><td>Response speed and discoverability determine residual exposure.</td></tr>
+    <tr id="r-019"><th scope="row"><a href="#r-019">R-019</a></th><td>Incident response for key or device compromise</td><td><a href="#t-010">T-010</a>, <a href="#t-042">T-042</a>, <a href="#t-049">T-049</a>, <a href="#p-005">P-005</a>, <a href="#p-008">P-008</a></td><td>Human / operational</td><td>Issuer; Wallet / Credential App provider; Deployer</td><td>Prepare procedures for private-key compromise, device compromise, revocation, reissuance, and affected-party notification.</td><td>Response speed and discoverability determine remaining exposure.</td></tr>
     <tr id="r-020"><th scope="row"><a href="#r-020">R-020</a></th><td>Request throttling</td><td><a href="#t-011">T-011</a>, <a href="#p-006">P-006</a></td><td>Technical; Human / operational</td><td>Browser; Wallet / Credential App; Verifier agent</td><td>Limit repeated or abusive credential requests over time.</td><td>Throttling may be bypassed across origins, devices, or colluding Verifiers.</td></tr>
     <tr id="r-021"><th scope="row"><a href="#r-021">R-021</a></th><td>Encrypt traffic</td><td><a href="#t-015">T-015</a>, <a href="#t-016">T-016</a>, <a href="#t-020">T-020</a>, <a href="#t-030">T-030</a></td><td>Technical</td><td>All protocol endpoints</td><td>Protect credential-related flows in transit against passive observation and some active modification.</td><td>Encryption does not hide all metadata and does not protect compromised endpoints.</td></tr>
     <tr id="r-022"><th scope="row"><a href="#r-022">R-022</a></th><td>Quantum-resistant algorithms</td><td><a href="#t-015">T-015</a>, <a href="#t-016">T-016</a>, <a href="#t-030">T-030</a></td><td>Technical</td><td>Credential format; Issuer; Verifier; Wallet / Credential App</td><td>Use algorithm agility and post-quantum readiness for credentials that need long-term confidentiality or integrity.</td><td>This is deployment- and lifetime-dependent and needs cryptographic review.</td></tr>
